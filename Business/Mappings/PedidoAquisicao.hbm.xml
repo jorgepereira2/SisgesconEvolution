@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoAquisicao,Marinha.Business" table="TB_PedidoAquisicao" lazy="true">
+
+		<id name="ID" column="ID_PedidoAquisicao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<property column="Aplicacao" type="String" name="Aplicacao" />
+		<many-to-one name="ServidorCadastro" column="ID_ServidorCadastro" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="Observacao" type="String" name="Observacao" />
+        <property column="Numero" type="Int32" name="Numero" not-null="true" />
+        <property column="ID_TipoPagamentoPO" name="TipoPagamento" not-null="false"   />
+        <many-to-one name="Status" column="ID_StatusPedidoAquisicao" class="Marinha.Business.StatusPedidoAquisicao,Marinha.Business" />
+		<many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<many-to-one name="Fornecedor2" column="ID_Fornecedor2" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<many-to-one name="Fornecedor3" column="ID_Fornecedor3" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<many-to-one name="Fornecedor4" column="ID_Fornecedor4" class="Marinha.Business.Fornecedor,Marinha.Business" />        
+        <many-to-one name="Conta" column="ID_Conta" class="Marinha.Business.Conta,Marinha.Business" />
+        <many-to-one name="Meta" column="ID_Meta" class="Marinha.Business.Meta,Marinha.Business" />
+        <many-to-one name="TipoPedidoAquisicao" column="ID_TipoPedidoAquisicao" class="Marinha.Business.TipoPedidoAquisicao,Marinha.Business" not-null="true" />
+		<property column="NumeroEmpenho" type="String" name="NumeroEmpenho" />
+        <property column="FlagRecusado" type="Boolean" name="FlagRecusado" />
+
+        <bag name="Itens" table="TB_PedidoAquisicaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoAquisicaoItem],Marinha.Business" inverse="true" >
+            <key column="ID_PedidoAquisicao" />
+            <one-to-many class="Marinha.Business.PedidoAquisicaoItem,Marinha.Business" />
+        </bag>
+
+        <bag name="Historico" table="TB_HistoricoPedidoAquisicao" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoPedidoAquisicao],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoAquisicao" />
+            <one-to-many class="Marinha.Business.HistoricoPedidoAquisicao,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

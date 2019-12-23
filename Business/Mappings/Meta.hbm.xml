@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Meta,Marinha.Business" table="TB_Meta" lazy="true">
+
+		<id name="ID" column="ID_Meta" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Conta" column="ID_Conta" class="Marinha.Business.Conta,Marinha.Business" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<many-to-one name="TipoMoeda" column="ID_TipoMoeda" class="Marinha.Business.TipoMoeda,Marinha.Business" />		
+		<property column="Ano" type="Int32" name="Ano" not-null="true" />
+		<property column="Descricao" type="String" name="Descricao" />
+		<property column="Quantidade" type="Int32" name="Quantidade" />
+        <property column="UnidadeMedida" type="String" name="UnidadeMedida" />
+        <property column="Valor" type="Decimal" name="Valor" />
+		
+	</class>
+</hibernate-mapping>

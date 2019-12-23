@@ -1,0 +1,244 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class RequisicaoEstoque : BusinessObject<RequisicaoEstoque>	
+	{
+		#region Private Members
+		private Servidor _servidorcadastro; 
+		private Servidor _servidorresponsavel; 
+		private int _numero; 
+		private DateTime _datafinalizacao; 
+		private TipoRequisicaoEstoque _tiporequisicaoestoque; 
+		private string _observacao; 
+		private StatusRequisicaoEstoque _status; 
+		private DateTime _datacadastro; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public RequisicaoEstoque()
+		{
+			_servidorcadastro =  null; 
+			_servidorresponsavel =  null; 
+			_numero = 0; 
+			_datafinalizacao = DateTime.MinValue; 
+			_tiporequisicaoestoque =  null; 
+			_observacao = null; 
+			_status =  StatusRequisicaoEstoque.EmAndamento; 
+			_datacadastro = DateTime.MinValue;
+            _itens = new CustomList<RequisicaoEstoqueItem>();
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Servidor ServidorCadastro
+		{
+			get { return _servidorcadastro; }
+			set { _servidorcadastro = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Servidor ServidorResponsavel
+		{
+			get { return _servidorresponsavel; }
+			set { _servidorresponsavel = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual int Numero
+		{
+			get { return _numero; }
+			set { _numero = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime DataFinalizacao
+		{
+			get { return _datafinalizacao; }
+			set { _datafinalizacao = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual TipoRequisicaoEstoque TipoRequisicaoEstoque
+		{
+			get { return _tiporequisicaoestoque; }
+			set { _tiporequisicaoestoque = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 500)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+				
+				_observacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual StatusRequisicaoEstoque Status
+		{
+			get { return _status; }
+			set { _status= value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime DataCadastro
+		{
+			get { return _datacadastro; }
+			set { _datacadastro = value; }
+		}
+		
+		#endregion 
+		
+		#region Collections
+
+	    private ICustomList<RequisicaoEstoqueItem> _itens;
+
+        public virtual ICustomList<RequisicaoEstoqueItem> Itens
+	    {
+	        get { return _itens; }
+	        set { _itens = value; }
+	    }
+
+	    public virtual bool PodeSerAlterada
+	    {
+	        get { return _status == StatusRequisicaoEstoque.EmAndamento;}
+	    }
+
+	    #endregion
+		
+		#region Public Methods
+        public static List<RequisicaoEstoque> Select(string texto, int id_status, int id_tipoMovimento, int id_tipoRequisicao,
+            DateTime dataInicio, DateTime dataFim)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+                @"from RequisicaoEstoque r 															
+					inner join fetch r.TipoRequisicaoEstoque t
+				where (r.Numero like :texto)				
+				and r.ID = IsNull(:id_tipoRequisicao, r.ID)
+				and t.TipoMovimento = IsNull(:id_tipoMovimento, t.TipoMovimento)
+				and r.Status = IsNull(:id_status, r.Status)
+				and dbo.DateIsInBetween(r.DataCadastro, :dataInicio, :dataFim) = 1
+				order by r.Numero desc");
+            
+            query.SetString("texto", "%" + texto + "%");
+            query.SetParameter("id_tipoRequisicao", BusinessHelper.IsNullOrZero(id_tipoRequisicao), NHibernateUtil.Int32);
+            query.SetParameter("id_tipoMovimento", BusinessHelper.IsNullOrZero(id_tipoMovimento), NHibernateUtil.Int32);
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+
+            return (List<RequisicaoEstoque>)query.List<RequisicaoEstoque>();
+        }
+
+        public override void Save()
+        {
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                // Se estamos inserindo devemos setar a numeracao
+                bool primeiraVez = !this.IsPersisted;
+                if (primeiraVez)
+                {
+                    this.DataCadastro = DateTime.Now;
+                    this.Status = StatusRequisicaoEstoque.EmAndamento;
+                    ISession session = NHibernateSessionManager.Instance.GetSession();
+                    IQuery query = session.CreateQuery(
+                        @"select MAX(r.Numero) from RequisicaoEstoque r");
+                    
+                    object result = query.UniqueResult();
+                    if (result == null)
+                        this.Numero = 1;
+                    else
+                        this.Numero = Convert.ToInt32(result) + 1;
+                }
+
+                base.Save();
+
+                tran.IsValid = true;
+            }
+        }
+
+        private void ValidarFinalizacao()
+        {
+            if(_status != StatusRequisicaoEstoque.EmAndamento)
+                throw new Exception("Esta requisição não pode mais ser finalizada.");
+            if (this._itens.Count == 0)
+                throw new Exception("A quantidade de itens deve ser maior que zero.");
+        }
+
+        public virtual void Finalizar()
+        {
+            ValidarFinalizacao();
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                foreach (RequisicaoEstoqueItem item in _itens)
+                {
+                    MovimentoEstoque movimento = new MovimentoEstoque();
+                    movimento.RequisicaoEstoqueItem = item;
+                    movimento.Quantidade = item.Quantidade;
+                    movimento.Material = item.Material;
+                    movimento.Data = DateTime.Today;
+                    movimento.TipoMovimento = this.TipoRequisicaoEstoque.TipoMovimento;
+                    movimento.OrigemMaterial = item.OrigemMaterial;
+                    movimento.Save();
+                    
+                    //Se for transferencia insere a entrada no local de destino
+                    if (this.TipoRequisicaoEstoque.TipoRequisicaoEstoqueEnum == TipoRequisicaoEstoqueEnum.Transferencia)
+                    {
+                        if(item.OrigemMaterial == item.OrigemMaterialDestino)
+                            throw new Exception("A origem e destino do material não podem ser iguais.");
+                        MovimentoEstoque movimentoEntrada = new MovimentoEstoque();
+                        movimentoEntrada.RequisicaoEstoqueItem = item;
+                        movimentoEntrada.Quantidade = item.Quantidade;
+                        movimentoEntrada.Material = item.Material;
+                        movimentoEntrada.Data = DateTime.Today;
+                        movimentoEntrada.TipoMovimento = TipoMovimento.Entrada;
+                        movimentoEntrada.OrigemMaterial = item.OrigemMaterialDestino.Value;
+                        movimentoEntrada.Save();
+                    }
+                }
+
+                _status = StatusRequisicaoEstoque.Finalizado;
+                _datafinalizacao = DateTime.Today;
+                this.Save();
+
+                tran.IsValid = true;
+            }
+        }
+		
+		#endregion
+		
+		
+	}
+}

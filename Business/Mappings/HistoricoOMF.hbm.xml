@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.HistoricoOMF,Marinha.Business" table="TB_HistoricoOMF" lazy="true">
+
+		<id name="ID" column="ID_HistoricoOMF" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="300" />
+        <property column="Justificativa" type="String" name="Justificativa" length="600" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+        <property column="FlagReprovado" type="Boolean" name="FlagReprovado" not-null="true" />
+		<many-to-one name="OMF" column="ID_OMF" class="Marinha.Business.NotaEntregaMaterialOMF,Marinha.Business" />
+		
+	</class>
+</hibernate-mapping>

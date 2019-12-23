@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.MensagemChat,Marinha.Business" table="TB_MensagemChat" lazy="true">
+
+		<id name="ID" column="ID_MensagemChat" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="ID_ServidorOrigem" type="Int32" name="ID_ServidorOrigem" not-null="true" />
+		<property column="NomeServidorOrigem" type="String" name="NomeServidorOrigem" not-null="true" length="50" />
+		<property column="ID_ServidorDestino" type="Int32" name="ID_ServidorDestino" not-null="true" />
+		<property column="NomeServidorDestino" type="String" name="NomeServidorDestino" not-null="true" length="70" />
+		<property column="Mensagem" type="String" name="Mensagem" not-null="true" length="4000" />
+		<property column="FlagLido" type="Boolean" name="FlagLido" not-null="true" />
+		<property column="DataEnvio" type="DateTime" name="DataEnvio" not-null="true" />
+		<property column="DataRecebido" type="DateTime" name="DataRecebido" />
+		
+	</class>
+</hibernate-mapping>

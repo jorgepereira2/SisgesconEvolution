@@ -1,0 +1,230 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using Web = System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Shared.Common;
+using Marinha.Business;
+using Shared.SessionState;
+using Anthem;
+
+
+public partial class BuscaEquipamento : System.Web.UI.UserControl
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Manager.Register(this);
+        string s = @"<script language='javascript' type='text/javascript'>
+            function UpdateUserControl(userControlID, ID) {                
+	            Anthem_InvokeControlMethod(
+		            userControlID,
+		            'FireEvent',
+		            [ID],
+		            function(result) {}
+	            );
+            }
+            </script>";
+
+        btnNovo.Visible = false;
+
+        this.Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "popupbuscaequipamento", s);
+        //if (!Page.IsPostBack)
+        {
+            if(ShowNew)
+            {
+                AnthemClientMethods.Popup(btnNovo, "../cadastro/frmEquipamentoCadastro.aspx?popup=true", false, false, false, true, true, true,
+                true, 10, 10, 760, 550, false);
+            }
+            else
+                btnNovo.Visible = false;
+
+            AnthemClientMethods.Popup(btnBuscaAvancada, "../busca/frmEquipamentoBusca.aspx?id_controle=" + this.ClientID, false, false, false, true, true, true,
+                    true, 10, 10, 760, 550, false);
+
+            txtEquipamento.Style.Add("border", "solid 1px blue");
+        }
+    }
+
+    public delegate void SelectedValueChangedHandler(object source, BuscaEquipamentoEventArgs e);
+    public event SelectedValueChangedHandler SelectedValueChanged;
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        txtEquipamento.TextChanged += new Anthem.AutoSuggestBox.TextChangedEventHandler(txtEquipamento_TextChanged);
+        txtEquipamento.SelectedValueChanged += new Anthem.AutoSuggestBox.SelectedValueChangedHandler(txtEquipamento_SelectedValueChanged);
+        txtEquipamento.CallBackControlID = txtEquipamento.ClientID;
+    }
+
+
+    void txtEquipamento_SelectedValueChanged(object source, EventArgs e)
+    {
+        if (SelectedValueChanged != null)
+        {
+            FireEvent(txtEquipamento.SelectedValue);
+        }
+    }
+
+    void txtEquipamento_TextChanged(object source, Anthem.AutoSuggestEventArgs e)
+    {
+        txtEquipamento.DataSource = Equipamento.FastSearch(e.CurrentText);
+        txtEquipamento.DataBind();
+    }
+
+   
+    public void Reset()
+    {
+        txtEquipamento.Text = String.Empty;
+        txtEquipamento.SelectedValue = "0";
+        txtEquipamento.UpdateAfterCallBack = true;
+    }
+
+    public bool ShowNew
+    {
+        get
+        {
+            return ViewState["ShowNew"] == null ? true : Convert.ToBoolean(ViewState["ShowNew"]);
+        }
+        set
+        {
+            ViewState["ShowNew"] = value;
+        }
+    }
+    
+    public string ValidationGroup
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.ValidationGroup;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.ValidationGroup = value;
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.ErrorMessage;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.ErrorMessage = value;
+        }
+    }
+
+    public bool Required
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.Required;
+        }
+        set 
+        {
+            EnsureChildControls();
+            txtEquipamento.Required = value;
+        }
+    }
+
+    public bool UpdateAfterCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.UpdateAfterCallBack;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.UpdateAfterCallBack = value;
+        }
+    }
+
+    public string SelectedValue
+    {
+        get 
+        {
+            EnsureChildControls();
+
+            return txtEquipamento.SelectedValue == "" ? "0" : txtEquipamento.SelectedValue; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.SelectedValue = value;
+        }
+    }
+
+    public string Text
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.Text;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.Text = value;
+        }
+    }
+
+    public bool AutoCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtEquipamento.AutoCallBack; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtEquipamento.AutoCallBack = value;
+        }
+    }
+	 
+    [Anthem.Method]
+    public void FireEvent(string id)
+    {
+        Equipamento equipamento = new Equipamento();
+        if (id != "" && id != "0")
+            equipamento = Equipamento.Get(Convert.ToInt32(id));
+        
+
+        txtEquipamento.SelectedValue = id;
+        txtEquipamento.Text = equipamento.DescricaoCompleta;
+
+        txtEquipamento.UpdateAfterCallBack = true;
+        
+        if (SelectedValueChanged != null)
+            SelectedValueChanged(this, new BuscaEquipamentoEventArgs(equipamento));
+    }
+	
+}
+
+public class BuscaEquipamentoEventArgs : EventArgs
+{
+    private Equipamento _equipamento;
+
+    public BuscaEquipamentoEventArgs(Equipamento _equipamento)
+    {
+        this._equipamento = _equipamento;
+    }
+
+    public Equipamento Equipamento
+    {
+        get { return _equipamento; }
+    }
+}

@@ -1,0 +1,141 @@
+INSERT INTO [SisGesconEvolution].[dbo].[TB_Processo] ([Nome],[Link],[Ordem] ,[ID_ProcessoPai]  ,[FlagAtivo]) VALUES  
+('Controle de Acesso','relatorios/relProcessoPesquisa.aspx',200 ,43,1)
+GO
+
+
+INSERT INTO [SisGesconEvolution].[dbo].[TB_ProcessoServidor] (ID_Processo,ID_Servidor) VALUES (1187,1)
+GO
+
+
+INSERT INTO [SisGesconEvolution].[dbo].[TB_Processo] ([Nome],[Link],[Ordem] ,[ID_ProcessoPai]  ,[FlagAtivo]) VALUES  
+('Controle de Acesso - Perfil de Acesso','relatorios/relPerfilAcessoPesquisa.aspx', 300,43,1)
+GO
+
+
+SELECT * FROM [SisGesconEvolution].[dbo].[TB_Processo] ORDER BY ID_Processo DESC
+GO
+
+
+INSERT INTO [SisGesconEvolution].[dbo].[TB_ProcessoServidor] ([ID_Processo],[ID_Servidor]) VALUES (1188,1)
+GO
+
+
+/*DELETE FROM [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] WHERE ID_StatusPedidoServico = 60;
+GO
+
+
+DELETE FROM [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] WHERE ID_StatusPedidoServico = 270 ;
+GO*/
+
+
+DELETE FROM [SisGesconEvolution].[dbo].TB_ServicoMaterialEquipamento;
+GO
+
+
+DELETE FROM [SisGesconEvolution].[dbo].[TB_Equipamento];
+GO
+
+
+INSERT INTO [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] 
+([ID_StatusPedidoServico],[Descricao], [FlagVinculoPorDivisao], [FlagSomenteGerente]) VALUES
+(1, 'Nenhum', 0, 0)
+GO
+
+
+INSERT INTO [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] 
+([ID_StatusPedidoServico],[Descricao], [FlagVinculoPorDivisao], [FlagSomenteGerente]) VALUES
+(80, 'Aguardando Aprovação Comandante Geral', 0, 0),
+(100, 'Aguardando Aprovação Cliente', 0, 0),
+(120, 'Aguardando Planejamento', 0, 0),
+(130, 'Aguardando Chamada Meio', 0, 0),
+(140, 'Aguardando Meio', 0, 0),
+(190, 'Aguardando Devolução Meio', 0, 0),
+(200, 'Aguardando Satisfeito', 0, 0),
+(210, 'Aguardando Liquidação', 0, 0)
+GO
+
+
+use SisGesconEvolution
+INSERT INTO TB_StatusPedidoServicoServidor ([ID_StatusPedidoServico], [ID_Servidor])
+SELECT id_StatusPedidoServico, 1 FROM TB_StatusPedidoServico;
+GO
+
+
+UPDATE [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] 
+SET FlagAtivo = 0
+WHERE ID_StatusPedidoServico IN (270)
+
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.TB_ServicoMaterial ADD
+	NumeroSerie varchar(100) NULL
+GO
+ALTER TABLE dbo.TB_ServicoMaterial ADD CONSTRAINT
+	DF_TB_ServicoMaterial_NumeroSerie DEFAULT NULL FOR NumeroSerie
+GO
+ALTER TABLE dbo.TB_ServicoMaterial SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.TB_StatusPedidoObtencao ADD
+	FlagAtivo bit NOT NULL CONSTRAINT DF_TB_StatusPedidoObtencao_FlagAtivo DEFAULT 0
+GO
+ALTER TABLE dbo.TB_StatusPedidoObtencao SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.TB_PedidoObtencao ADD
+	PTRES varchar(100) NULL
+GO
+ALTER TABLE dbo.TB_PedidoObtencao SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+
+GO
+UPDATE [SisGesconEvolution].[dbo].[TB_StatusPedidoServico] SET Descricao = 'Orçamento Finalizado' 
+WHERE [ID_StatusPedidoServico] = 60
+GO
+
+
+
+
+
+
+
+
+

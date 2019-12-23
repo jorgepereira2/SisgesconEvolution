@@ -1,0 +1,506 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmServicoMaterialCadastro.aspx.cs" Inherits="frmServicoMaterialCadastro" %>
+<%@ Register TagPrefix="ComponentArt" Namespace="ComponentArt.Web.UI" Assembly="ComponentArt.Web.UI" %>
+<%@ Register Src="~/UserControls/BuscaEquipamento.ascx" TagName="BuscaEquipamento" TagPrefix="uc" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />
+      <link href="../css/tabStyle.css" type="text/css" rel="stylesheet" />  
+     <script type="text/javascript">
+    
+    function AbaAlterada()
+    {
+        parent.iframeresize();
+        Anthem_InvokePageMethod('AbaAlterada', [], function(result){});
+    }
+    </script> 
+</head>
+<body >
+    <form id="form1" runat="server">
+    <Anthem:ValidationSummary runat="server" ShowMessageBox="true" DisplayMode="BulletList" ShowSummary="true" />
+    <div align="center">
+    <div align="right" style="width:90%" Class="PageTitle">
+    <br />
+        Cadastro de Serviço/Material
+    </div>
+      <table cellSpacing="4" cellPadding="3" border="0" Width="90%" >																		    
+        <tr>
+            <td style="border:solid 0px black" valign="top" align="left">               
+                <br />
+                
+                <ComponentArt:TabStrip id="TabStrip1" 
+                  CssClass="TopGroup"                  
+                  DefaultItemLookId="DefaultTabLook"
+                  DefaultSelectedItemLookId="SelectedTabLook"
+                  DefaultDisabledItemLookId="DisabledTabLook" 
+                  DefaultGroupTabSpacing="0" TopGroupAlign="Left" DefaultGroupAlign="Left" DefaultItemTextAlign="Left"
+                  ImagesBaseUrl="../images/tabstrip/"
+                  runat="server" MultiPageId="MultiPage1">
+                <Tabs>
+                    <ComponentArt:TabStripTab Text="Dados Básicos" PageViewId="pvDadosBasicos" LookId="DefaultTabLook" runat="server" ID="tabDadosBasicos" ClientSideCommand="AbaAlterada();" />
+                    <ComponentArt:TabStripTab Text="Equipamentos" runat="server" ID="tabEquipamento" ClientSideCommand="AbaAlterada();" PageViewId="pvEquipamento" />                    
+                    <ComponentArt:TabStripTab Text="Localizações" runat="server" ID="tabLocalizacao" ClientSideCommand="AbaAlterada();" PageViewId="pvLocalizacao" />                    
+                    <ComponentArt:TabStripTab Text="Células" runat="server" ID="tabCelula" ClientSideCommand="AbaAlterada();" PageViewId="pvCelula" />                    
+                </Tabs>  
+                <ItemLooks>
+                  <ComponentArt:ItemLook LookId="DefaultTabLook" CssClass="DefaultTab" HoverCssClass="DefaultTabHover" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="5" LabelPaddingBottom="4" LeftIconUrl="tab_left_icon.gif" RightIconUrl="tab_right_icon.gif" HoverLeftIconUrl="hover_tab_left_icon.gif" HoverRightIconUrl="hover_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" />
+                  <ComponentArt:ItemLook LookId="SelectedTabLook" CssClass="SelectedTab" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="4" LabelPaddingBottom="4" LeftIconUrl="selected_tab_left_icon.gif" RightIconUrl="selected_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" />
+                </ItemLooks>
+                </ComponentArt:TabStrip>
+                <ComponentArt:MultiPage id="MultiPage1" CssClass="MultiPage" runat="server">
+                    
+                  <ComponentArt:PageView CssClass="PageContent" id="pvDadosBasicos" runat="server">
+                    <table cellSpacing="4" cellPadding="3" border="0" Width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Serviço / Material
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >   
+                                    <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Tipo:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlTipoServicoMaterial" AutoCallBack="true" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="RequiredFieldValidator3" ControlToValidate="ddlTipoServicoMaterial"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr>                                  
+					                <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Classe:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlClasseServicoMaterial" AutoCallBack="true" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="RequiredFieldValidator1" ControlToValidate="ddlClasseServicoMaterial"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr> 
+					                <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Sub-Classe:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlSubClasseServicoMaterial" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="RequiredFieldValidator2" ControlToValidate="ddlSubClasseServicoMaterial"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr> 
+                                    <tr>
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Descrição:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtDescricao" MaxLength="200" Columns="60" />
+                                           &nbsp;
+                                           <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtDescricao" ErrorMessage="Campo obrigatório" Display="dynamic" ValidationGroup="DadosBasicos"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Origem:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlOrigemMaterial" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="valOrigemMaterial" ControlToValidate="ddlOrigemMaterial"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr>
+					                <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Unidade:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlUnidade" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="valUnidade" ControlToValidate="ddlUnidade"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos" />
+						                </td>
+					                </tr> 
+					                <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   SJB:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlSJB" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ControlToValidate="ddlSJB"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr>
+                                    <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Preço Estimado Venda:
+						                </td>
+						                <td align="left">
+							                <Anthem:NumericTextBox runat="server" ID="txtPrecoEstimadoVenda" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="txtPrecoEstimadoVenda"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>
+						                </td>
+					                </tr>
+					                 <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Quantidade Mínima:
+						                </td>
+						                <td align="left">
+						                     &nbsp;PEP:&nbsp;
+							                <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMinimaPEP" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtQuantidadeMinimaPEP"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>
+									        <%--&nbsp;&nbsp;Rodizio:&nbsp;
+									        <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMinimaRodizio" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtQuantidadeMinimaRodizio"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>
+									             &nbsp;&nbsp;Singra:&nbsp;
+									        <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMinimaSingra" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtQuantidadeMinimaSingra"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>--%>
+							             
+						                </td>
+					                </tr>
+					                <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Quantidade Máxima:
+						                </td>
+						                <td align="left">
+						                     &nbsp;PEP:&nbsp;
+							                <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMaximaPEP" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="txtQuantidadeMaximaPEP"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>
+									        <%--&nbsp;&nbsp;Rodizio:&nbsp;
+									        <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMaximaRodizio" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ControlToValidate="txtQuantidadeMaximaRodizio"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>
+									             &nbsp;&nbsp;Singra:&nbsp;
+									        <Anthem:NumericTextBox runat="server" ID="txtQuantidadeMaximaSingra" DecimalPlaces="0" Columns="6" />	
+							                 &nbsp;
+							                   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator87" runat="server" ControlToValidate="txtQuantidadeMaximaSingra"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic"  ValidationGroup="DadosBasicos"/>--%>
+						                </td>
+					                </tr>
+                                    <tr>
+						                  <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Natureza Despesa:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlNaturezaDespesa" AutoCallBack="true" />&nbsp;
+                                            <Anthem:RequiredFieldValidator ID="RequiredFieldValidator9cc" runat="server" ControlToValidate="ddlNaturezaDespesa"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>						                   
+						                </td>
+					                </tr>  
+                                    <tr>
+						                  <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Sub-Natureza Despesa:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlSubNaturezaDespesa" />		&nbsp;
+                                            <Anthem:RequiredFieldValidator ID="RequiredFieldValidator988cc" runat="server" ControlToValidate="ddlSubNaturezaDespesa"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" ValidationGroup="DadosBasicos"/>						                   
+						                </td>
+					                </tr>  
+					                <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Fabricante:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlFabricante" />								                   
+						                </td>
+					                </tr>        
+                                    <tr>
+                                        <td ></td>
+                                        <td align="right" >
+                                           Cód. SINGRA:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtDescricaoSingra" 
+                                                MaxLength="100" Columns="50" />
+                                        </td>
+                                    </tr>                                                                                                                         
+					                 <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Codigo Interno/NEB:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtCodigoInterno" 
+                                                MaxLength="20" Columns="50" />                           
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Número Referência:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtNumeroReferencia" 
+                                                MaxLength="20" Columns="50" />                           
+                                        </td>
+                                    </tr>	
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Número de Série:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtNumeroSerie" 
+                                                MaxLength="100" Columns="50" />                           
+                                        </td>
+                                    </tr>	
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                          Código Siasg:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtCodigoSiasg" 
+                                                MaxLength="20" Columns="50" />                           
+                                        </td>
+                                    </tr>				               
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Ativo:
+						                </td>
+						                <td align="left">
+							                <Anthem:CheckBox runat="server" ID="chkFlagAtivo" Checked="true" />
+						                </td>
+					                </tr>
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>
+                  </ComponentArt:PageView>
+                  
+                  
+                   <ComponentArt:PageView CssClass="PageContent" runat="server" id="pvEquipamento" >
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Equipamentos
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgEquipamento" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle CssClass="dgFooter" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Descrição" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((Equipamento)Container.DataItem).Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Tipo" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((Equipamento)Container.DataItem).TipoEquipamento.Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Sub-Tipo" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((Equipamento)Container.DataItem).SubTipoEquipamento.Descricao %>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Codeq" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((Equipamento)Container.DataItem).Codeq %>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnExcluir" Text="Excluir" CommandName="Delete" />
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </anthem:datagrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>     
+                        <tr>
+                           <td class="msgErro" width="5%" >*</td>
+                            <td align="right" width="15%">
+                               Equipamento:
+                            </td>
+                            <td align="left">
+                               <uc:BuscaEquipamento runat="server" ID="ucBuscaEquipamento" Required="true" ValidationGroup="Equipamento" 
+                                ErrorMessage="Campo obrigatório"  />                                
+                            
+                            </td>
+                        </tr>                                             
+                    </table> 
+                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                </ComponentArt:PageView>   
+                
+                
+                 <ComponentArt:PageView CssClass="PageContent" runat="server" id="pvLocalizacao" >
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Localizações
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgLocalizacao" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle CssClass="dgFooter" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Descrição" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((Localizacao)Container.DataItem).Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>                                                                            
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnExcluir" Text="Excluir" CommandName="Delete" />
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </anthem:datagrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>     
+                        <tr>
+                           <td class="msgErro" width="5%" >*</td>
+                            <td align="right" width="15%">
+                               Localização:
+                            </td>
+                            <td align="left">
+                               <Anthem:DropDownList runat="server" ID="ddlLocalizacao"  />                                
+                               &nbsp;
+                               <Anthem:RequiredFieldValidator runat="server" ID="valLocalizacao" ValidationGroup="Localizacao"
+                                    ErrorMessage="Campo obrigatório" Display="Dynamic" ControlToValidate="ddlLocalizacao" />
+                            
+                            </td>
+                        </tr>                                             
+                    </table> 
+                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                </ComponentArt:PageView>   
+
+
+                 <ComponentArt:PageView CssClass="PageContent" runat="server" id="pvCelula" >
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Células PO
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgCelula" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle CssClass="dgFooter" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Descrição" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>                                                                            
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnExcluir" Text="Excluir" CommandName="Delete" />
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </anthem:datagrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>     
+                        <tr>
+                           <td class="msgErro" width="5%" >*</td>
+                            <td align="right" width="15%">
+                               Célula:
+                            </td>
+                            <td align="left">
+                               <Anthem:DropDownList runat="server" ID="ddlCelula"  />                                
+                               &nbsp;
+                               <Anthem:RequiredFieldValidator runat="server" ID="RequiredFieldValidator55" ValidationGroup="Celula"
+                                    ErrorMessage="Campo obrigatório" Display="Dynamic" ControlToValidate="ddlCelula" />
+                            
+                            </td>
+                        </tr>                                             
+                    </table> 
+                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                </ComponentArt:PageView>   
+
+                </ComponentArt:MultiPage>
+            </td>
+        </tr>
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+            
+            </td>
+            <td align="right">
+                <Anthem:Button runat="server" ID="btnSalvar" TextDuringCallBack="Aguarde" Text="Salvar"
+                     EnabledDuringCallBack="false" CssClass="Button" ValidationGroup="DadosBasicos" />
+                <Anthem:Button runat="server" ID="btnNovo" TextDuringCallBack="Aguarde" Text="Novo"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" /> 
+                 <Anthem:Button runat="server" ID="btnExcluir" TextDuringCallBack="Aguarde" Text="Excluir"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" />     
+                <Anthem:Button runat="server" ID="btnVoltar" Text="Voltar"
+                     CssClass="Button" CausesValidation="false" />
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <br /><br /><br />
+    </div>    
+    </form>    
+</body>
+</html>

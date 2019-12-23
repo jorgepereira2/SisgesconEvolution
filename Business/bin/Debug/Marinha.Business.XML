@@ -1,0 +1,3121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Marinha.Business</name>
+    </assembly>
+    <members>
+        <member name="M:Marinha.Business.Apropriacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Apropriacao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Apropriacao.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Atividade.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Atividade.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Atividade.FlagAtividadeDireta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.Select(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.SelectPedidosParaAprovacao(System.Int32,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.SelectPedidosParaAprovacaoTodos(System.Int32,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.SelectACPendentePagamento(System.String,System.DateTime,System.DateTime,System.Nullable{System.Boolean},System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompra.Reprovar(System.Int32,System.String)">
+            <summary>
+            Volta para a cotacao
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.Fornecedor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.Status">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.Projeto">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.POs">
+            <summary>
+            Lista do POs que originaram esta AC, com ID e numero
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.PSs">
+            <summary>
+            Lista do POs que originaram esta AC, com ID e numero
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompra.ChaveFinanceiro">
+            <summary>
+            Chave da combinacao de Projeto, NaturezaDespesa, FonteRecurso e PTRES no formato 12|32|15|43
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.AutorizacaoCompraPagamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompraPagamento.NumeroNotaFiscal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompraPagamento.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompraPagamento.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.AutorizacaoCompraPagamento.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.SubNaturezaDespesa.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SubNaturezaDespesa.NaturezaDespesa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SubNaturezaDespesa.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SubNaturezaDespesa.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Modalidade.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.TipoServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoServico.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoServico.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="T:Marinha.Business.FaturaPagamentoMensal">
+            <summary>
+            Esta classe foi feita para o parsit
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.FaturaPagamentoMensal.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.TipoFaturaPagamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoFaturaPagamento.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoFaturaPagamento.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.LicitacaoContrato.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.PedidoServicoAtividadeSecundaria">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.StatusAnterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.StatusPosterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria.JustificativaRecusa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoAtividadeSecundaria.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoAtividadeSecundaria.Select(System.Int32,System.Int32,System.String)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoAtividadeSecundaria.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoAtividadeSecundaria.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoAtividadeSecundaria.Cliente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoAtividadeSecundaria.ClientePagador">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoAtividadeSecundaria.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoAtividadeSecundaria.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServicoAtividadeSecundariaDivisao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoAtividadeSecundariaDivisao.StatusPedidoServicoAtividadeSecundaria">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoAtividadeSecundariaDivisao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoAtividadeSecundariaDivisao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServicoAtividadeSecundaria.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.TipoAtividadeSecundaria.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoAtividadeSecundaria.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoAtividadeSecundaria.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoMergulhoDelineamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoDelineamento.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoDelineamento.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoDelineamento.DescricaoServicoOficina">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoMergulhoItemOrcamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoItemOrcamento.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoItemOrcamento.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoItemOrcamento.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulhoItemOrcamento.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Embarcacao.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoPedidoServicoMergulho.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.PedidoServicoMergulho">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.StatusAnterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.StatusPosterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServicoMergulho.JustificativaRecusa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServicoMergulhoDivisao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoMergulhoDivisao.StatusPedidoServicoMergulho">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoMergulhoDivisao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoMergulhoDivisao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServicoMergulho.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoMergulho.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoMergulho.Select(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoMergulho.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.Cliente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.ClientePagador">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.CodigoPedidoCliente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.NumeroRegistro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.Contatos">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.TelefoneContatos">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.Status">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoMergulho.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoDocumento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoEmpenho.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoEquipamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.LicitacaoDocumento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.RotinaCategoriaServicoItemOrcamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoItemOrcamento.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoItemOrcamento.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoItemOrcamento.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RotinaCategoriaServicoDelineamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoDelineamento.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoDelineamento.HomemHora">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RotinaCategoriaServicoDelineamento.DescricaoServicoOficina">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RotinaCategoriaServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoPagamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.ModalidadePregao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.ModalidadePregao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ModalidadePregao.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoLicitacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoLicitacao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoLicitacao.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Rotina.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.HistoricoLicitacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoLicitacao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoLicitacao.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoLicitacao.Licitacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusLicitacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusLicitacao.GetNext(Marinha.Business.StatusLicitacaoEnum)">
+            <summary>
+            Retorna o item seguinte do enum
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOficina.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Prioridade.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Prioridade.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Prioridade.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="T:Marinha.Business.MovimentoVisitante">
+            <summary>
+            Esta classe foi feita para o controle de bordo
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.MovimentoVisitante.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Visitante.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.ServidorCursoMilitar.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.ServidorCondecoracao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.ServidorDependente.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="T:Marinha.Business.MovimentoServidor">
+            <summary>
+            Esta classe foi feita para o controle de bordo
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.MovimentoServidor.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.CotaMaterial.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.CotaMaterial.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CotaMaterial.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CotaMaterial.Ano">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CotaMaterial.Mes">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CotaMaterial.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.UGE.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.UGE.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.UGE.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="T:Marinha.Business.MovimentoConta">
+            <summary>
+            Esta classe foi feita para o parsit
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.MovimentoConta.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.ServidorHistorico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.ServidorHistorico.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.ProvisionadoSiafi.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Meta.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.TipoMoeda.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoMoeda.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fase.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PTRES.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PTRES.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PTRES.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="T:Marinha.Business.EntradaValores">
+            <summary>
+            Esta classe na verdade representa Movimentacoes Financeiras, o nome adequado seria MovimentoFinanceiro, pois ela contem entradas e saidas
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.EntradaValores.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Conta.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DiaMaximoLancamentoFamod.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.CustoHH.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.CustoHH.ValorCusto">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CustoHH.MesAno">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoOMF.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoOMF.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoOMF.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoOMF.OMF">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.MedidaEtiqueta.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.Colunas">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.Linhas">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.LarguraPapel">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.MargemDireita">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.MargemEsquerda">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.MargemSuperior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.MargemInferior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.SeparacaoHorizontal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.SeparacaoVertical">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MedidaEtiqueta.Nome">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia.NIP">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia.Graduacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia.TipoNotificacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoNotificacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoNotificacao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoEmprego.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoEmprego.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoEmprego.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusOMF.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusOMF.GetNext(Marinha.Business.StatusOMFEnum)">
+            <summary>
+            Retorna o item seguinte do enum
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamentoFaturamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoFaturamento.Validade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoFaturamento.Garantia">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoFaturamento.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoFaturamento.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoFaturamento.Numero">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.EncarregadoCelula.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.EncarregadoCelula.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EncarregadoCelula.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EncarregadoCelula.DataInicio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EncarregadoCelula.DataFim">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Localizacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Localizacao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Localizacao.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.MotivoCancelamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.MotivoCancelamento.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.NotaEntregaMaterialOMF.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.NotaEntregaMaterialOMF.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMF.NumeroEmpenho">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMF.Fornecedor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMF.DescriminacaoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMF.TipoEmprego">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMF.Recebedor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.NotaEntregaMaterialOMFItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFItem.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFItem.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NotaEntregaMaterialOMFItem.LOC">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoCotacaoItemDescartado.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItemDescartado.FlagCancelado">
+            <summary>
+            Indica se o item foi cancelado definitivamente
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItemDescartado.Servidor">
+            <summary>
+            Comprador
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItemDescartado.Justificativa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoCompra.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoCompra.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoCompra.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoAutorizacaoCompra.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoAutorizacaoCompra.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoAutorizacaoCompra.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoAutorizacaoCompra.AutorizacaoCompra">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusAutorizacaoCompra.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusAutorizacaoCompra.GetNext(Marinha.Business.StatusAutorizacaoCompraEnum)">
+            <summary>
+            Retorna o item seguinte do enum
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoCotacaoItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItem.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacaoItem.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.CategoriaServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.CategoriaServico.Identificador">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.CategoriaServico.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Celula.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Celula.GetDivisao">
+            <summary>
+            Retorna a divisão a qual esta celula pertence
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Celula.Codigo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Celula.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Celula.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Celula.FlagCentroCusto">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Celula.FlagOficina">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Celula.Finalidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.ClasseServicoMaterial.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.ClasseServicoMaterial.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Cliente.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Cliente.CNPJCPF">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Codigo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.IndicativoNaval">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Endereco">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Bairro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.CEP">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Estado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Municipio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Telefone">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Fax">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.Email">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.HomePage">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Cliente.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.ProcessoCollection.Remove(Marinha.Business.Processo)">
+            <summary>
+            Remove o processo, na própria coleção ou nas coleções dentro desta coleção
+            </summary>        
+        </member>
+        <member name="M:Marinha.Business.PedidoCotacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacao.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacao.FlagFinalizado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoCotacao.Numero">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamentoOcorrencia.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.FlagServicoTerceiro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.DataInicio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.FlagParteEquipamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.DescricaoParteEquipamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.DataPrevisaoFim">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.DataFim">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamentoOcorrencia.DescricaoConclusao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoPedidoObtencao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoObtencao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoObtencao.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoObtencao.PedidoObtencao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.Select(System.Int32,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.SelectPorDepartamento(System.Int32)">
+            <summary>
+            Seleciona PO's que estao com o status AguardandoAprovacaoChefeDepartamento_Departamento e
+            cujas as divisoes dentro do departamento do servidor
+            </summary>
+            <param name="id_servidor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.SelectPorDepartamento(System.Int32,System.Int32)">
+            <summary>
+            Seleciona PO's que estao com o status AguardandoAprovacaoChefeDepartamento_Departamento e
+            cujas as divisoes dentro do departamento do servidor
+            </summary>
+            <param name="id_servidor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.VerificaEntradaFinalizada(Marinha.Business.OrigemMaterial)">
+            <summary>
+            Verifica se todos os itens ja foram entregues ou cancelados
+            </summary>
+            <param name="origem"></param>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencao.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.Status">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.FlagPedidoObtencao">
+            <summary>
+            Define se o PO já está na fase em que é considerado um PO
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.Numero">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.DelineamentoOrcamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencao.ChaveFinanceiro">
+            <summary>
+            Chave da combinacao de Projeto, NaturezaDespesa, FonteRecurso e PTRES no formato 12|32|15|43
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoSubNatureza.SaldoDisponivel">
+            <summary>
+            Considera todas as ACs, menos as canceladas
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoSubNatureza.ValorUtilizadoTotal">
+            <summary>
+            Considera todas as ACs, menos as canceladas
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoFornecedor.SaldoTotal">
+            <summary>
+            Considera todas as ACs, menos as canceladas
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoFornecedor.SaldoARealizar">
+            <summary>
+            Considera apenas ACs que não foram aprovadas pelo comandante
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoFornecedor.SaldoReal">
+            <summary>
+            Considera apenas ACs que ja foram aprovadas pelo comandante
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoFornecedor.ValorUtilizadoReal">
+            <summary>
+            Considera apenas ACs que ja foram aprovadas pelo comandante
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SaldoFornecedor.ValorUtilizadoTotal">
+            <summary>
+            Considera todas as ACs, menos as canceladas
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItem.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItem.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItem.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoItemCancelado.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemCancelado.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemCancelado.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemCancelado.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemCancelado.Justificativa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemCancelado.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoObtencaoItemPEPRodizio.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemPEPRodizio.Celula">
+            <summary>
+            Para qual oficina vai o item
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemPEPRodizio.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemPEPRodizio.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemPEPRodizio.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoObtencaoItemPEPRodizio.QuantidadeEntregue">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoObtencaoDivisao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoObtencaoDivisao.StatusPedidoObtencao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoObtencaoDivisao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoObtencaoDivisao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoObtencao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.EntradaMaterial.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.EntradaMaterial.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EntradaMaterial.DelineamentoOrcamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.EntradaMaterialItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.EntradaMaterialItem.EntradaMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EntradaMaterialItem.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.EntradaMaterialItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Famod.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Famod.PedidoServico">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.HorasApropriadas">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.Oficina">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.DescricaoDetalhada">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Famod.ServidorCadastro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Feriado.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Feriado.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Feriado.FlagMeioExpediente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Feriado.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Feriado.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.FonteRecurso.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.FonteRecurso.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FonteRecurso.Codigo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FonteRecurso.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.NaturezaDespesa.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.NaturezaDespesa.Codigo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.NaturezaDespesa.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Projeto.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Projeto.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Projeto.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoPedidoAquisicao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoAquisicao.PedidoAquisicao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoAquisicao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoAquisicao.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoAquisicao.StatusAnterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoAquisicao.StatusPosterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoAquisicao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoAquisicao.GetNext(Marinha.Business.StatusPedidoAquisicaoEnum)">
+            <summary>
+            Retorna o item seguinte do enum
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoAquisicaoDivisao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoAquisicaoDivisao.StatusPedidoAquisicao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoAquisicaoDivisao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoAquisicaoDivisao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamento.FinalizarDelineamento(System.Int32,System.String)">
+            <summary>
+            Acusa a finalizacao do delineamento e passa para a etapa de orçamento
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamento.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior (REVER ESSE METODO PARA O BACS)
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.DelineamentoOrcamento.AdicionarRotina(Marinha.Business.Rotina,System.Int32)">
+            <summary>
+            Chamado ao inviar um PS com rotina
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamento.Numero">
+            <summary>
+            Número sequencial por pedido
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamento.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.DelineamentoOrcamento.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.HistoricoPedidoServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.PedidoServico">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.StatusAnterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.StatusPosterior">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.HistoricoPedidoServico.JustificativaRecusa">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.MensagemChat.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.MensagemChat.SelectJanelasParaAbrir(System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Verifica se existem alguma msg não recebida em chats que não estejam ativos
+            Finalidade: Utilizada para mostrar o popup na tela apenas se a janela de chat não estiver ativa
+            </summary>
+            <returns>Retorna uma Lista com os ids das pessoas que enviaram msgs</returns>
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.ID_ServidorOrigem">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.NomeServidorOrigem">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.ID_ServidorDestino">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.NomeServidorDestino">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.Mensagem">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.FlagLido">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.DataEnvio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MensagemChat.DataRecebido">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.MovimentoEstoque.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.MovimentoEstoque.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MovimentoEstoque.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MovimentoEstoque.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MovimentoEstoque.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.MovimentoEstoque.TipoMovimento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Parametro.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Parametro.EntradaItemCompraManual">
+            <summary>
+            Determina se na tela de compras a entrada é em forma de texto (Manual) ou se escolhe da lista de materiais
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoAquisicao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoAquisicao.Select(System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoAquisicao.SelectPorDepartamento(System.Int32)">
+            <summary>
+            Seleciona PA's que estao com o status AguardandoAprovacaoEncarregadoDepartamento e
+            cujas as divisoes dentro do departamento do servidor
+            </summary>
+            <param name="id_servidor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Marinha.Business.PedidoAquisicaoItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.PedidoAquisicao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Valor2">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Valor3">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoAquisicaoItem.Valor4">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoDelineamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoDelineamento.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoDelineamento.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoDelineamento.HomemHora">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoDelineamento.DescricaoServicoOficina">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServicoItemOrcamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoItemOrcamento.FlagCotadoPO">
+            <summary>
+            Indica se o item ja pertence a um PO
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoItemOrcamento.ServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoItemOrcamento.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoItemOrcamento.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServicoItemOrcamento.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RequisicaoEstoque.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.ServidorCadastro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.ServidorResponsavel">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.Numero">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.DataFinalizacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.TipoRequisicaoEstoque">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.Status">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoque.DataCadastro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RequisicaoEstoqueItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoqueItem.RequisicaoEstoque">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoqueItem.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoqueItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RequisicaoEstoqueItem.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Equipamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Equipamento.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Equipamento.Codeq">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Equipamento.DescricaoCodeq">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Equipamento.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Estado.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Estado.Sigla">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Estado.Nome">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Estado.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Fabricante.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Fabricante.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fabricante.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Fornecedor.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.CNPJ">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.RazaoSocial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.NumeroBanco">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.ContaCorrente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Agencia">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Endereco">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Bairro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Municipio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Estado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.CEP">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Telefone">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Fax">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.Email">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.HomePage">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.ValidadeCertidaoReceitaFederal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.ValidadeCertidaoFGTS">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.ValidadeCertidaoDividaUniao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.DescricaoMaterialFornecido">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Fornecedor.MotivoInativo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.FornecedorContato.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Fornecedor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Nome">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Setor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Telefone">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Celular">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.FornecedorContato.Email">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Licitacao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Licitacao.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Licitacao.Objetivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Licitacao.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Licitacao.NumeroPregao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Licitacao.DataPregao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.LicitacaoItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Material">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Quantidade">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Valor1">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Valor2">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Valor3">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.ValorFinalPregao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.Fornecedor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LicitacaoItem.TipoCalculo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.LocalAcesso.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.LocalAcesso.IPInicial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LocalAcesso.IPFinal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LocalAcesso.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.LogAcesso.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.LogAcesso.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LogAcesso.Data">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LogAcesso.IP">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.LogAcesso.Browser">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Municipio.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Municipio.Estado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Municipio.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PedidoServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServico.Select(System.Int32,System.Int32,System.String,System.Int32,System.Int32)">
+            <summary>
+            Seleciona os pedidos que estao pendentes da ação de um servidor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServico.Select(System.Int32,System.Int32,System.Int32,System.Int32,System.Nullable{System.Boolean},System.DateTime,System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Retorna a lista de pedido onde a etapa id_statusPedidoServico demorou mais que x dias
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.PedidoServico.Recusar(System.Int32,System.String)">
+            <summary>
+            Retorna para o status anterior
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.DataEmissao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.Cliente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.ClientePagador">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.CodigoPedidoCliente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.NumeroRegistro">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.NumeroCFN">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.Contatos">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.TelefoneContatos">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.ServidorGerente">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.FlagProgem">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.Status">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PedidoServico.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.PerfilAcesso.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Marinha.Business.PerfilAcesso.SelectByString(System.String)" -->
+        <member name="P:Marinha.Business.PerfilAcesso.Observacao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.PerfilAcesso.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Processo.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Processo.Select">
+            <summary>
+            Retorna uma lista dos processos do inicio da árvore.
+            Cada processo possui a sua própria coleção com os processos filhos
+            </summary>        
+        </member>
+        <member name="M:Marinha.Business.Processo.SelectMenu(System.Int32)">
+            <summary>
+            Seleciona os processos que o usuário tem acesso
+            Esta coleção não está na forma hierarquica
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Marinha.Business.Processo.SelectByList(System.Collections.Generic.List{System.String})" -->
+        <!-- Badly formed XML comment ignored for member "M:Marinha.Business.Processo.SelectByString(System.String)" -->
+        <member name="M:Marinha.Business.Processo.Root(Marinha.Business.Processo)">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Processo.Link">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.QuadroMensagem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.Mensagem">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.DataInicio">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.DataFim">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.Assinatura">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.QuadroMensagem.Titulo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RegraAcessoPerfilAcesso.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagControlaLocalAcesso">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.HorarioInicial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.HorarioFinal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagDomingo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagSegunda">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagTerca">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagQuarta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagQuinta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagSexta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoPerfilAcesso.FlagSabado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.RegraAcessoServidor.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagControlaLocalAcesso">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.HorarioInicial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.HorarioFinal">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagDomingo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagSegunda">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagTerca">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagQuarta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagQuinta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagSexta">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.RegraAcessoServidor.FlagSabado">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.ServicoMaterial.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.Fabricante">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.OrigemMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.DescricaoSingra">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.NumeroReferencia">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.NumeroSerie">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ServicoMaterial.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Servidor.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Servidor.Get(System.String,System.String)">
+            <summary>
+            Valida as credenciais do usuário.
+            </summary>
+            <param name="userName">Login do usuário</param>
+            <param name="password">Senha do usuário</param>
+            <returns>
+            Caso as credenciais sejam válidas retorna a conta correspondente, 
+            caso contrário retorna null
+            </returns>
+        </member>
+        <member name="M:Marinha.Business.Servidor.ListPorDivisao(Marinha.Business.Celula)">
+            <summary>
+            Retorna todos os servidores ligados a uma divisão
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Servidor.EnviarSenhaEmail">
+            <summary>
+            Habilita o usuário a utilizar o sistema e envia sua senha por email
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Servidor.GetFlagPodeFazerPOOutraCelula">
+            <summary>
+            Verifica no flag do servidor e nos perfis do servidor se ele pode fazer POs de outra celula
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.Servidor.SelectFromProcesso(System.String,System.String)">
+            <summary>
+            Retorna a coleção de servidores
+            </summary>        
+        </member>
+        <member name="M:Marinha.Business.Servidor.SelectFromPerfilAcesso(System.String,System.String)">
+            <summary>
+            Retorna a coleção de pessoas
+            </summary>        
+        </member>
+        <member name="M:Marinha.Business.Sexo.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Sexo.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.SJB.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SJB.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SJB.Codigo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SJB.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServico.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Marinha.Business.StatusPedidoServicoDivisao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoDivisao.StatusPedidoServico">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoDivisao.Celula">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.StatusPedidoServicoDivisao.Servidor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.SubClasseServicoMaterial.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SubClasseServicoMaterial.ClasseServicoMaterial">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SubClasseServicoMaterial.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.SubTipoEquipamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.SubTipoEquipamento.TipoEquipamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SubTipoEquipamento.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.SubTipoEquipamento.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoCliente.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoCliente.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoCliente.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoEquipamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoEquipamento.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoEquipamento.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoFornecedor.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoFornecedor.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoFornecedor.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoPedidoAquisicao.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoPedidoAquisicao.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoPedidoAquisicao.ValorLimitePO">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoPedidoAquisicao.ValorLimiteAno">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.TipoRequisicaoEstoque.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.TipoRequisicaoEstoque.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.TipoRequisicaoEstoque.TipoMovimento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.Unidade.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.Unidade.Descricao">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.Unidade.FlagAtivo">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="M:Marinha.Business.ValorIndiretoDepartamento.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="P:Marinha.Business.ValorIndiretoDepartamento.Departamento">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ValorIndiretoDepartamento.TipoValor">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ValorIndiretoDepartamento.Mes">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ValorIndiretoDepartamento.Ano">
+            <summary>
+            
+            </summary>		
+        </member>
+        <member name="P:Marinha.Business.ValorIndiretoDepartamento.Valor">
+            <summary>
+            
+            </summary>		
+        </member>
+    </members>
+</doc>

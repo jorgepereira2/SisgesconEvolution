@@ -1,0 +1,12 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum TipoCompraEnum
+	{
+		Industrial = 1,
+		NaoIndustrial = 2,
+		Licitacao = 3
+	}
+}

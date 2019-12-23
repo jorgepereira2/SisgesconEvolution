@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoServicoMergulhoDelineamento,Marinha.Business" table="TB_PedidoServicoMergulhoDelineamento" lazy="true">
+
+		<id name="ID" column="ID_PedidoServicoMergulhoDelineamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoServicoMergulho" column="ID_PedidoServicoMergulho" class="Marinha.Business.PedidoServicoMergulho,Marinha.Business" />		
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+        <property column="DescricaoServicoOficina" type="String" name="DescricaoServicoOficina" length="1000" />
+        <property column="DataPrevisaoInicio" type="DateTime" name="DataPrevisaoInicio" />
+        <property column="TempoFainaDiaria" type="Int32" name="TempoFainaDiaria" not-null="true" />
+        <property column="NumeroDias" type="Int32" name="NumeroDias" not-null="true" />
+        <property column="QuantidadeMergulhadores" type="Int32" name="QuantidadeMergulhadores" not-null="true" />
+
+
+    </class>
+</hibernate-mapping>

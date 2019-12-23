@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoCotacaoItem,Marinha.Business" table="TB_PedidoCotacaoItem" lazy="true">
+
+		<id name="ID" column="ID_PedidoCotacaoItem" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoCotacao" column="ID_PedidoCotacao" class="Marinha.Business.PedidoCotacao,Marinha.Business" />
+		<many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+        <property column="Valor" type="Decimal" name="Valor" not-null="true" />
+
+        <property column="FlagRecebido" type="Boolean" name="FlagRecebido" not-null="true" />
+        <property column="DataRecebimento" type="DateTime" name="DataRecebimento" />
+        <property column="Especificacao" type="String" name="Especificacao" />
+        <many-to-one name="ServidorRecebimento" column="ID_ServidorRecebimento" class="Marinha.Business.Servidor,Marinha.Business" />
+
+        <property column="ValorCotacao1" type="Decimal" name="ValorCotacao1" />
+        <property column="ValorCotacao2" type="Decimal" name="ValorCotacao2" />
+        <property column="ValorCotacao3" type="Decimal" name="ValorCotacao3" />
+        <property column="ValorCotacao4" type="Decimal" name="ValorCotacao4" />
+
+        <many-to-one name="AutorizacaoCompra" column="ID_AutorizacaoCompra" class="Marinha.Business.AutorizacaoCompra,Marinha.Business" />
+        <many-to-one name="ItemLicitacao" column="ID_LicitacaoItem" class="Marinha.Business.LicitacaoItem,Marinha.Business" />
+
+        <bag name="ItensObtencao" table="TB_PedidoObtencaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItem],Marinha.Business" inverse="true" >
+            <key column="ID_PedidoCotacaoItem" />
+            <one-to-many class="Marinha.Business.PedidoObtencaoItem,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

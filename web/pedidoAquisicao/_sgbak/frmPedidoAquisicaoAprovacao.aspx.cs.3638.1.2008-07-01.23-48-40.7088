@@ -1,0 +1,140 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Shared.NHibernateDAL;
+using Marinha.Business;
+using Shared.SessionState;
+using Shared.Common;
+
+public partial class frmPedidoAquisicaoAprovacao : MarinhaPageBase
+{
+    #region Private Member
+    [TransientPageState]
+    protected PedidoAquisicao _pedido;
+    #endregion 
+
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        this.btnSalvar.Click += new EventHandler(btnSalvar_Click);
+        this.rbAprovar.CheckedChanged += new EventHandler(rbAprovar_CheckedChanged);
+        this.rbRecusar.CheckedChanged += new EventHandler(rbAprovar_CheckedChanged);
+        this.rbRetornarFinanceiro.CheckedChanged += new EventHandler(rbAprovar_CheckedChanged);
+        ddlTipoPagamento.SelectedIndexChanged += new EventHandler(ddlTipoPagamento_SelectedIndexChanged);
+        
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            FillPage();
+            if (Request["ID_Pedido"] != null)
+            {
+                _pedido = PedidoAquisicao.Get(Convert.ToInt32(Request["ID_Pedido"]));
+                dgItem.DataSource = _pedido.Itens;
+
+                ucHistorico.DataSource = _pedido.Historico;
+                
+                DataBind();
+                
+                if(_pedido.Status.StatusPedidoAquisicaoEnum != StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFiscal)
+                    rbRetornarFinanceiro.Visible = false;
+                    
+                trRequerLicitacao.Visible = _pedido.RequerLicitacao;
+            }
+            
+            Anthem.AnthemClientMethods.Redirect("frmPedidoAquisicaoAprovacaoPesquisa.aspx", btnVoltar);
+            Anthem.AnthemClientMethods.Popup(btnImprimir, "fchPedidoAquisicao.aspx?id_pedido=" + _pedido.ID.ToString(),
+            false, false, false, true, true, true, true, 10, 30, 700, 550, false);
+        }
+    }
+
+    private void FillPage()
+    {
+        Util.FillDropDownList(ddlTipoPagamento, typeof(TipoPagamentoPO), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlProjeto, Projeto.List(), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlNaturezaDespesa, NaturezaDespesa.List(), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlFonteRecurso, FonteRecurso.List(), ESCOLHA_OPCAO);
+    }
+
+    #endregion
+
+
+    void dlHistorico_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+        {
+            HistoricoPedidoAquisicao historico = (HistoricoPedidoAquisicao)e.Item.DataItem;
+            if (historico.StatusPosterior.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.Reprovado
+                || (historico.StatusPosterior.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFinanceiro
+                    && historico.StatusAnterior.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFiscal))
+                e.Item.ForeColor = Color.Red;
+        }
+    }
+
+    void ddlTipoPagamento_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        TipoPagamentoChanged();
+    }
+
+    private void TipoPagamentoChanged()
+    {
+        if (ddlTipoPagamento.SelectedValue != "0")
+        {
+            Anthem.AnthemClientMethods.ShowHide(trProjeto, Convert.ToInt32(ddlTipoPagamento.SelectedValue) == Convert.ToInt32(TipoPagamentoPO.ExecucaoFinanceira));
+            Anthem.AnthemClientMethods.ShowHide(trNaturezaDespesa, 
+                Convert.ToInt32(ddlTipoPagamento.SelectedValue) == Convert.ToInt32(TipoPagamentoPO.ExecucaoFinanceira) &&
+                !_pedido.Fornecedor.FlagOM);
+            Anthem.AnthemClientMethods.ShowHide(trFonteRecurso,
+                Convert.ToInt32(ddlTipoPagamento.SelectedValue) == Convert.ToInt32(TipoPagamentoPO.ExecucaoFinanceira) &&
+                _pedido.Fornecedor.FlagOM);
+        }
+    }
+
+    void rbAprovar_CheckedChanged(object sender, EventArgs e)
+    {
+
+        Anthem.AnthemClientMethods.ShowHide(trTipoPagamento, _pedido.Status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFinanceiro
+        && rbAprovar.Checked);
+    }
+
+    private void btnSalvar_Click(object sender, EventArgs e)
+    {
+        if (rbAprovar.Checked)
+        {
+            if (_pedido.Status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFinanceiro)
+                _pedido.EmitirParecerFinanceiro(
+                    ID_Servidor,
+                    PageReader.ReadString(txtJustificativa),
+                    (TipoPagamentoPO)Convert.ToInt32(ddlTipoPagamento.SelectedValue),
+                    Projeto.Get(Convert.ToInt32(ddlProjeto.SelectedValue)),
+                    NaturezaDespesa.Get(Convert.ToInt32(ddlNaturezaDespesa.SelectedValue)),
+                    FonteRecurso.Get(Convert.ToInt32(ddlFonteRecurso.SelectedValue)));
+            else
+                _pedido.IrParaProximoStatus(ID_Servidor, PageReader.ReadString(txtJustificativa));
+        }
+        else if (rbRecusar.Checked)
+        {
+            _pedido.Reprovar(ID_Servidor, txtJustificativa.Text);
+        }
+        else if (rbRetornarFinanceiro.Checked)
+        {
+            _pedido.RetornarFinanceiro(ID_Servidor, txtJustificativa.Text);
+        }
+        Anthem.AnthemClientMethods.Redirect("frmPedidoAquisicaoAprovacaoPesquisa.aspx");
+    }
+
+  
+   
+}

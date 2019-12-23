@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Servidor,Marinha.Business" table="TB_Servidor" lazy="true">
+
+        <id name="ID" column="ID_Servidor" type="Int32" unsaved-value="0">
+            <generator class="native"/>
+        </id>
+        <property column="NIP" type="String" name="NIP" length="10" />
+        <property column="NomeCompleto" type="String" name="NomeCompleto" not-null="true" length="70" />
+        <property column="NomeGuerra" type="String" name="NomeGuerra" not-null="true" length="25" />
+        <property column="DataSaida" type="DateTime" name="DataSaida" />
+        <property name="TipoServidor" column="ID_TipoServidor" type="Int32" />
+        <property column="Graduacao" type="String" name="Graduacao" not-null="true" />
+        <many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+        <property column="Login" type="String" name="Login" length="20" />
+        <property column="Senha" type="String" name="Senha" length="50" />
+        <property column="Email" type="String" name="Email" length="70" />
+        <property column="FlagPrimeiroAcesso" type="Boolean" name="FlagPrimeiroAcesso" not-null="true" />
+        <property column="Telefone" type="String" name="Telefone" length="25" />
+        <property column="Celular" type="String" name="Celular" length="25" />
+        <property column="FlagUsuario" type="Boolean" name="FlagUsuario" not-null="true" />
+        <property column="ID_FuncaoServidor" type="Int32" name="Funcao" not-null="true" />
+        <property column="FlagPodeVerPAOutraCelula" type="Boolean" name="FlagPodeVerPAOutraCelula" />
+        <property column="FlagFazAtividadeDireta" type="Boolean" name="FlagFazAtividadeDireta" />
+        <property column="FlagPodeFazerPOOutraCelula" type="Boolean" name="FlagPodeFazerPOOutraCelula" />
+        <property column="DiscriminacaoFuncao" type="String" name="DiscriminacaoFuncao"  />
+        <property column="FlagAcessaTodosMateriais" type="Boolean" name="FlagAcessaTodosMateriais" />
+        <property column="Foto" type="BinaryBlob" name="Foto" />
+
+        <property column="Identidade" name="Identidade" />
+        <property column="OrgaoEmissor" name="OrgaoEmissor" />
+        <property column="CPF" name="CPF" />
+        <property column="PASEP" name="PASEP" />
+        <property column="NumeroTituloEleitoral" name="NumeroTituloEleitoral" />
+        <property column="SecaoTituloEleitoral" name="SecaoTituloEleitoral" />
+        <property column="ZonaTituloEleitoral" name="ZonaTituloEleitoral" />
+        <property column="NumeroCarteiraMotorista" name="NumeroCarteiraMotorista" />
+        <property column="DoadorOrgaos" name="DoadorOrgaos" />
+        <property column="ID_TipoSanguineo" name="TipoSanguineo" />
+        <property column="FatorRH" name="FatorRH" />
+        <property column="DataNascimento" name="DataNascimento" />
+        <property column="Naturalidade" name="Naturalidade" />
+        <property column="NomePai" name="NomePai" />
+        <property column="NomeMae" name="NomeMae" />
+        <property column="Endereco" name="Endereco" />
+        <property column="Bairro" name="Bairro" />
+        <many-to-one name="Municipio" column="ID_Municipio" class="Marinha.Business.Municipio,Marinha.Business" />
+        <many-to-one name="Estado" column="ID_Estado" class="Marinha.Business.Estado,Marinha.Business" />
+        <property column="CEP" name="CEP" />
+        <property column="TelefoneResidencial" name="TelefoneResidencial" />
+        <property column="NomePessoaContato" name="NomePessoaContato" />
+        <property column="EnderecoContato" name="EnderecoContato" />
+        <property column="BairroContato" name="BairroContato" />
+        <many-to-one name="MunicipioContato" column="ID_MunicipioContato" class="Marinha.Business.Municipio,Marinha.Business" />
+        <many-to-one name="EstadoContato" column="ID_EstadoContato" class="Marinha.Business.Estado,Marinha.Business" />
+        <property column="CEPContato" name="CEPContato" />
+        <property column="TelefoneContato" name="TelefoneContato" />
+        <property column="CelularContato" name="CelularContato" />
+        <property column="ID_EstadoCivil" name="EstadoCivil" />
+        <property column="NomeConjuge" name="NomeConjuge" />
+        <property column="DataIncorporacaoMB" name="DataIncorporacaoMB" />
+        <many-to-one name="OMIncorporacao" column="ID_OMIncorporacao" class="Marinha.Business.Cliente,Marinha.Business" />
+        <property column="DataUltimaPromocao" name="DataUltimaPromocao" />
+        <property column="DataApresentacao" name="DataApresentacao" />        
+        <many-to-one name="OMOrigem" column="ID_OMOrigem" class="Marinha.Business.Cliente,Marinha.Business" />
+        <property column="LinguaEstrangeira" name="LinguaEstrangeira" />
+        <property column="DescricaoLinguaEstrangeira" name="DescricaoLinguaEstrangeira" />
+        <property column="PraticaEsporte" name="PraticaEsporte" />
+        <property column="EspecificacaoEsporte" name="EspecificacaoEsporte" />
+        <property column="DesejaHorasFunebres" name="DesejaHorasFunebres" />
+        <property column="Religiao" name="Religiao" />
+        <property column="OutrasHabilidades" name="OutrasHabilidades" />
+
+
+        
+    
+    <bag name="Processos" table="TB_ProcessoServidor" lazy="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.Processo],Marinha.Business" >
+          <key>
+            <column name="ID_Servidor" not-null="true"/>
+          </key>
+          <many-to-many class="Marinha.Business.Processo,Marinha.Business">
+            <column name="ID_Processo" not-null="true"/>
+          </many-to-many>
+        </bag>
+
+        <bag name="Perfis" table="TB_ServidorPerfilAcesso" lazy="true"  collection-type="Marinha.Business.CustomList`1[Marinha.Business.PerfilAcesso],Marinha.Business" >
+            <key>
+                <column name="ID_Servidor" not-null="true"/>
+            </key>
+            <many-to-many class="Marinha.Business.PerfilAcesso,Marinha.Business">
+                <column name="ID_PerfilAcesso" not-null="true"/>
+            </many-to-many>
+        </bag>
+			
+
+    <bag name="SJBLiberados" table="TB_SJBServidorRestricao" lazy="true"  collection-type="Marinha.Business.CustomList`1[Marinha.Business.SJB],Marinha.Business" >
+      <key>
+        <column name="ID_Servidor" not-null="true"/>
+      </key>
+      <many-to-many class="Marinha.Business.SJB,Marinha.Business">
+        <column name="ID_SJB" not-null="true"/>
+      </many-to-many>
+    </bag>
+
+		<bag name="Historicos" table="TB_ServidorHistorico" lazy="true" cascade="none" inverse="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.ServidorHistorico],Marinha.Business" >
+			<key>
+				<column name="ID_Servidor" not-null="true"/>
+			</key>
+			<many-to-many class="Marinha.Business.ServidorHistorico,Marinha.Business">
+				<column name="ID_ServidorHistorico" not-null="true"/>
+			</many-to-many>
+		</bag>
+
+        <bag name="Dependentes" table="TB_ServidorDependente" lazy="true" cascade="none" inverse="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.ServidorDependente],Marinha.Business" >
+            <key>
+                <column name="ID_Servidor" not-null="true"/>
+            </key>
+            <many-to-many class="Marinha.Business.ServidorDependente,Marinha.Business">
+                <column name="ID_ServidorDependente" not-null="true"/>
+            </many-to-many>
+        </bag>
+
+        <bag name="Condecoracoes" table="TB_ServidorCondecoracao" lazy="true" cascade="none" inverse="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.ServidorCondecoracao],Marinha.Business" >
+            <key>
+                <column name="ID_Servidor" not-null="true"/>
+            </key>
+            <many-to-many class="Marinha.Business.ServidorCondecoracao,Marinha.Business">
+                <column name="ID_ServidorCondecoracao" not-null="true"/>
+            </many-to-many>
+        </bag>
+
+        <bag name="CursosMilitares" table="TB_ServidorCursoMilitar" lazy="true" cascade="none" inverse="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.ServidorCursoMilitar],Marinha.Business" >
+            <key>
+                <column name="ID_Servidor" not-null="true"/>
+            </key>
+            <many-to-many class="Marinha.Business.ServidorCursoMilitar,Marinha.Business">
+                <column name="ID_ServidorCursoMilitar" not-null="true"/>
+            </many-to-many>
+        </bag>
+
+	</class>
+</hibernate-mapping>

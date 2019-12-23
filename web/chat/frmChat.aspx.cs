@@ -1,0 +1,134 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+using Shared.SessionState;
+using Anthem;
+
+public partial class frmChat : MarinhaPageBase
+{
+    private int ID_ServidorDestino
+    {
+		get { return Convert.ToInt32(Request["ID_Servidor"]); }
+    }
+
+	private string NomeServidorOrigem
+	{
+		get { return ViewState["NomeServidorOrigem"].ToString(); }
+		set { ViewState["NomeServidorOrigem"] = value; }
+	}
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            Anthem.Manager.Register(this);            
+            RegistraJanelaAberta();
+            MostrarHistorico();
+            Atualizar();
+            timer.Enabled = true;
+            txtMensagem.Attributes.Add("onKeyPress", "KeyDownHandler(event);");
+            txtMensagem.Focus();
+            this.ClientScript.RegisterStartupScript(typeof(Page), "scroll", "<script>ScrollDown();</script>");
+            Servidor p = Servidor.Get(this.ID_ServidorDestino);
+            lblServidor.Text = p.Identificacao;
+
+			Servidor origem = Servidor.Get(this.ID_Servidor);
+			this.NomeServidorOrigem = origem.Identificacao;
+        }
+    }
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);        
+        timer.Tick += new EventHandler(timer_Tick);
+    }
+
+    void timer_Tick(object sender, EventArgs e)
+    {
+        Atualizar();
+    }
+
+    private void RegistraJanelaAberta()
+    {
+        List<int> chatsAtivos = new List<int>();
+        if(Session["ChatsAtivos"] != null)
+            chatsAtivos = (List<int>) Session["ChatsAtivos"];
+
+		if (!chatsAtivos.Contains(ID_ServidorDestino))
+		{
+			chatsAtivos.Add(ID_ServidorDestino);
+			Session["ChatsAtivos"] = chatsAtivos;
+		}
+    }
+
+    [Anthem.Method]
+    public void EliminaJanelaAtiva()
+    {
+        List<int> chatsAtivos = new List<int>();
+        if (Session["ChatsAtivos"] != null)
+            chatsAtivos = (List<int>)Session["ChatsAtivos"];
+
+        if (chatsAtivos.Contains(ID_ServidorDestino))
+			chatsAtivos.Remove(ID_ServidorDestino);
+        Session["ChatsAtivos"] = chatsAtivos;
+    }
+
+    protected void btnEnviar_Click(object sender, EventArgs e)
+    {
+        if (txtMensagem.Text.Trim() != String.Empty)
+        {
+            MensagemChat msg = new MensagemChat();
+            msg.ID_ServidorDestino = this.ID_ServidorDestino;
+            msg.ID_ServidorOrigem = this.ID_Servidor;
+			msg.NomeServidorDestino = lblServidor.Text;
+			msg.NomeServidorOrigem = this.NomeServidorOrigem;
+            msg.Mensagem = txtMensagem.Text;
+			msg.DataEnvio = DateTime.Now;
+			
+			msg.Save();
+			lblChat.Text += MensagemChat.GetFormatedMessage(msg);
+			Manager.AddScriptForClientSideEval("ScrollDown();");
+			lblChat.UpdateAfterCallBack = true;
+			AnthemClientMethods.SetFocus(txtMensagem);
+            txtMensagem.Text = string.Empty;
+            txtMensagem.UpdateAfterCallBack = true;
+            AnthemClientMethods.SetFocus(txtMensagem);
+            
+        }
+    }
+
+    private void Atualizar()
+    {
+        string textoNovo = MensagemChat.ReadNewMessages(this.ID_ServidorDestino, this.ID_Servidor);
+        
+        //Atualiza apenas se chegou msg nova
+        if (textoNovo != "")
+        {
+            lblChat.Text += textoNovo;
+            Manager.AddScriptForClientSideEval("ScrollDown();");
+            lblChat.UpdateAfterCallBack = true;
+            AnthemClientMethods.SetFocus(txtMensagem);
+        }
+    }
+
+    private void MostrarHistorico()
+    {
+        string texto = MensagemChat.ReadOldMessages(this.ID_ServidorDestino, this.ID_Servidor);
+        if (texto != "")
+        {
+            lblHistorico.Text += texto;
+            //Manager.AddScriptForClientSideEval("ScrollDown();");
+            lblHistorico.UpdateAfterCallBack = true;
+           
+        }
+    }
+}

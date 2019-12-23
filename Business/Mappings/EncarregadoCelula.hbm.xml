@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.EncarregadoCelula,Marinha.Business" table="TB_EncarregadoCelula" lazy="true">
+
+		<id name="ID" column="ID_EncarregadoCelula" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="DataInicio" type="DateTime" name="DataInicio" not-null="true" />
+		<property column="DataFim" type="DateTime" name="DataFim" />
+		
+	</class>
+</hibernate-mapping>

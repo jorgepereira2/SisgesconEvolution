@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Processo,Marinha.Business" table="TB_Processo" lazy="true">
+
+		<id name="ID" column="ID_Processo" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Nome" type="String" name="Nome" not-null="true" length="50" />
+		<property column="Link" type="String" name="Link" length="70" />
+		<property column="Ordem" type="Int32" name="Ordem" not-null="true" />
+		<many-to-one name="ProcessoPai" column="ID_ProcessoPai" lazy="proxy" class="Marinha.Business.Processo,Marinha.Business" />
+
+    <set name="Processos" cascade="all" table="TB_Processo">
+      <key column="ID_ProcessoPai" />
+      <one-to-many class="Marinha.Business.Processo,Marinha.Business" />      
+    </set>
+     
+    <set name="Servidores" table="TB_ProcessoServidor" lazy="true">
+      <key>
+        <column name="ID_Processo" not-null="true"/>
+      </key>
+      <many-to-many class="Marinha.Business.Servidor,Marinha.Business">
+        <column name="ID_Servidor" not-null="true"/>
+      </many-to-many>
+    </set>
+	</class>
+</hibernate-mapping>

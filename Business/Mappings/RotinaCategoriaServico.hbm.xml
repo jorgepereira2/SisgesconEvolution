@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.RotinaCategoriaServico,Marinha.Business" table="TB_RotinaCategoriaServico" lazy="true">
+
+		<id name="ID" column="ID_RotinaCategoriaServico" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Rotina" column="ID_Rotina" class="Marinha.Business.Rotina,Marinha.Business" />
+		<many-to-one name="CategoriaServico" column="ID_CategoriaServico" class="Marinha.Business.CategoriaServico,Marinha.Business" />
+        
+        <bag name="ItensOrcamento" table="TB_RotinaCategoriaServicoItemOrcamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.RotinaCategoriaServicoItemOrcamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_RotinaCategoriaServico" />
+            <one-to-many class="Marinha.Business.RotinaCategoriaServicoItemOrcamento,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensDelineamento" table="TB_RotinaCategoriaServicoDelineamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.RotinaCategoriaServicoDelineamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_RotinaCategoriaServico" />
+            <one-to-many class="Marinha.Business.RotinaCategoriaServicoDelineamento,Marinha.Business" />
+        </bag>        
+        
+	</class>
+</hibernate-mapping>

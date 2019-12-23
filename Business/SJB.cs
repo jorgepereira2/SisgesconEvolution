@@ -1,0 +1,125 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+    public partial class SJB : BusinessObject<SJB>, IDescricao, IComparable<SJB>	
+	{
+		#region Private Members
+		private string _descricao; 
+		private string _codigo; 
+		private bool _flagativo;
+        private bool _flagAcessoRestrito; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public SJB()
+		{
+			_descricao = null; 
+			_codigo = null; 
+			_flagativo = false; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	{_descricao = value;}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Codigo
+		{
+			get { return _codigo; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 10)
+						throw new ArgumentOutOfRangeException("Invalid value for Codigo", value, value.ToString());
+				
+				_codigo = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+
+        public virtual bool FlagAcessoRestrito
+        {
+            get { return _flagAcessoRestrito; }
+            set { _flagAcessoRestrito = value; }
+        }
+			#endregion 
+		
+		
+		#region Public Methods
+		
+		public static Dictionary<int, string> List()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"select s.ID, s.Descricao 
+			from SJB s  
+			where s.FlagAtivo = 1
+			order by s.Descricao");
+		
+			return BusinessHelper.ExecuteList(query); 
+		}
+
+        public static Dictionary<int, string> ListSJBComAcessoRestrito()
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select s.ID, s.Descricao 
+			from SJB s  
+			where s.FlagAtivo = 1
+            and s.FlagAcessoRestrito = 1		
+			order by s.Descricao");
+
+            return BusinessHelper.ExecuteList(query);
+        }
+		
+		public static List<SJB> Select()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"from SJB s  			
+			order by s.Descricao");
+		
+			return (List<SJB>)query.List<SJB>();
+		}
+
+     
+		#endregion
+
+        public virtual int CompareTo(SJB other)
+	    {
+            if (other == null) return 1;
+	        return _descricao.CompareTo(other._descricao);
+	    }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", _codigo, _descricao);
+        }
+	}
+}

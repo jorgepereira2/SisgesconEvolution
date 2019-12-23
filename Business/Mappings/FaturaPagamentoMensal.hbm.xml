@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.FaturaPagamentoMensal,Marinha.Business" table="TB_FaturaPagamentoMensal" lazy="true">
+
+		<id name="ID" column="ID_FaturaPagamentoMensal" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="TipoFaturaPagamento" column="ID_TipoFaturaPagamento" class="Marinha.Business.TipoFaturaPagamento,Marinha.Business" />
+		<property column="ValorTotal" type="Decimal" name="ValorTotal" />
+		<property column="NumeroFaturaOS" type="String" name="NumeroFaturaOS" />
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" />
+    <property column="DataVencimento" type="DateTime" name="DataVencimento" />
+		<property column="MesReferencia" type="Int32" name="MesReferencia" />		
+		
+	</class>
+</hibernate-mapping>

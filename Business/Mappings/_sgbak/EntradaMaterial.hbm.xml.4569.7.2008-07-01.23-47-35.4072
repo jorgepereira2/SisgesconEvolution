@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.EntradaMaterial,Marinha.Business" table="TB_EntradaMaterial" lazy="true">
+
+		<id name="ID" column="ID_EntradaMaterial" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+        <property column="ID_OrigemMaterial" type="Int32" name="OrigemMaterial" not-null="true" />
+		<many-to-one name="DelineamentoOrcamento" column="ID_DelineamentoOrcamento" class="Marinha.Business.DelineamentoOrcamento,Marinha.Business" />
+        <many-to-one name="PedidoObtencao" column="ID_PedidoObtencao" class="Marinha.Business.PedidoObtencao,Marinha.Business" />
+        <many-to-one name="AutorizacaoCompra" column="ID_AutorizacaoCompra" class="Marinha.Business.AutorizacaoCompra,Marinha.Business" />
+
+        <bag name="Itens" table="TB_EntradaMaterialItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.EntradaMaterialItem],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_EntradaMaterial" />
+            <one-to-many class="Marinha.Business.EntradaMaterialItem,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

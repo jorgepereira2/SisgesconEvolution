@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Parametro,Marinha.Business" table="TB_Parametro" lazy="true">
+
+		<id name="ID" column="ID_Parametro" type="Int32" unsaved-value="0">
+			<generator class="assigned"/>
+		</id>
+		<property column="NumeroMinimoCotacoesCompra" type="Int32" name="NumeroMinimoCotacoesCompra" not-null="true" />
+		<property column="EntradaItemCompraManual" type="Boolean" name="EntradaItemCompraManual" not-null="true" />
+        <property column="TaxaContribuicaoOperacionalMaterial" type="Decimal" name="TaxaContribuicaoOperacionalMaterial" not-null="true" />
+        <property column="TaxaContribuicaoOperacionalMaoObra" type="Decimal" name="TaxaContribuicaoOperacionalMaoObra" not-null="true" />
+        <property column="TaxaOperacionalMaterialServico" type="Decimal" name="TaxaOperacionalMaterialServico" not-null="true" />
+        <property column="PercentualServicoTerceiroIndireto" type="Decimal" name="PercentualServicoTerceiroIndireto" not-null="true" />
+        <property column="PercentualMaterialIndireto" type="Decimal" name="PercentualMaterialIndireto" not-null="true" />
+        <property column="TaxaOperacionalMaoObra" type="Decimal" name="TaxaOperacionalMaoObra" not-null="true" />
+        <property column="PercentualMaoObraIndireta" type="Decimal" name="PercentualMaoObraIndireta" not-null="true" />
+        <property column="ValorMaoObraHora" type="Decimal" name="ValorMaoObraHora" not-null="true" />
+        <property column="MaximoHorasFamod" type="Int32" name="MaximoHorasFAMOD" not-null="true" />
+        <property column="MaximoHorasMeioExpedienteFamod" type="Int32" name="MaximoHorasMeioExpedienteFAMOD" not-null="true" />
+        <property column="PercentualDescontoSubTotalMaterialServicoTerceiro" type="Decimal" name="PercentualDescontoSubTotalMaterialServicoTerceiro" not-null="true" />
+        <property column="PercentualDescontoSubTotalMaoObra" type="Decimal" name="PercentualDescontoSubTotalMaoObra" not-null="true" />
+
+        <property column="Forca" type="String" name="Forca" />
+        <property column="OrganizacaoMilitar" type="String" name="OrganizacaoMilitar" />
+        <property column="CNPJ" type="String" name="CNPJ" />
+        <property column="InscricaoEstadual" type="String" name="InscricaoEstadual" />
+        <property column="Endereco" type="String" name="Endereco" />
+        <property column="Telefone" type="String" name="Telefone" />
+        <property column="Email" type="String" name="Email" />
+        
+        <property column="FlagPermiteACComLimiteEstourado" type="Boolean" name="FlagPermiteACComLimiteEstourado" />
+        <property column="NomeSistema" type="String" name="NomeSistema" />
+        <property column="ValorMaximoSemOrcamentoPA" type="Decimal" name="ValorMaximoSemOrcamentoPA" />
+        <property column="FlagPermiteEntregaAbaixoEstoque" type="Boolean" name="FlagPermiteEntregaAbaixoEstoque" />
+
+        <property column="FlagUsaPA" type="Boolean" name="FlagUsaPA" />
+        <property column="ValidadeFaturamento" type="String" name="ValidadeFaturamento" />
+        <property column="GarantiaFaturamento" type="String" name="GarantiaFaturamento" />
+
+        <property column="TextoImpressaoMensagemOrcamento" type="String" name="TextoImpressaoMensagemOrcamento" />
+
+    <property column="TextoAC" type="String" name="TextoAC" />
+    <property column="PercentualLimiteAcimaLicitacao" type="Decimal" name="PercentualLimiteAcimaLicitacao" />
+    <many-to-one name="Comandante" column="ID_Comandante" class="Marinha.Business.Servidor,Marinha.Business" />
+    <many-to-one name="OrdenadorDespesaAC" column="ID_OrdenadorDespesaAC" class="Marinha.Business.Servidor,Marinha.Business" />
+    <property column="ValorDelineamento" type="Decimal" name="ValorDelineamento" />
+
+
+        <property column="ValorHomemHoraMergulho" name="ValorHomemHoraMergulho"  type="Decimal" />
+        <property column="ValorDeslocamentoMergulho" name="ValorDeslocamentoMergulho"  type="Decimal" />
+        <property column="ValorTaxaBoteMergulho" name="ValorTaxaBoteMergulho"  type="Decimal" />
+        <property column="ValorTaxaCatamaraMergulho" name="ValorTaxaCatamaraMergulho"  type="Decimal" />
+        <property column="TaxaMaoObraDiretaMergulho" name="TaxaMaoObraDiretaMergulho"  type="Decimal" />
+        <property column="TaxaMaoObraIndiretaMergulho" name="TaxaMaoObraIndiretaMergulho"  type="Decimal" />
+        <property column="TaxaOperacionalMaoObraMergulho" name="TaxaOperacionalMaoObraMergulho"  type="Decimal" />
+        <property column="TaxaContribuicaoOperacionalMergulho" name="TaxaContribuicaoOperacionalMergulho"  type="Decimal" />
+        <property column="DescontoFRE170Mergulho" name="DescontoFRE170Mergulho"  type="Decimal" />
+        <property column="DescontoFRE171172Mergulho" name="DescontoFRE171172Mergulho"  type="Decimal" />
+        <property column="ValorTaxaMaterialMergulho" name="ValorTaxaMaterialMergulho"  type="Decimal" />
+
+    <property column="DescontoFRE170AtividadeSecundaria" name="DescontoFRE170AtividadeSecundaria"  type="Decimal" />
+    <property column="DescontoFRE171172AtividadeSecundaria" name="DescontoFRE171172AtividadeSecundaria"  type="Decimal" />
+    <property column="ValorHomemHoraAtividadeSecundaria" name="ValorHomemHoraAtividadeSecundaria"  type="Decimal" />
+    <property column="TaxaOperacionalMaterialServicoAtividadeSecundaria" name="TaxaOperacionalMaterialServicoAtividadeSecundaria"  type="Decimal" />
+    <property column="TaxaOperacionalMaoObraAtividadeSecundaria" name="TaxaOperacionalMaoObraAtividadeSecundaria"  type="Decimal" />
+    <property column="TaxaContribuicaoOperacionalAtividadeSecundaria" name="TaxaContribuicaoOperacionalAtividadeSecundaria"  type="Decimal" />
+
+    <property column="TelefoneContabilidade" name="TelefoneContabilidade"  type="String" />
+    <property column="PercentualBloqueioLicitacao" name="PercentualBloqueioLicitacao"  type="Decimal" />
+    
+    
+
+
+
+  </class>
+</hibernate-mapping>

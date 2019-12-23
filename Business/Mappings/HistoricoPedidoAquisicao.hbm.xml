@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.HistoricoPedidoAquisicao,Marinha.Business" table="TB_HistoricoPedidoAquisicao" lazy="true">
+
+		<id name="ID" column="ID_HistoricoPedidoAquisicao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoAquisicao" column="ID_PedidoAquisicao" class="Marinha.Business.PedidoAquisicao,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<many-to-one name="StatusAnterior" column="ID_StatusAnterior" class="Marinha.Business.StatusPedidoAquisicao,Marinha.Business" />
+		<many-to-one name="StatusPosterior" column="ID_StatusPosterior" class="Marinha.Business.StatusPedidoAquisicao,Marinha.Business" />
+		<property column="JustificativaRecusa" type="String" name="Justificativa" length="500" />
+        <property column="FlagRecusado" type="Boolean" name="FlagRecusado" />
+
+    </class>
+</hibernate-mapping>

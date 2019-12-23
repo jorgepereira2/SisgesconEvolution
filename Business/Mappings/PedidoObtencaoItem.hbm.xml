@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoObtencaoItem,Marinha.Business" table="TB_PedidoObtencaoItem" lazy="true">
+
+		<id name="ID" column="ID_PedidoObtencaoItem" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoObtencao" column="ID_PedidoObtencao" class="Marinha.Business.PedidoObtencao,Marinha.Business" />
+    <many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+    <many-to-one name="SubNaturezaDespesa" column="ID_SubNaturezaDespesa" class="Marinha.Business.SubNaturezaDespesa,Marinha.Business" />
+    <property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+		<property column="Valor" type="Decimal" name="Valor" not-null="true" />
+		<property name="OrigemMaterial" column="ID_OrigemMaterial" type="Int32" not-null="true" />    
+    <property column="QuantidadeEntregue" type="Decimal" name="QuantidadeEntregue" not-null="true" />    
+    <property column="Especificacao" type="String" name="Especificacao" />
+    <property column="RMC" type="String" name="RMC" />
+    
+    <property column="FlagExec" type="Boolean" name="FlagExec" />
+
+    <property column="ValorCotacao1" type="Decimal" name="ValorCotacao1" />
+    <property column="ValorCotacao2" type="Decimal" name="ValorCotacao2" />
+    <property column="ValorCotacao3" type="Decimal" name="ValorCotacao3" />
+    <property column="ValorCotacao4" type="Decimal" name="ValorCotacao4" />
+    <property column="FlagRecebido" type="Boolean" name="FlagRecebido" />
+    <property column="DataRecebimento" type="DateTime" name="DataRecebimento" />
+
+    <many-to-one name="LicitacaoItem" column="ID_LicitacaoItem" class="Marinha.Business.LicitacaoItem,Marinha.Business" />
+    <many-to-one name="ServidorRecebimento" column="ID_ServidorRecebimento" class="Marinha.Business.Servidor,Marinha.Business" />
+
+
+    </class>
+</hibernate-mapping>

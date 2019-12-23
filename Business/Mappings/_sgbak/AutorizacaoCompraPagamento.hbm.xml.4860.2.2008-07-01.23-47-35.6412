@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.AutorizacaoCompraPagamento,Marinha.Business" table="TB_AutorizacaoCompraPagamento" lazy="true">
+
+		<id name="ID" column="ID_AutorizacaoCompraPagamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="AutorizacaoCompra" column="ID_AutorizacaoCompra" class="Marinha.Business.AutorizacaoCompra,Marinha.Business" />		
+		<property column="NumeroNotaFiscal" type="String" name="NumeroNotaFiscal" not-null="true" length="20" />
+		<property column="Valor" type="Decimal" name="Valor" not-null="true" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="OrdemBancaria" type="String" name="OrdemBancaria" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,148 @@
+.Rotator
+{
+	border-right: silver 1px solid;
+	border-top: silver 1px solid;
+	border-left: silver 1px solid;
+	cursor: default;
+	border-bottom: silver 0px solid;
+	background-color: white;
+	text-align:left;
+}
+
+.MainRotator 
+{
+  border:solid 1px silver; 
+  padding:3px;
+  font-family:verdana; 
+  font-size:11px; 
+  background-color:white; 
+  cursor:default;
+  text-align:left;
+}
+
+.MainRotator2
+{
+  border:solid 1px gold; 
+  border-left-color:darkgoldenrod;
+  border-top-color:darkgoldenrod;
+  width:450px; 
+  height:25px; 
+  padding:3px; 
+  font-family:verdana; 
+  font-size:11px; 
+  background-color:#ffffff; 
+  cursor:default;
+}
+
+.Time
+{
+  font-family:Verdana; 
+  font-weight:bold; 
+  font-size: 10px; 
+  color:gray; 
+}
+
+.Headline
+{
+  font-family:Verdana; 
+  font-weight:bold; 
+  font-size: 10px; 
+  color:#1E3787; 
+  white-space:nowrap;
+}
+
+.RotatorFrame 
+{
+  border:solid 1px white; 
+  font-family:verdana; 
+  font-size:11px; 
+  background-color:white; 
+  cursor:default;
+}
+
+.RotatorFrame2
+{
+  border:solid 1px gold; 
+  border-right-color:darkgoldenrod;
+  border-bottom-color:darkgoldenrod;
+  padding:3px; 
+  background-color:orange; 
+}
+
+.RotatorFrameOver 
+{
+  border:solid 1px darkgray; 
+  border-bottom-color:darkgray;
+  border-right-color:darkgray;
+  font-family:verdana; 
+  font-size:11px; 
+  background-color:white; 
+  cursor:default;
+}
+
+.NewsTitle
+{
+  font-family:Verdana;
+  font-size:10px;   
+  font-weight:bold; 
+  text-decoration:underline; 
+  color:Black;
+}
+
+.NewsText
+{
+  font-family:Verdana;
+  font-size:10px;   
+  color:Black;
+}
+
+.NewsDate
+{
+  font-family:Verdana;
+  font-size:10px;   
+  color:gray; 
+}
+
+.DemoNewsTitle
+{
+  font-family:Verdana;
+  font-size:12px;   
+  font-weight:bold; 
+  color:darkred;
+}
+
+.DemoNewsText
+{
+  font-family:Verdana;
+  font-size:12px;   
+}
+
+.NewsItem
+{
+  border:solid 1px bisque; 
+  cursor:hand;
+}
+
+.NewsItemOver
+{
+  border:solid 1px white; 
+  border-right-color:darkgray;
+  border-bottom-color:darkgray;
+  background-color:#EEEEEE; 
+  cursor:hand;
+}
+
+.NewsItemDown
+{
+  border:solid 1px white; 
+  border-left-color:#FFA500;
+  border-top-color:#FFA500;
+  background-color:#FFCE80; 
+  cursor:hand;
+}
+
+.ImageCell
+{
+	vertical-align:top;
+	text-align:left;
+}

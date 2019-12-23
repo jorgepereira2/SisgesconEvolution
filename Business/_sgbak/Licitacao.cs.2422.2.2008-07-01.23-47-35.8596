@@ -1,0 +1,216 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Licitacao : BusinessObject<Licitacao>	
+	{
+		#region Private Members
+		private DateTime _dataemissao; 
+		private string _objetivo; 
+		private string _observacao; 
+		private string _numeropregao; 
+		private DateTime? _datapregao;
+	    private StatusLicitacao _status;
+	    	
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Licitacao()
+		{
+			_dataemissao = DateTime.MinValue; 
+			_objetivo = null; 
+			_observacao = null; 
+			_numeropregao = null; 
+			_datapregao = null;
+		    _itens = new CustomList<LicitacaoItem>();
+		    _status = StatusLicitacao.EmAndamento;
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+
+        public virtual StatusLicitacao Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+        
+		public virtual DateTime DataEmissao
+		{
+			get { return _dataemissao; }
+			set { _dataemissao = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Objetivo
+		{
+			get { return _objetivo; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 500)
+						throw new ArgumentOutOfRangeException("Invalid value for Objetivo", value, value.ToString());
+				
+				_objetivo = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 1000)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+				
+				_observacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string NumeroPregao
+		{
+			get { return _numeropregao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 20)
+						throw new ArgumentOutOfRangeException("Invalid value for NumeroPregao", value, value.ToString());
+				
+				_numeropregao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime? DataPregao
+		{
+			get { return _datapregao; }
+			set { _datapregao = value; }
+		}
+		#endregion 
+		
+		#region Collections
+
+	    private ICustomList<LicitacaoItem> _itens;
+
+	    public virtual ICustomList<LicitacaoItem> Itens
+	    {
+	        get { return _itens; }
+	        set { _itens = value; }
+	    }
+		
+		#endregion
+
+        #region Advanced Properties
+	    public virtual bool PodeSerAlterada
+	    {
+	        get{ return _status == StatusLicitacao.EmAndamento;}
+	    }
+	    
+	    public virtual decimal ValorTotalEstimado
+	    {
+	        get
+	        {
+	            decimal valor = 0;
+	            foreach (LicitacaoItem item in _itens)
+	            {
+	                valor += item.ValorMedioTotal;
+	            }
+	            return valor;
+	        }
+	    }
+
+        public virtual decimal ValorTotalFinal
+        {
+            get
+            {
+                decimal valor = 0;
+                foreach (LicitacaoItem item in _itens)
+                {
+                    valor += item.ValorTotalFinalPregao;
+                }
+                return valor;
+            }
+        }
+        #endregion
+
+        #region Public Methods
+
+        public static List<Licitacao> Select(DateTime dataInicio, DateTime dataFim, StatusLicitacao? status)
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"from Licitacao l  			
+			where dbo.DateIsInBetween(l.DataEmissao, :dataInicio, :dataFim) = 1
+			and l.Status = IsNull(:status, l.Status)
+			order by l.DataEmissao DESC");
+
+		    query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+		    query.SetParameter("status", BusinessHelper.IsNullOrZero(status.HasValue ? Convert.ToInt32(status) : Int32.MinValue), NHibernateUtil.Int32);
+			return (List<Licitacao>)query.List<Licitacao>();
+		}
+
+        public static List<Licitacao> Select(string numero, int id_status, DateTime dataInicio, DateTime dataFim, int id_fornecedor, int id_material)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select distinct l from Licitacao l 
+                inner join l.Itens item 
+                inner join item.Material m
+                left join item.Fornecedor f
+			where dbo.DateIsInBetween(l.DataEmissao, :dataInicio, :dataFim) = 1
+			and l.Status = IsNull(:id_status, l.Status)
+			and m.ID = IsNull(:id_material, m.ID)
+			and IsNull(f.ID, -1) = IsNull(:id_fornecedor, IsNull(f.ID, -1))
+			and IsNull(l.NumeroPregao, '') like :numero
+			order by l.DataEmissao");
+
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetParameter("id_material", BusinessHelper.IsNullOrZero(id_material), NHibernateUtil.Int32);
+            query.SetParameter("id_fornecedor", BusinessHelper.IsNullOrZero(id_fornecedor), NHibernateUtil.Int32);
+            query.SetString("numero", string.Format("%{0}%", numero));
+            
+            return (List<Licitacao>)query.List<Licitacao>();
+        }
+		#endregion
+
+        
+	    public virtual void Finalizar()
+	    {
+            if (_status == StatusLicitacao.Finalizado)
+                throw new Exception("Esta licitação já foi finalizada.");
+	        using(TransactionBlock tran = new TransactionBlock())
+	        {
+	            foreach (LicitacaoItem item in _itens)
+	            {
+	                item.Save();
+	            }
+	            
+	            this._status = StatusLicitacao.Finalizado;
+	            base.Save();
+
+	            tran.IsValid = true;
+	        }
+	    }
+	}
+}

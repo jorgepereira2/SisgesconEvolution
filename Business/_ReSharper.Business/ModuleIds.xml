@@ -1,0 +1,5 @@
+<Modules>
+  <Module PersistentId="E865E838-7310-4F80-B4F3-C2E0B4709381" ModuleId="web" />
+  <Module PersistentId="0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2" ModuleId="Business" />
+  <Module PersistentId="4D8D4B76-C721-43FF-9C9D-3DA5654FCE42" ModuleId="Shared.NHibernateDAL" />
+</Modules>

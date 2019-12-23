@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoObtencao,Marinha.Business" table="TB_PedidoObtencao" lazy="true">
+
+		<id name="ID" column="ID_PedidoObtencao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="Status" column="ID_StatusPedidoObtencao" class="Marinha.Business.StatusPedidoObtencao,Marinha.Business" />
+		<property column="FlagPedidoObtencao" type="Boolean" name="FlagPedidoObtencao" not-null="true" />
+		<property column="Numero" type="Int32" name="Numero" not-null="true" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<many-to-one name="DelineamentoOrcamento" column="ID_DelineamentoOrcamento" class="Marinha.Business.DelineamentoOrcamento,Marinha.Business" />
+    <property column="Aplicacao" type="String" name="Aplicacao" />
+    <property column="Observacao" type="String" name="Observacao" />
+    <property column="ID_TipoPedido" type="Int32" name="TipoPedido" />
+    <property column="ID_TipoPedidoObtencao" type="Int32" name="TipoPedidoObtencao" />
+    <many-to-one name="MotivoCancelamento" column="ID_MotivoCancelamento" class="Marinha.Business.MotivoCancelamento,Marinha.Business" />
+    <property column="DescricaoFornecedor" type="String" name="DescricaoFornecedor" />
+    <property column="TelefoneFornecedor" type="String" name="TelefoneFornecedor" />
+    <property column="ID_OrigemPO" type="Int32" name="OrigemPO" />
+
+        <bag name="Itens" table="TB_PedidoObtencaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItem],Marinha.Business" inverse="true" >
+            <key column="ID_PedidoObtencao" />
+            <one-to-many class="Marinha.Business.PedidoObtencaoItem,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensPEPRodizio" table="TB_PedidoObtencaoItemPEPRodizio" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItemPEPRodizio],Marinha.Business" inverse="true" >
+            <key column="ID_PedidoObtencao" />
+            <one-to-many class="Marinha.Business.PedidoObtencaoItemPEPRodizio,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensCancelados" table="TB_PedidoObtencaoItemCancelado" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItemCancelado],Marinha.Business" inverse="true" >
+            <key column="ID_PedidoObtencao" />
+            <one-to-many class="Marinha.Business.PedidoObtencaoItemCancelado,Marinha.Business" />
+        </bag>
+
+        <bag name="Historico" table="TB_HistoricoPedidoObtencao" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoPedidoObtencao],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoObtencao" />
+            <one-to-many class="Marinha.Business.HistoricoPedidoObtencao,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

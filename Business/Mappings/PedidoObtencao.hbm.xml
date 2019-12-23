@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoObtencao,Marinha.Business" table="TB_PedidoObtencao" lazy="true">
+
+		<id name="ID" column="ID_PedidoObtencao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="Status" column="ID_StatusPedidoObtencao" class="Marinha.Business.StatusPedidoObtencao,Marinha.Business" />
+		<property column="FlagPedidoObtencao" type="Boolean" name="FlagPedidoObtencao" not-null="true" />
+		<property column="Numero" type="Int32" name="Numero" not-null="true" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<many-to-one name="DelineamentoOrcamento" column="ID_DelineamentoOrcamento" class="Marinha.Business.DelineamentoOrcamento,Marinha.Business" />
+    <property column="Aplicacao" type="String" name="Aplicacao" />
+    <property column="Observacao" type="String" name="Observacao" />
+    <property column="ID_TipoPedido" type="Int32" name="TipoPedido" />
+    <property column="ID_TipoPedidoObtencao" type="Int32" name="TipoPedidoObtencao" />
+    <many-to-one name="MotivoCancelamento" column="ID_MotivoCancelamento" class="Marinha.Business.MotivoCancelamento,Marinha.Business" />
+    <property column="ID_OrigemPO" type="Int32" name="OrigemPO" />
+    <property column="PTRES" type="String" name="PTRESS" />
+
+    <property column="FlagPago" type="Boolean" name="FlagPago" />
+    <property column="FlagACEmitida" type="Boolean" name="FlagACEmitida" />
+    <property column="NumeroEmpenho" type="String" name="NumeroEmpenho" />
+    <property column="OrdemBancaria" type="String" name="OrdemBancaria" />
+    <property column="NumeroLancamento" type="String" name="NumeroLancamento" />
+    <property column="CodigoGestao" type="String" name="CodigoGestao" />
+    <property column="Lista" type="String" name="Lista" />
+    <many-to-one name="FornecedorCotacao1" column="ID_FornecedorCotacao1" class="Marinha.Business.Fornecedor,Marinha.Business" />
+    <many-to-one name="FornecedorCotacao2" column="ID_FornecedorCotacao2" class="Marinha.Business.Fornecedor,Marinha.Business" />
+    <many-to-one name="FornecedorCotacao3" column="ID_FornecedorCotacao3" class="Marinha.Business.Fornecedor,Marinha.Business" />
+    <many-to-one name="FornecedorCotacao4" column="ID_FornecedorCotacao4" class="Marinha.Business.Fornecedor,Marinha.Business" />
+    <many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+    <many-to-one name="TipoCompra" column="ID_TipoCompra" class="Marinha.Business.TipoCompra,Marinha.Business" />
+    <many-to-one name="Modalidade" column="ID_Modalidade" class="Marinha.Business.Modalidade,Marinha.Business" />
+    <many-to-one name="NaturezaDespesa" column="ID_NaturezaDespesa" class="Marinha.Business.NaturezaDespesa,Marinha.Business" />
+    <many-to-one name="Licitacao" column="ID_Licitacao" class="Marinha.Business.Licitacao,Marinha.Business" />
+    <many-to-one name="Projeto" column="ID_Projeto" class="Marinha.Business.Projeto,Marinha.Business" />
+    <many-to-one name="PTRES" column="ID_PTRES" class="Marinha.Business.PTRES,Marinha.Business" />
+    <many-to-one name="FonteRecurso" column="ID_FonteRecurso" class="Marinha.Business.FonteRecurso,Marinha.Business" />
+    <property column="NomeRecebedorEmpenho" type="String" name="NomeRecebedorEmpenho" />
+    <property column="TelefoneRecebedorEmpenho" type="String" name="TelefoneRecebedorEmpenho" />
+    
+
+    <bag name="Itens" table="TB_PedidoObtencaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItem],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoItem,Marinha.Business" />
+      </bag>
+
+      <bag name="ItensPEPRodizio" table="TB_PedidoObtencaoItemPEPRodizio" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItemPEPRodizio],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoItemPEPRodizio,Marinha.Business" />
+      </bag>
+
+      <bag name="ItensCancelados" table="TB_PedidoObtencaoItemCancelado" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoItemCancelado],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoItemCancelado,Marinha.Business" />
+      </bag>
+
+      <bag name="Historico" table="TB_HistoricoPedidoObtencao" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoPedidoObtencao],Marinha.Business" inverse="true" lazy="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.HistoricoPedidoObtencao,Marinha.Business" />
+      </bag>
+
+      <bag name="Pagamentos" table="TB_PedidoObtencaoPagamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoPagamento],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoPagamento,Marinha.Business" />
+      </bag>
+
+      <bag name="Empenhos" table="TB_PedidoObtencaoEmpenho" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoEmpenho],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoEmpenho,Marinha.Business" />
+      </bag>
+
+      <bag name="Documentos" table="TB_PedidoObtencaoDocumento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoObtencaoDocumento],Marinha.Business" inverse="true" >
+          <key column="ID_PedidoObtencao" />
+          <one-to-many class="Marinha.Business.PedidoObtencaoDocumento,Marinha.Business" />
+      </bag>
+	</class>
+</hibernate-mapping>

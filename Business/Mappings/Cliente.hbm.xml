@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Cliente,Marinha.Business" table="TB_Cliente" lazy="true">
+
+		<id name="ID" column="ID_Cliente" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="TipoCliente" column="ID_TipoCliente" class="Marinha.Business.TipoCliente,Marinha.Business" />
+		<property column="CNPJCPF" type="String" name="CNPJCPF" not-null="false" length="20" />
+		<property column="Codigo" type="String" name="Codigo" not-null="true" length="20" />
+		<property column="IndicativoNaval" type="String" name="IndicativoNaval" length="12" />
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="100" />
+		<property column="Observacao" type="String" name="Observacao" length="400" />
+		<property column="Endereco" type="String" name="Endereco" length="100" />
+		<property column="Bairro" type="String" name="Bairro" length="50" />
+		<property column="CEP" type="String" name="CEP" length="9" />
+		<many-to-one name="Estado" column="ID_Estado" class="Marinha.Business.Estado,Marinha.Business" />
+		<many-to-one name="Municipio" column="ID_Municipio" class="Marinha.Business.Municipio,Marinha.Business" />
+		<property column="Telefone" type="String" name="Telefone" not-null="false" length="25" />
+		<property column="Fax" type="String" name="Fax" length="15" />
+		<property column="Email" type="String" name="Email" length="80" />
+		<property column="HomePage" type="String" name="HomePage" length="100" />
+		<property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true" />
+    <property column="Senha" type="String" name="Senha"  />
+        <many-to-one name="ClientePagador" column="ID_ClientePagador" class="Marinha.Business.Cliente,Marinha.Business" />
+	</class>
+</hibernate-mapping>

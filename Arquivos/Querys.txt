@@ -1,0 +1,93 @@
+USE [SisGesconEvolution]
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+GO
+
+ALTER TABLE dbo.TB_PedidoServicoEquipamento ADD NumeroSerie varchar(30) NULL
+GO
+
+ALTER TABLE dbo.TB_PedidoServicoEquipamento SET (LOCK_ESCALATION = TABLE)
+GO
+
+UPDATE [dbo].[TB_StatusPedidoObtencao] SET FlagAtivo=1
+GO
+
+update [dbo].[TB_StatusPedidoServico]
+set Descricao = 'Aguardando Aprovação Encarregado DPCP' WHERE [ID_StatusPedidoServico] = 60
+GO
+
+update [dbo].[TB_StatusPedidoServico]
+set [FlagAtivo] = 0 WHERE [ID_StatusPedidoServico] = 70
+
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+
+GO
+ALTER TABLE dbo.TB_PedidoServico ADD
+	NumeroCFN varchar(201) NULL
+GO
+
+ALTER TABLE dbo.TB_PedidoServico SET (LOCK_ESCALATION = TABLE)
+GO
+
+update [dbo].[TB_OrigemMaterial]
+set [Descricao] = 'PEP' WHERE [ID_OrigemMaterial] = 4
+GO
+
+INSERT INTO [dbo].[TB_OrigemMaterial]
+           ([ID_OrigemMaterial]
+           ,[Descricao]
+           ,[FlagAtivo])
+     VALUES
+           (5
+           ,'Licitação'
+           ,1)
+GO
+
+INSERT INTO [dbo].[TB_StatusPedidoServico]
+           ([ID_StatusPedidoServico]
+           ,[Descricao]
+           ,[FlagVinculoPorDivisao]
+           ,[FlagSomenteGerente]
+           ,[FlagAtivo])
+     VALUES
+           (105
+           ,'Aguardando Verificação do Estoque'
+           ,0
+           ,0
+           ,1)
+GO
+
+update [SisGesconEvolution].[dbo].[TB_StatusPedidoServico]
+set [FlagSomenteGerente] = 1 WHERE [ID_StatusPedidoServico] IN (90, 100, 130, 140, 150, 170)
+GO
+
+COMMIT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

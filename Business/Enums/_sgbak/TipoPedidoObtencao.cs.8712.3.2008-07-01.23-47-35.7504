@@ -1,0 +1,13 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum TipoPedidoObtencao
+	{
+        [Description("Material/Serviço Terceiros")]
+		MaterialServico = 1,
+        [Description("Reposição Estoque")]
+		ReposicaoEstoque = 2
+	}
+}

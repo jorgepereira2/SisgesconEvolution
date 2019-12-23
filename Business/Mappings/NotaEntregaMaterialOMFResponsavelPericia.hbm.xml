@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.NotaEntregaMaterialOMFResponsavelPericia,Marinha.Business" table="TB_NotaEntregaMaterialOMFResponsavelPericia" lazy="true">
+
+		<id name="ID" column="ID_NotaEntregaMaterialOMFResponsavelPericia" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Nome" type="String" name="Nome" not-null="true" length="100" />
+		<property column="NIP" type="String" name="NIP" not-null="true" length="50" />
+		<property column="Graduacao" type="String" name="Graduacao" not-null="true" length="50" />
+		<many-to-one name="TipoNotificacao" column="ID_TipoNotificacao" class="Marinha.Business.TipoNotificacao,Marinha.Business" />
+		<property column="Observacao" type="String" name="Observacao" length="500" />
+    <many-to-one name="OMF" column="ID_NotaEntregaMaterialOMF" class="Marinha.Business.NotaEntregaMaterialOMF,Marinha.Business" />
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.ValorIndiretoDepartamento,Marinha.Business" table="TB_ValorIndiretoDepartamento" lazy="true">
+
+		<id name="ID" column="ID_ValorIndiretoDepartamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Departamento" column="ID_Departamento" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="ID_TipoValor" type="Int32" name="TipoValor" />
+		<property column="Mes" type="Int32" name="Mes" not-null="true" />
+		<property column="Ano" type="Int32" name="Ano" not-null="true" />
+		<property column="Valor" type="Decimal" name="Valor" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

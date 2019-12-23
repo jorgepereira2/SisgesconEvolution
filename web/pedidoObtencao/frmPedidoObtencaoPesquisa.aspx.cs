@@ -1,0 +1,147 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Drawing;
+using System.Web;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+using Shared.SessionState;
+using ComponentArt.Web.UI;
+using Shared.Common;
+
+public partial class frmPedidoObtencaoPesquisa : SortingPageBase
+{
+    private OrigemPO _origemPO
+    {
+        get { return (OrigemPO)Convert.ToInt32(Request["OrigemPO"]); }
+    }
+
+    #region Initialization
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        this.btnPesquisar.Click += new EventHandler(btnPesquisar_Click);
+		this.RegisterSortingControl(this.gvPesquisa);
+		this.gvPesquisa.RowDataBound += GvPesquisa_OnRowDataBound;
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            Anthem.Manager.Register(this);
+
+            string address = "frmPedidoObtencaoCadastro.aspx?origemPO=" + Convert.ToInt32(_origemPO).ToString();
+            
+            if (Request["pm"] != null)
+			    address += "&pm=true";
+            
+
+            Anthem.AnthemClientMethods.Redirect(address, btnNovo);
+			
+			Util.FillDropDownList(ddlStatus, StatusPedidoObtencao.List(), "Todos");
+            ddlStatus.Items.Insert(1, new ListItem("Todos (Exceto Cancelados)", Int32.MinValue.ToString()));
+            ddlStatus.SelectedIndex = 1;
+
+            Util.FillDropDownList(ddlAno, DateTimeManager.Anos(DateTime.Today.AddYears(-6).Year, DateTime.Today.Year), "Todos");
+            ddlAno.SelectedValue = DateTime.Today.Year.ToString();
+            
+            Servidor servidor = Servidor.Get(this.ID_Servidor);
+            if(servidor.GetFlagPodeFazerPOOutraCelula())
+                Util.FillDropDownList(ddlCelula, Celula.List(), "Todas");
+            else
+                Util.FillDropDownList(ddlCelula, Celula.ListCelulasSubordinadas(this.ID_Servidor, null));
+
+            SetTitulo();
+        }
+    }
+
+    private void SetTitulo()
+    {
+        if (Request["pm"] == null && _origemPO == OrigemPO.Direto)
+            lblTitulo.Text = "Pesquisa de Autorização de Compra Direto";
+
+        else if (Request["pm"] == null && _origemPO == OrigemPO.GastoExtraPS)
+            lblTitulo.Text = "Pesquisa de Autorização de Compra de Gasto Extra PS";
+
+        else if (Request["pm"] != null && _origemPO == OrigemPO.Direto)
+            lblTitulo.Text = "Pesquisa de Autorização de Compra Direto";
+
+        else if (Request["pm"] != null && _origemPO == OrigemPO.GastoExtraPS)
+            lblTitulo.Text = "Pesquisa de Autorização de Compra de Gasto Extra PS";
+    }
+
+    #endregion  
+    
+    protected override void Bind()
+    {
+        TipoPedido? tipoPedido = null;
+        if(Request["pm"] == null)
+            tipoPedido = TipoPedido.PedidoObtencao;
+        else 
+            tipoPedido = TipoPedido.PedidoMaterial;
+
+        List<PedidoObtencao> list = PedidoObtencao.Select(
+            txtTexto.Text,
+		    IsNull(txtDataInicio.Text, DateTime.MinValue), 
+		    IsNull(txtDataFim.Text, DateTime.MinValue),
+		    Convert.ToInt32(ddlStatus.SelectedValue),
+		    Convert.ToInt32(ddlCelula.SelectedValue),
+		    txtAplicacao.Text,
+            tipoPedido,
+            _origemPO,
+            Convert.ToInt32(ddlAno.SelectedValue));
+		this.Sort(list);
+		gvPesquisa.DataSource = list;
+        gvPesquisa.DataBind();
+        gvPesquisa.UpdateAfterCallBack = true;
+        Anthem.AnthemClientMethods.ResizeIFrame();
+
+        gvPesquisa.Visible = list.Count > 0;
+        pnMensagem.Visible = list.Count == 0;
+        pnMensagem.UpdateAfterCallBack = true;
+    }
+
+    private void GvPesquisa_OnRowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            PedidoObtencao pedido = (PedidoObtencao)e.Row.DataItem;
+
+            if (pedido.Status.StatusPedidoObtencaoEnum == StatusPedidoObtencaoEnum.Reprovado)
+            {
+                e.Row.ForeColor = Color.Red;
+                e.Row.ToolTip = pedido.UltimoHistorico.Justificativa;
+                e.Row.Attributes.Add("onmouseover",
+                                     string.Format(
+                                         "Tip('<b>Justificativa:</b><br><br>{0}', SHADOW, true, PADDING, 7, FOLLOWMOUSE, false);",
+                                         pedido.UltimoHistorico.Justificativa));
+            }
+
+            LinkButton lnkEditar = (LinkButton)e.Row.FindControl("lnkEditar");
+
+            string cadastroespecial = (Request["cadastroespecial"] != null) ? "&cadastroespecial=true" : "";
+
+            string address = "frmPedidoObtencaoCadastro.aspx?id_pedido=" + pedido.ID.ToString();
+
+            if (Request["pm"] != null)
+                address += "&pm=true";
+
+            address += cadastroespecial;
+            address += "&origemPO=" + Convert.ToInt32(_origemPO).ToString();
+            Anthem.AnthemClientMethods.Redirect(address, lnkEditar);
+        }
+    }
+
+    void btnPesquisar_Click(object sender, EventArgs e)
+    {
+        Bind();
+    }
+}

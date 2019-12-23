@@ -1,0 +1,11 @@
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BuscaCooperado.ascx.cs" Inherits="UserControls_BuscaCooperado" %>
+<%@ Import Namespace="Marinha.Business" %>
+ <Anthem:AutoSuggestBox id="txtCooperado" Width="340px" TextBoxDisplayField="Nome" SelectedMenuItemCSSClass="asbSelMenuItem" 
+    DataKeyField="ID" runat="server" MaxSuggestChars="15" MenuItemCSSClass="asbMenuItem" ItemNotFoundMessage="Nenhum item encontrado" >
+ <ItemTemplate>    
+    <div align="left">
+    <%# ((Cooperado)Container.DataItem).Nome %>
+    </div>
+ </ItemTemplate>
+</Anthem:AutoSuggestBox>
+

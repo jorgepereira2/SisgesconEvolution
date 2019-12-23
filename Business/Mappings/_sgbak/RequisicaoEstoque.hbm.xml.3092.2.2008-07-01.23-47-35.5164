@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.RequisicaoEstoque,Marinha.Business" table="TB_RequisicaoEstoque" lazy="true">
+
+		<id name="ID" column="ID_RequisicaoEstoque" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="ServidorCadastro" column="ID_ServidorCadastro" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="ServidorResponsavel" column="ID_ServidorResponsavel" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Numero" type="Int32" name="Numero" not-null="true" />
+		<property column="DataFinalizacao" type="DateTime" name="DataFinalizacao" />
+		<many-to-one name="TipoRequisicaoEstoque" column="ID_TipoRequisicaoEstoque" class="Marinha.Business.TipoRequisicaoEstoque,Marinha.Business" />
+		<property column="Observacao" type="String" name="Observacao" length="500" />
+		<property name="Status" column="ID_StatusRequisicaoEstoque" type="Int32" not-null="true"/>
+		<property column="DataCadastro" type="DateTime" name="DataCadastro" not-null="true" />
+
+        <bag name="Itens" table="TB_RequisicaoEstoqueItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.RequisicaoEstoqueItem],Marinha.Business" inverse="true" >
+            <key column="ID_RequisicaoEstoque" />
+            <one-to-many class="Marinha.Business.RequisicaoEstoqueItem,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

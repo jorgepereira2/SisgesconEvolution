@@ -1,0 +1,72 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Drawing;
+using System.Text;
+using System.Web;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+using Shared.SessionState;
+using ComponentArt.Web.UI;
+using Shared.Common;
+
+public partial class frmPedidoAquisicaoAprovacaoPesquisa : SortingPageBase
+{
+  
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+		this.RegisterSortingControl(this.gvPesquisa);
+        this.gvPesquisa.RowDataBound += new GridViewRowEventHandler(gvPesquisa_RowDataBound);
+    }
+
+    void gvPesquisa_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if(e.Row.RowType == DataControlRowType.DataRow)
+        {
+            PedidoAquisicao pedido = (PedidoAquisicao) e.Row.DataItem;
+            
+            if(pedido.Status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.Reprovado)
+            {
+                e.Row.ForeColor = Color.Red;
+                e.Row.ToolTip = pedido.UltimoHistorico.Justificativa;
+
+                e.Row.Attributes.Add("onmouseover", string.Format("Tip('<b>Justificativa:</b><br><br>{0}', SHADOW, true, PADDING, 7, FOLLOWMOUSE, false);", 
+                
+                pedido.UltimoHistorico.Justificativa));
+            }
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            Anthem.Manager.Register(this);
+            Bind();
+        }
+    }
+    #endregion  
+  
+    protected override void Bind()
+    {
+        List<PedidoAquisicao> list = PedidoAquisicao.Select(this.ID_Servidor);
+		this.Sort(list);
+		gvPesquisa.DataSource = list;
+		gvPesquisa.DataKeyNames = new string[]{"ID"};
+        gvPesquisa.DataBind();
+        gvPesquisa.UpdateAfterCallBack = true;
+        Anthem.AnthemClientMethods.ResizeIFrame();
+
+        gvPesquisa.Visible = list.Count > 0;
+        pnMensagem.Visible = list.Count == 0;
+        pnMensagem.UpdateAfterCallBack = true;
+    }  
+}

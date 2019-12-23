@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Municipio,Marinha.Business" table="TB_Municipio" lazy="true">
+
+		<id name="ID" column="ID_Municipio" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Municipio" type="String" name="Nome" not-null="true" length="50" />
+        <many-to-one name="Estado" column="ID_Estado" class="Marinha.Business.Estado,Marinha.Business" />
+		<property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

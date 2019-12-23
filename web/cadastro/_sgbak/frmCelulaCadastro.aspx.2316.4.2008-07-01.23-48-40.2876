@@ -1,0 +1,177 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmCelulaCadastro.aspx.cs" Inherits="frmCelulaCadastro" %>
+<%@ Import Namespace="Marinha.Business" %>
+<%@ Register Src="~/UserControls/MessageBox.ascx" TagName="MessageBox" TagPrefix="uc" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <uc:MessageBox runat="server" ID="ucMessageBox" />
+    <div align="center">
+    <div align="right" style="width:98%">
+    <br />
+        <asp:label ID="Label1" runat="server" CssClass="PageTitle" Text="Cadastro de Células">
+            </asp:label>
+    
+    </div>
+    <table cellSpacing="4" cellPadding="3" border="0" Width="98%" >																		    
+        <tr   >
+            <td style="border:solid 1px black" valign="top">
+                <Anthem:Panel runat="server" ID="pnCampos" BorderStyle="Solid" BorderColor="black"
+                    BorderWidth="0px" Width="98%" HorizontalAlign="center" style="vertical-align:top;" >
+                    <table border="0" cellpadding="2" cellspacing="2" width="100%" >
+
+                        <tr>                            
+                            <td colspan="2" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Células                                    
+                                    <hr size="1" class="divisor" style="" />
+                                </div>
+                                <br />
+                                <div align="right">
+                                    <Anthem:Button runat="server" ID="btnNovo"  TextDuringCallBack="Aguarde" Text="Novo"
+                                        EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" />
+                                </div>
+                                <br />
+                                <Anthem:DataGrid runat="server" ID="dgCadastro" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" AllowSorting="true" AllowPaging="false" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" HorizontalAlign="center"  />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" HorizontalAlign="center" />
+                                    <FooterStyle CssClass="dgFooter" HorizontalAlign="Center" />
+                                    <PagerStyle Visible="false" />
+                                    <Columns>                                        
+                                        <asp:TemplateColumn HeaderText="Código" sortexpression="Codigo" >
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).Codigo %>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:TextBox  runat="server" ID="txtCodigo" columns="8" MaxLength="5" 
+                                                    text='<%# ((Celula)Container.DataItem).Codigo %>' />
+                                                <Anthem:RequiredFieldValidator runat="server" ID="valCodigo" ControlToValidate="txtCodigo"  
+                                                     Display="Dynamic" ValidationGroup="Descricao" ErrorMessage="Campo Obrigatório" /> 
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:TextBox runat="server" ID="txtCodigoNovo" columns="8" MaxLength="5" />
+                                                <Anthem:RequiredFieldValidator runat="server" ID="valCodigoNovo" ControlToValidate="txtCodigoNovo" 
+                                                     Display="Dynamic" ValidationGroup="Descricao" ErrorMessage="Campo Obrigatório" /> 
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Descrição" sortexpression="Descricao" ItemStyle-HorizontalAlign="Left">
+                                            <ItemTemplate>
+                                                <Anthem:Label runat="server" ID="lblDescricao" Text='<%# ((Celula)Container.DataItem).Descricao %>' />
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:TextBox  runat="server" ID="txtDescricao" columns="35" MaxLength="50" 
+                                                    text='<%# ((Celula)Container.DataItem).Descricao %>' />
+                                                <Anthem:RequiredFieldValidator runat="server" ID="valDescricao" ControlToValidate="txtDescricao"  
+                                                     Display="Dynamic" ValidationGroup="Descricao" ErrorMessage="Campo Obrigatório" /> 
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:TextBox runat="server" ID="txtDescricaoNovo" columns="35" MaxLength="50" />
+                                                <Anthem:RequiredFieldValidator runat="server" ID="valDescricaoNovo" ControlToValidate="txtDescricaoNovo" 
+                                                     Display="Dynamic" ValidationGroup="Descricao" ErrorMessage="Campo Obrigatório" /> 
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Finalidade" sortexpression="Finalidade">
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).Finalidade %>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:TextBox  runat="server" ID="txtFinalidade" columns="40" MaxLength="500" 
+                                                    text='<%# ((Celula)Container.DataItem).Finalidade %>' />                                                
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:TextBox runat="server" ID="txtFinalidadeNovo" columns="40" MaxLength="500" />                                                
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Oficina" >
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).FlagOficina ? "Sim" : "Não" %>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagOficina" Checked='<%# ((Celula)Container.DataItem).FlagOficina %>' />                                                
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagOficinaNovo" Checked="False" />
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Centro Custo" >
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).FlagCentroCusto ? "Sim" : "Não" %>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagCentroCusto" Checked='<%# ((Celula)Container.DataItem).FlagCentroCusto %>' />                                                
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagCentroCustoNovo" Checked="False" />
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Ativo" >
+                                            <ItemTemplate>
+                                                <%# ((Celula)Container.DataItem).FlagAtivo ? "Sim" : "Não" %>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagAtivo" Checked='<%# ((Celula)Container.DataItem).FlagAtivo %>' />                                                
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:CheckBox runat="server" ID="chkFlagAtivoNovo" Checked="True" />
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>                                         
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnEditar" Text="Editar" 
+                                                    CommandName="Edit" CausesValidation="false" /> 
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnSalvar" Text="Salvar" CommandName="Update" 
+                                                    CausesValidation="true" ValidationGroup="Descricao" />
+                                                &nbsp;
+                                                <Anthem:LinkButton runat="server" ID="btnCancelar" Text="Cancelar" CommandName="Cancel" 
+                                                    CausesValidation="false"/>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnSalvarNovo" Text="Salvar" CommandName="Insert" 
+                                                    CausesValidation="true" ValidationGroup="Descricao"/>
+                                                &nbsp;
+                                                <Anthem:LinkButton runat="server" ID="btnCancelarNovo" Text="Cancelar" CommandName="Cancel" 
+                                                    CausesValidation="false"/>
+                                            </FooterTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <Anthem:ImageButton runat="server" CommandName="Delete" ImageUrl="~/images/ico_del.gif"
+                                                    ToolTip="Excluir" />
+                                                <%--<a href="#" onclick='javascript:Excluir(<%# ((Celula)Container.DataItem).ID %>)' >
+                                                    <asp:Image runat="server" ID="imgExcluir" ImageUrl="~/images/ico_del.gif" ToolTip="Excluir" />
+                                                </a>--%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </Anthem:datagrid>
+                            </td>
+                        </tr>
+                    </table>     
+                </Anthem:Panel>
+            </td>
+        </tr>																			
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+                
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

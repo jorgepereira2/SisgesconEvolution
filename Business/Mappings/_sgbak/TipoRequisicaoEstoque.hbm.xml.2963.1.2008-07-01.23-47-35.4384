@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.TipoRequisicaoEstoque,Marinha.Business" table="TB_TipoRequisicaoEstoque" lazy="true">
+
+		<id name="ID" column="ID_TipoRequisicaoEstoque" type="Int32" unsaved-value="0">
+			<generator class="assigned"/>
+		</id>
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="50" />
+		<property name="TipoMovimento" column="ID_TipoMovimento" type="Int32" />
+		
+	</class>
+</hibernate-mapping>

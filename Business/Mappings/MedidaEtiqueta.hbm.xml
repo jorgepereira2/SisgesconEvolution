@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.MedidaEtiqueta,Marinha.Business" table="TB_MedidaEtiqueta" lazy="true">
+
+		<id name="ID" column="ID_MedidaEtiqueta" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="AlturaPapel" type="Decimal" name="AlturaPapel" not-null="true" />
+		<property column="Colunas" type="Int32" name="Colunas" not-null="true" />
+		<property column="Linhas" type="Int32" name="Linhas" not-null="true" />
+		<property column="LarguraPapel" type="Decimal" name="LarguraPapel" not-null="true" />
+		<property column="MargemDireita" type="Decimal" name="MargemDireita" not-null="true" />
+		<property column="MargemEsquerda" type="Decimal" name="MargemEsquerda" not-null="true" />
+		<property column="MargemSuperior" type="Decimal" name="MargemSuperior" not-null="true" />
+		<property column="MargemInferior" type="Decimal" name="MargemInferior" not-null="true" />
+		<property column="SeparacaoHorizontal" type="Decimal" name="SeparacaoHorizontal" not-null="true" />
+		<property column="SeparacaoVertical" type="Decimal" name="SeparacaoVertical" not-null="true" />
+		<property column="Nome" type="String" name="Nome" not-null="true" length="50" />
+    <property column="AlturaConteudo" type="Decimal" name="AlturaConteudo" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

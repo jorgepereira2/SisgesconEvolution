@@ -1,0 +1,366 @@
+using System;
+using System.Web.UI.WebControls;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Shared.SessionState;
+using System.Net.Mail;
+using A = Anthem;
+using System.Configuration;
+
+
+public class MarinhaPageBase : PageBase
+{
+    public const string ESCOLHA_OPCAO = "-- Escolha uma opção --";
+	public MarinhaPageBase()
+        : base()
+    {
+		this.Error += new EventHandler(MarinhaPageBase_Error);
+    }
+
+	void MarinhaPageBase_Error(object sender, EventArgs e)
+    {
+        
+        Anthem.AnthemClientMethods.Alert(GetErrorMessage(), this);
+        //LogError(ex);
+    }
+    
+    private string GetErrorMessage()
+    {
+        Exception ex = Server.GetLastError();
+        return GetCompleteErrorMessage(ex);
+    }
+
+    public bool DisableAnthemProgressIcon
+    {
+        get
+        {
+            return ViewState["DisableAnthemProgressIcon"] != null ? Convert.ToBoolean(ViewState["DisableAnthemProgressIcon"]) : false;
+        }
+        set
+        {
+            ViewState["DisableAnthemProgressIcon"] = value;
+        }
+    }
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        
+        if(!DisableAnthemProgressIcon)
+        {
+            string s =
+                @"
+    		     <script language='javascript'>
+                    function ShowOverlay()
+                    {
+                        var bod;    
+                        bod 				= document.getElementsByTagName('body')[0];
+                        var overlay 		= document.createElement('div');
+                        overlay.id			= 'anthem_overlay';
+                        overlay.setAttribute('className', 'overlay');
+                        overlay.setAttribute('class', 'overlay');
+                        bod.appendChild(overlay);
+                    }
+                    
+                    function RemoveOverlay()
+                    {
+                        var overlay 		= document.getElementById('anthem_overlay');
+                        if(overlay)
+                        {
+                            var bod = document.getElementsByTagName('body')[0];
+                            bod.removeChild(overlay);
+                        }                            
+                    }
+                    
+		            function Anthem_PreCallBack() {
+                        
+                        try
+                        {
+                            if(disableMessage == true)
+                                return;
+                        }
+                        catch(ex){}
+                        
+
+                        try{
+                        
+                           
+                            ShowOverlay();
+			                var div = document.createElement('div');
+			                div.id = 'divAnthem';						
+                						
+			                div.style.position = 'absolute';
+                			
+			                div.style.right = '10px';
+                            
+			                div.style.top = window.parent.document.body.scrollTop + 20 + 'px'; //event.clientY;//(screen.height / 2) + document.body.scrollTop;
+			                div.style.zIndex = '9999';
+                			
+                            var img = document.createElement('img');
+                            img.src = '../images/indicador.gif';
+                			
+			                var span = document.createElement('span');
+			                //span.style.border = '2px solid red';
+			                //span.style.borderBottom = '2px solid red'
+			                span.style.height = '10px';			    
+			                span.style.color = 'black';
+			                //span.style.backgroundColor = 'red';
+			                span.style.verticalAlign = 'middle';
+            			    
+			                span.innerHTML = '<b>&nbsp;Carregando...&nbsp;</b>';
+                			
+                            div.appendChild(img);
+			                div.appendChild(span);
+                			
+			                document.body.style.cursor = 'wait';    			
+			                document.body.appendChild(div);
+		                }
+		               catch(e)
+		               {
+		                      RemoveOverlay();
+		               }
+		            }
+		            function Anthem_CallBackCancelled() {
+			            RemoveOverlay();
+			            var div = document.getElementById('divAnthem');
+			            if(div != null)
+                        {                           
+			                document.body.style.cursor = '';
+                        }
+		            }
+		            
+		            function Anthem_PostCallBack() {
+                       
+			            var div = document.getElementById('divAnthem');
+                        if(div)
+			                document.body.removeChild(div);
+			            document.body.style.cursor = '';
+			             RemoveOverlay();
+
+                        if(window.Anthem_PostPostCallBack)
+                            setTimeout('Anthem_PostPostCallBack()',50); 
+                            
+		            }
+		            </script>
+                ";
+            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "anthemmessage", s);
+        }
+    }
+
+    public static string GetCompleteErrorMessage(Exception ex)
+    {
+        string msg = ex.Message;
+        
+        while(ex.InnerException != null)
+        {
+            msg += "\\n\\nInnerException: " + ex.InnerException.Message;
+            ex = ex.InnerException;
+        }
+
+        return msg;
+    }
+
+    private void LogError(Exception ex)
+    {
+        MailMessage msg = new MailMessage();
+        msg.To.Add(ConfigurationManager.AppSettings["ErrorEmail"]);
+        msg.Subject = ConfigurationManager.AppSettings["Erro Marinha 2007"];
+        msg.Body = GetErrorMessage();
+        msg.IsBodyHtml = true;
+
+        SmtpClient smtp = new SmtpClient();
+        
+        try
+        {
+            smtp.Send(msg);
+        }
+        catch (Exception e)
+        {
+            //Anthem.AnthemClientMethods.Alert("Não foi possível enviar a mensagem.\\n" + e.Message, this);
+        }
+    }
+
+   
+
+    protected override void Render(System.Web.UI.HtmlTextWriter writer)
+    {
+        base.Render(writer);
+		writer.Write("<script language=\"javascript\">if(parent.iframeresize) parent.iframeresize();</script>");
+    }
+
+   
+    /// <summary>
+    /// As páginas que querem ser logadas devem sobrescrever esta propriedade com o NOME do processo correto
+    /// </summary>
+    public virtual string NomeProcesso
+    {
+        get { return ""; }
+    }
+
+    public int ID_Servidor
+    {
+        get
+        {
+			if (Request.Cookies["Marinha"]["ID_Servidor"] != null)
+				return Convert.ToInt32(Request.Cookies["Marinha"]["ID_Servidor"]);
+            else
+                throw new Exception("O cookie da aplicação expirou. Faça o login novamente.");
+        }
+    }
+
+    public bool FlagAcessaTodosMateriais
+    {
+        get
+        {
+            if (Request.Cookies["Marinha"]["FlagAcessaTodosMateriais"] != null)
+                return Convert.ToBoolean(Request.Cookies["Marinha"]["FlagAcessaTodosMateriais"]);
+            else
+                throw new Exception("O cookie da aplicação expirou. Faça o login novamente.");
+        }
+    }
+
+    public List<int> SJBLiberados
+    {
+        get
+        {
+            if (Request.Cookies["Marinha"]["SJBLiberados"] != null)
+                return Shared.Common.Util.LeLista(Request.Cookies["Marinha"]["SJBLiberados"]);
+            else
+                throw new Exception("O cookie da aplicação expirou. Faça o login novamente.");
+        }
+    }
+
+    /// <summary>
+    /// Função utilizada para ler o ID de um objeto que pode ser nulo
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    protected string ReadID<T>(Shared.NHibernateDAL.BusinessObject<T> obj) where T:new()
+    {
+        if (obj != null && obj.ID > 0)
+        {
+            return obj.ID.ToString();
+        }
+        else
+        {
+            return "0";
+        }
+    }
+
+	protected string IsNull(string value)
+	{
+		if (value == "")
+			return null;
+		else
+			return value;
+	}
+
+	protected string IsNull(DateTime? value)
+	{
+		if (!value.HasValue)
+			return "";
+		else
+			return value.Value.ToShortDateString();
+	}
+
+	protected int? ReadInt32(string value)
+	{
+		int i;
+		if (Int32.TryParse(value, out i))
+			return i;
+		else
+			return null;
+
+	}
+
+	protected DateTime? ReadDateTime(string value)
+	{
+		DateTime i;
+		if (DateTime.TryParse(value, out i))
+			return i;
+		else
+			return null;
+
+	}
+
+	protected decimal? ReadDecimal(string value)
+	{
+		decimal i;
+		if (decimal.TryParse(value, out i))
+			return i;
+		else
+			return null;
+
+	}
+
+	protected string IsNull(int? value)
+	{
+		if (value.HasValue)
+			return value.ToString();
+		else
+			return "";
+	}
+
+	protected string IsNull(decimal? value)
+	{
+		if (value.HasValue)
+			return value.Value.ToString("N2");
+		else
+			return "";
+	}
+
+	protected string IsNullTime(DateTime? value)
+	{
+		if (value.HasValue)
+			return value.Value.ToShortTimeString();
+		else
+			return "";
+	}
+
+	/// <summary>
+	/// Registra o javascript que exibe o confirm antes de chamar o método Excluir (Anthem.Method)
+	/// </summary>
+	protected virtual void RegisterDeleteScript()
+	{
+	    RegisterDeleteScript("Excluir");
+	}
+
+    protected virtual void RegisterDeleteScript(string functionName)
+    {
+        string script = @"<script language='javascript'>
+            function " + functionName + @"(id)
+            {
+                if( confirm('Deseja excluir este registro?') == true)
+                {
+                    Anthem_InvokePageMethod('" + functionName + @"', [id], function(result){});
+                }
+            }</script>";
+
+        this.ClientScript.RegisterClientScriptBlock(this.GetType(), "delete_" + functionName, script);
+    }
+
+    protected virtual void RegisterConfirmScript(string functionName, string confirmMessage)
+    {
+        string script = @"<script language='javascript'>
+            function " + functionName + @"(id)
+            {
+                if( confirm('" + confirmMessage + @"') == true)
+                {
+                    Anthem_InvokePageMethod('" + functionName + @"', [id], function(result){});
+                }
+            }</script>";
+
+        this.ClientScript.RegisterClientScriptBlock(this.GetType(), "confirm_" + functionName, script);
+    }
+		
+	protected void ShowMessage(string msg)
+	{
+		Anthem.AnthemClientMethods.Alert(msg, this);
+	}
+	
+	protected void ShowSuccessMessage()
+	{
+		ShowMessage("Operação realizada com sucesso.");
+	}
+}

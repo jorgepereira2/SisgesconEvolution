@@ -1,0 +1,104 @@
+[ 2017 - 01 - 24 / 4h ]
+
+- Não anotado;
+
+
+
+
+[ 2017 - 02 - 21 / 3h ]
+
+- Não anotado;
+
+
+
+
+[ 2017 - 03 - 15 / 4h ]
+
+- Não anotado;
+
+
+
+
+[ 2017 - 04 - 05 / 4h ]
+
+#Demandas: Pedido de Serviço
+- OK: No cadasto inicial de PS - Ao cadastrar o equipamento criar um campo chamado "Nº de Série";
+- OK: No cadasto inicial de PS - Tirar opção de "Novo" ao cadastrar equipamento;
+- OK: No detalhe do PS exibir o "Nº de Série" do equipamento;
+- OK: Na etapa "Nº 20" só deixar 1 delineador, se ja tiver1 desativar o botão de novo e ao salvar;
+- Na etapa "Nº 20" no delineador deixar opção de editar;
+- No cadasto inicial de PS - O campo "Nº de Série" e obrigatório;
+- Mudar nome etapa "Nº 60" para "Aguardando Aprovação Encarregado DPCP";
+- Desativar etapa "Nº 70";
+- Exibir etapa "Nº 80" para tela de aprovação rapida do comandante "Aprovações de PS";
+- Etapa "Nº 90, 100, 130, 140, 150, 170" de gerente;
+- Etapa "Nº 160" esta errado ver no sistema antigo o que ela faz;
+- Label da contabilidade trocar para "Sim ou Não", colocar label para "Finalizar Execução";
+- Na tela de "Faturamento" não passa pra frente ao clicar em enviar;
+- No status "Nº 260" finalizado esconder todos os botões;
+- Trocar labels de "PO" para "AC", no relatorio "/servico/fchPedidoServico.aspx"
+
+#Demandas Extras: Pedido de Serviço
+- No cadastro de PS criar um tipo de PS no lugar PROGEM(Progem atual sai), obrigatório;
+- Criar no cadastro do PS inicial criar numero do CFN (verificar no sisgescon antigo);
+- Duplicar orçamento, verificar porque deste erro;
+- Após a etapa "Nº 100", criar etapa "Nº 105" com nome "Aguardando Verificação do Estoque", essa etapa seria igual a tela de delineamento com a opção de editar apenas "Materiais" > "Origem". Criar uma "AC" para cada Item/Fornecedor para casos de "Licitação", no caso de "Dispensa" pode colocar todos os itens na mesma "AC" como já está sendo feito;
+
+#Dúvidas: Pedido de Serviço
+- Migrar localização do Serviço/Material;
+- Quais etapas são por divisão e por comandante;
+- Se o material for de uma licitação vigente puxar como padrão o valor da licitação, verificar se ja faz?;
+
+#Testes: Pedido de Serviço
+- Verificar cadastro de rotina e se funciona na etapa "Nº 40";
+- Testar "Copiar PS";
+- Verificar se cria AC/PS ou PM/PS;
+- Testar recursar em todas as etapas;
+
+#Demandas: Autorização de Compra
+- Tudo que tem o termo "Aprovação" exibir na tela de "Aprovação de PM e AC";
+
+#Testes: Autorização de Compra
+- Verificar em todas as telas referencias a BACS e PO;
+- Não permitir comprar um item "Licitado", quando a AC for "Dispensa";
+- Verificar o controle ao enviar por celulas;
+
+
+
+
+[ 2017 - 04 - 19 / 3h ]
+
+#Duvidas: Geral
+- O que pediu e o que foi feito? O que falta?
+- Levantar HH ja usado
+- Levantar HH que passou do previsto
+- Levantar HH necessário para concluir recursos da 1º proposta
+- Levantar HH necessário para concluir novos recursos
+
+#Demandas: Pedido Serviço
+- No cadastro incial de PS: Trocal label "Numero de Serie" > "Numero de Serie/Chassi";
+- No detalhe do PS: Trocal label "Numero de Serie" > "Numero de Serie/Chassi";
+- No detalhe do PS: Incluir Numero do CFN abaixo de localização
+- No cadastro de PS criar um tipo de PS no lugar PROGEM(Progem atual sai), obrigatório;
+- Exibir etapa nº 60 e 80 na tela do comandante na tela de "Aprovação de PM e AC";
+- Na etapa 105 o label apareceu "Aguardando Envio Mensagem Cliente", o certo e aparecer "Aguardando Verificação do Estoque"
+- 
+
+#Demandas Explicar: Pedido Serviço
+- Criar Pedido de cotação quando for origem obtenção, ele vai para pedido de cotação antes de gerar AC, dentro desse pedido de cotação vai ter 2 etapas: 1 - Etapa inicial / 2 - Designar comprador por item / 3 - Escolher itens para AC (Igual ao sisgescon antigo);
+
+#Testes: Pedido Serviço
+- Disponível na etapa nº 105, não exibe o disponivel no PEP;
+
+#Demandas: Autorização de Compra
+- Criar tela de exibição das ACs que tem documento e quais não tem (padrão que não tem) e periodo de data, opção de anexar documento 1xn e só deixar enviar se tiver anexo;
+- No cadastro inicial de AC - Tipo material "Modalidade" o limite e dobrado
+- No cadastro inicial de AC - Trocal label: Saldo a Faturar > Saldo em Utilização
+- No cadastro inicial de AC - Trocal label: Saldo Faturado > Saldo Utilizado
+- No cadastro inicial de AC - Trocal label: Saldo Total > Total
+- No cadastro inicial de AC - Criar label: Saldo Disponivel
+- No cadastro inicial de AC - Validar de acordo coom limite de compra
+
+#Sistema
+- Limites de Compra > Incluir coluna de Modalidade
+- Na modalidade Incluir novo "Obra"

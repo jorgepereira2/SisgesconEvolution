@@ -1,0 +1,294 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Shared.NHibernateDAL;
+using Marinha.Business;
+using Shared.SessionState;
+using Shared.Common;
+
+public partial class frmServicoMaterialCadastro : MarinhaPageBase
+{
+    #region Private Member
+    [TransientPageState]
+    protected ServicoMaterial _servicomaterial;
+
+    #endregion 
+
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        this.btnSalvar.Click += new EventHandler(btnSalvar_Click);
+        this.btnNovo.Click += new EventHandler(btnNovo_Click);
+        this.dgEquipamento.DeleteCommand += new DataGridCommandEventHandler(dgEquipamento_DeleteCommand);
+        this.dgLocalizacao.DeleteCommand += new DataGridCommandEventHandler(dgLocalizacao_DeleteCommand);
+        
+        ddlClasseServicoMaterial.SelectedIndexChanged += delegate { ClasseServicoMaterialChanged(); };
+        
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            FillPage();
+            if (Request["ID_ServicoMaterial"] != null)
+            {
+                _servicomaterial = ServicoMaterial.Get(Convert.ToInt32(Request["ID_ServicoMaterial"]));
+                PopulateFields();
+                RegisterDelete();
+            }
+            else
+            {
+                _servicomaterial = new ServicoMaterial();
+            }
+            Anthem.AnthemClientMethods.Redirect("frmServicoMaterialPesquisa.aspx", btnVoltar);
+            RegisterDeleteScript();
+        }
+    }
+
+    private void FillPage()
+    {
+        Util.FillDropDownList(ddlClasseServicoMaterial, ClasseServicoMaterial.List(), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlOrigemMaterial, typeof(OrigemMaterial), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlTipoServicoMaterial, typeof(TipoServicoMaterial), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlUnidade, Unidade.List(), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlFabricante, Fabricante.List(), ESCOLHA_OPCAO);
+        Util.InsertDefaultItem(ddlClasseServicoMaterial, ESCOLHA_OPCAO);
+        Util.InsertDefaultItem(ddlSubClasseServicoMaterial, ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlLocalizacao, Localizacao.List(), ESCOLHA_OPCAO);
+        Util.FillDropDownList(ddlSJB, SJB.List(), ESCOLHA_OPCAO);
+    }
+
+    #endregion
+
+    #region Events
+    void btnSalvar_Click(object sender, EventArgs e)
+    {
+        if (TabStrip1.SelectedTab.ID == tabDadosBasicos.ID)
+            SalvarServicoMaterial();
+        else if (TabStrip1.SelectedTab.ID == tabEquipamento.ID)
+            SalvarEquipamento();
+        else if (TabStrip1.SelectedTab.ID == tabLocalizacao.ID)
+            SalvarLocalizacao();
+    }
+
+    void btnNovo_Click(object sender, EventArgs e)
+    {
+        if (TabStrip1.SelectedTab.ID == tabDadosBasicos.ID)
+        {
+            ClearFields();
+            _servicomaterial = new ServicoMaterial();
+        }
+        else if (TabStrip1.SelectedTab.ID == tabEquipamento.ID)
+            ClearFieldsEquipamento();
+        else if (TabStrip1.SelectedTab.ID == tabLocalizacao.ID)
+            ClearFieldsLocalizacao();
+    }
+
+    private void ClasseServicoMaterialChanged()
+    {
+        if (ddlClasseServicoMaterial.SelectedValue != "0")
+        {
+            Util.FillDropDownList(ddlSubClasseServicoMaterial, SubClasseServicoMaterial.List(Convert.ToInt32(ddlClasseServicoMaterial.SelectedValue)), ESCOLHA_OPCAO);
+            ddlSubClasseServicoMaterial.UpdateAfterCallBack = true;
+        }
+    }
+    #endregion
+
+    #region ServicoMaterial
+    private void SalvarServicoMaterial()
+    {
+        FillObject();
+        _servicomaterial.Save();
+
+        ShowSuccessMessage();
+        RegisterDelete();
+    }
+
+    private void PopulateFields()
+    {
+        ddlClasseServicoMaterial.SelectedValue =
+            _servicomaterial.SubClasseServicoMaterial.ClasseServicoMaterial.ID.ToString();
+        ClasseServicoMaterialChanged();
+        ddlSubClasseServicoMaterial.SelectedValue = ObjectReader.ReadID(_servicomaterial.SubClasseServicoMaterial);
+        ddlFabricante.SelectedValue = ObjectReader.ReadID(_servicomaterial.Fabricante);
+        ddlOrigemMaterial.SelectedValue = Convert.ToInt32(_servicomaterial.OrigemMaterial).ToString();
+        txtDescricao.Text = _servicomaterial.Descricao;
+        txtDescricaoSingra.Text = _servicomaterial.DescricaoSingra;
+        txtCodigoInterno.Text = _servicomaterial.CodigoInterno;
+        txtNumeroReferencia.Text = _servicomaterial.NumeroReferencia;
+        txtCodigoSiasg.Text = _servicomaterial.CodigoSiasg;
+        ddlUnidade.SelectedValue = ObjectReader.ReadID(_servicomaterial.Unidade);
+        ddlSJB.SelectedValue = ObjectReader.ReadID(_servicomaterial.SJB);
+        ddlTipoServicoMaterial.SelectedValue = Convert.ToInt32(_servicomaterial.TipoServicoMaterial).ToString();
+        chkFlagAtivo.Checked = _servicomaterial.FlagAtivo;
+        BindEquipamento();
+        BindLocalizacao();
+    }
+
+    private void ClearFields()
+    {
+        ddlSubClasseServicoMaterial.SelectedIndex = -1;
+        ddlFabricante.SelectedIndex = -1;
+        ddlOrigemMaterial.SelectedIndex = -1;
+        txtDescricao.Text = "";
+        txtDescricaoSingra.Text = "";
+        txtCodigoInterno.Text = "";
+        txtNumeroReferencia.Text = "";
+        txtCodigoSiasg.Text = "";
+        ddlUnidade.SelectedIndex = -1;
+        ddlSJB.SelectedIndex = -1;
+        chkFlagAtivo.Checked = true;
+        ddlTipoServicoMaterial.SelectedIndex = -1;
+
+        ddlSubClasseServicoMaterial.UpdateAfterCallBack = true;
+        ddlFabricante.UpdateAfterCallBack = true;
+        ddlOrigemMaterial.UpdateAfterCallBack = true;
+        txtDescricao.UpdateAfterCallBack = true;
+        txtDescricaoSingra.UpdateAfterCallBack = true;
+        txtCodigoInterno.UpdateAfterCallBack = true;
+        txtCodigoSiasg.UpdateAfterCallBack = true;
+        txtNumeroReferencia.UpdateAfterCallBack = true;
+        ddlUnidade.UpdateAfterCallBack = true;
+        ddlSJB.UpdateAfterCallBack = true;
+        chkFlagAtivo.UpdateAfterCallBack = true;
+        ddlTipoServicoMaterial.UpdateAfterCallBack = true;
+    }
+
+    private void FillObject()
+    {
+        _servicomaterial.SubClasseServicoMaterial = SubClasseServicoMaterial.Get(Convert.ToInt32(ddlSubClasseServicoMaterial.SelectedValue));
+        _servicomaterial.Fabricante = Fabricante.Get(Convert.ToInt32(ddlFabricante.SelectedValue));
+        _servicomaterial.OrigemMaterial = (OrigemMaterial)Convert.ToInt32(ddlOrigemMaterial.SelectedValue);
+        _servicomaterial.Descricao = PageReader.ReadString(txtDescricao);
+        _servicomaterial.DescricaoSingra = PageReader.ReadString(txtDescricaoSingra);
+        _servicomaterial.CodigoInterno = PageReader.ReadString(txtCodigoInterno);
+        _servicomaterial.CodigoSiasg = PageReader.ReadString(txtCodigoSiasg);
+        _servicomaterial.NumeroReferencia = PageReader.ReadString(txtNumeroReferencia);
+        _servicomaterial.Unidade = Unidade.Get(Convert.ToInt32(ddlUnidade.SelectedValue));
+        _servicomaterial.SJB = SJB.Get(Convert.ToInt32(ddlSJB.SelectedValue));
+        _servicomaterial.FlagAtivo = chkFlagAtivo.Checked;
+        _servicomaterial.TipoServicoMaterial = (TipoServicoMaterial)Convert.ToInt32(ddlTipoServicoMaterial.SelectedValue);
+
+    }
+    #endregion
+
+    #region Equipamento
+    private void BindEquipamento()
+    {
+        dgEquipamento.DataSource = _servicomaterial.Equipamentos;
+        dgEquipamento.DataKeyField = "ID";
+        dgEquipamento.DataBind();
+        dgEquipamento.UpdateAfterCallBack = true;
+        Anthem.AnthemClientMethods.ResizeIFrame();
+    }
+    
+    void dgEquipamento_DeleteCommand(object source, DataGridCommandEventArgs e)
+    {
+        int id = Convert.ToInt32(dgEquipamento.DataKeys[e.Item.ItemIndex]);
+        _servicomaterial.RemoveEquipamento(id);
+        BindEquipamento();
+    }
+
+    private void ClearFieldsEquipamento()
+    {
+        ucBuscaEquipamento.Reset();
+    }
+
+    private void SalvarEquipamento()
+    {
+        if(this.IsValid)
+        {
+            _servicomaterial.AddEquipamento(Convert.ToInt32(ucBuscaEquipamento.SelectedValue));
+            BindEquipamento();
+            ClearFieldsEquipamento();
+        }
+    }
+    #endregion
+
+    #region Localizacao
+    private void BindLocalizacao()
+    {
+        dgLocalizacao.DataSource = _servicomaterial.Localizacoes;
+        dgLocalizacao.DataKeyField = "ID";
+        dgLocalizacao.DataBind();
+        dgLocalizacao.UpdateAfterCallBack = true;
+        Anthem.AnthemClientMethods.ResizeIFrame();
+    }
+
+    void dgLocalizacao_DeleteCommand(object source, DataGridCommandEventArgs e)
+    {
+        int id = Convert.ToInt32(dgLocalizacao.DataKeys[e.Item.ItemIndex]);
+        _servicomaterial.RemoveLocalizacao(id);
+        BindLocalizacao();
+    }
+
+    private void ClearFieldsLocalizacao()
+    {
+        ddlLocalizacao.SelectedIndex = -1;
+        RefreshFieldsLocalizacao();
+    }
+    
+    private void RefreshFieldsLocalizacao()
+    {
+        ddlLocalizacao.UpdateAfterCallBack = true;
+    }
+
+    private void SalvarLocalizacao()
+    {
+        if (this.IsValid)
+        {
+            _servicomaterial.AddLocalizacao(Convert.ToInt32(ddlLocalizacao.SelectedValue));
+            BindLocalizacao();
+            ClearFieldsLocalizacao();
+            RefreshFieldsLocalizacao();
+        }
+    }
+    #endregion
+
+    [Anthem.Method]
+    public void AbaAlterada()
+    {
+        if (TabStrip1.SelectedTab.ID == tabDadosBasicos.ID)
+            btnSalvar.ValidationGroup = "DadosBasicos";
+        else if (TabStrip1.SelectedTab.ID == tabEquipamento.ID)
+            btnSalvar.ValidationGroup = "Equipamento";
+        else if (TabStrip1.SelectedTab.ID == tabLocalizacao.ID)
+            btnSalvar.ValidationGroup = "Localizacao";
+
+        btnSalvar.UpdateAfterCallBack = true;
+    }
+
+    [Anthem.Method]
+    public void Excluir()
+    {
+        try
+        {
+            if (TabStrip1.SelectedTab.ID == tabDadosBasicos.ID)
+            {
+                _servicomaterial.Delete();
+                ShowSuccessMessage();
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowMessage(ex.Message);
+        }
+    }
+
+    private void RegisterDelete()
+    {
+        Anthem.Manager.AddScriptAttribute(btnExcluir,"onclick", string.Format("javascript:Excluir({0});", _servicomaterial.ID));
+        btnExcluir.UpdateAfterCallBack = true;
+    }
+   
+}

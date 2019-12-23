@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.ServidorHistorico,Marinha.Business" table="TB_ServidorHistorico" lazy="true">
+
+		<id name="ID" column="ID_ServidorHistorico" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>		
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="FlagFazAtividadeDireta" type="Boolean" name="FlagFazAtividadeDireta" />
+		
+	</class>
+</hibernate-mapping>

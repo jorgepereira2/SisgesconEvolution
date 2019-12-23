@@ -1,0 +1,55 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum StatusPedidoServicoEnum
+	{
+		[Description("Não Enviado")]
+		NaoEnviado = 10,
+		[Description("Aguardando o DAC")]
+        AguardandoDAC = 20,
+        [Description("Aguardando Envio para Delineamento")]
+        AguardandoEnvioParaDelineamento = 30,
+        [Description("Em Delineamento")]
+        EmDelineamento = 40,
+        [Description("Aguardando Orçamento")]
+        AguardandoOrcamento = 50,
+        [Description("Orçamento Finalizado")]
+        OrcamentoFinalizado = 60,
+        [Description("Aguardando Aprovação Comandante DPCP")]
+        AguardandoAprovacaoComandanteDCPC = 70,
+        [Description("Aguardando Aprovação Comandante Geral")]
+        AguardandoAprovacaoComandanteGeral = 80,
+        [Description("Aguardando Envio Mensagem Cliente")]
+        AguardandoEnvioMensagemCliente = 90,
+        [Description("Aguardando Aprovação Cliente")]
+        AguardandoAprovacaoCliente  = 100,
+        [Description("Aguardando Comprometimento do Cliente")]
+	    AguardandoComprometimentoCliente = 110,
+	    [Description("Aguardando Planejamento")]
+        AguardandoPlanejamento = 120,
+        [Description("Aguardando Chamada Meio")]
+        AguardandoChamadaMeio = 130,
+        [Description("Aguardando o Meio")]
+        AguardandoMeio = 140,
+        [Description("Aguardando Início Execução")]
+        AguardandoInicioExecucao = 150,
+        [Description("Em Execução")]
+        EmExecucao = 160,
+        [Description("Aguardando Mensagem de Prontificação")]
+        AguardandoMensagemProntificacao = 170,
+        [Description("Aguardando Emissão Faturamento Final")]
+        AguardandoEmissaoFaturamentoFinal = 180,
+        [Description("Aguardando Devolução Meio")]
+        AguardandoDevolucaoMeio = 190,
+        [Description("Aguardando Satisfeito")]
+        AguardandoSatisfeito = 200,
+        [Description("Aguardando Liquidação")]
+        AguardandoLiquidacao = 210,
+        [Description("Cancelado")]
+        Cancelado = 250,
+        [Description("Finalizado")]
+        Finalizado = 260
+	}
+}

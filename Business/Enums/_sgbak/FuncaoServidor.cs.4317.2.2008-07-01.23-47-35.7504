@@ -1,0 +1,18 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum FuncaoServidor
+	{
+	    [Description("Outras")]
+		Outras = 1,
+		[Description("Gerente DPCP")]
+		GerenteDPCP = 2,
+		[Description("Comandante")]
+		Comandante = 3,
+        [Description("Comprador")]
+        Comprador = 4,
+		
+	}
+}

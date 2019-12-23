@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.CustoHH,Marinha.Business" table="TB_CustoHH" lazy="true">
+
+		<id name="ID" column="ID_CustoHH" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="ValorCusto" type="Decimal" name="ValorCusto" not-null="true" />
+		<property column="MesAno" type="DateTime" name="MesAno" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

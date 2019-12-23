@@ -1,0 +1,17 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum OrigemMaterial
+	{
+		[Description("Obtenção")]
+		Obtencao = 1,
+		[Description("Singra")]
+        Singra = 2,
+        [Description("Rodízio")]
+        Rodizio = 3,
+        [Description("PEP")]
+        PEP = 4
+	}
+}

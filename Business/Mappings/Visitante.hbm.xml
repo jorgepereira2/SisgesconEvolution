@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Visitante,Marinha.Business" table="TB_Visitante" lazy="true">
+
+		<id name="ID" column="ID_Visitante" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Nome" type="String" name="Nome" />
+		<property column="Identidade" type="String" name="Identidade" />
+        <property column="NomeEmpresa" type="String" name="NomeEmpresa" />
+        <property column="Telefone" type="String" name="Telefone" />
+        <property column="Foto" type="BinaryBlob" name="Foto" />
+        
+	</class>
+</hibernate-mapping>

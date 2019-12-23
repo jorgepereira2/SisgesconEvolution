@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.MovimentoEstoque,Marinha.Business" table="TB_MovimentoEstoque" lazy="true">
+
+		<id name="ID" column="ID_MovimentoEstoque" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>		
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+		<many-to-one name="Material" column="ID_Material" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="ID_TipoMovimento" type="Int32" name="TipoMovimento" not-null="true" />
+        <property column="ID_OrigemMaterial" type="Int32" name="OrigemMaterial" not-null="true" />
+        <property column="ID_TipoOperacaoEstoque" type="Int32" name="TipoOperacaoEstoque" not-null="true" />
+        <many-to-one name="RequisicaoEstoqueItem" column="ID_RequisicaoEstoqueItem" class="Marinha.Business.RequisicaoEstoqueItem,Marinha.Business" />
+        <many-to-one name="EntradaMaterialItem" column="ID_EntradaMaterialItem" class="Marinha.Business.EntradaMaterialItem,Marinha.Business" />
+        <many-to-one name="PedidoCotacaoItem" column="ID_PedidoCotacaoItem" class="Marinha.Business.PedidoCotacaoItem,Marinha.Business" />
+      <many-to-one name="ItemOMF" column="ID_NotaEntregaMaterialOMFItem" class="Marinha.Business.NotaEntregaMaterialOMFItem,Marinha.Business" />
+	</class>
+</hibernate-mapping>

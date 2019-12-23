@@ -1,0 +1,18 @@
+USE [SisGesconEvolution]
+GO
+
+DELETE FROM TB_PedidoServicoAtividadeSecundaria
+DELETE FROM TB_PedidoServicoAtividadeSecundariaItem
+DELETE FROM TB_PedidoServicoDelineamento
+DELETE FROM TB_PedidoServicoEquipamento
+DELETE FROM TB_PedidoServicoItemOrcamento
+DELETE FROM TB_PedidoServicoMergulho
+DELETE FROM TB_PedidoServicoMergulhoDelineamento
+DELETE FROM TB_PedidoServicoMergulhoItemOrcamento
+DELETE FROM TB_PedidoServicoRotina
+DELETE FROM TB_HistoricoPedidoServico
+DELETE FROM TB_DelineamentoOficina
+DELETE FROM TB_DelineamentoOrcamento
+DELETE FROM TB_PedidoServico
+
+GO

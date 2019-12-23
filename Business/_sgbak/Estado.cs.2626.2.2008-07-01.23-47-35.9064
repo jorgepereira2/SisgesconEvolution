@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Estado : BusinessObject<Estado>, IComparable<Estado>
+	{
+		#region Private Members
+		
+		private string _sigla; 
+		private string _nome; 
+		private bool _flagativo; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Estado()
+		{
+			
+			_sigla = null; 
+			_nome = null; 
+			_flagativo = false; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+				
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Sigla
+		{
+			get { return _sigla; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 2)
+						throw new ArgumentOutOfRangeException("Invalid value for Sigla", value, value.ToString());
+				
+				_sigla = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Nome
+		{
+			get { return _nome; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Estado", value, value.ToString());
+				
+				_nome = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+			#endregion 
+		
+		#region Public Methods
+		public static Dictionary<int, string> List()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery("select e.ID, e.Nome from Estado e order by e.Nome");
+
+			return BusinessHelper.ExecuteList(query);
+		}
+
+		#endregion
+
+	    public int CompareTo(Estado other)
+	    {
+	        if(other == null)
+	            return -1;
+	        return _sigla.CompareTo(other._sigla);
+	    }
+
+        public override string ToString()
+        {
+            return _sigla;
+        }
+	}
+}

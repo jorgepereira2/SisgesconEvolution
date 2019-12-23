@@ -1,0 +1,56 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPedidoObtencaoListagem.aspx.cs" Inherits="frmPedidoObtencaoListagem" %>
+<%@ Register TagPrefix="WebControls" Assembly="Shared.WebControls" Namespace="Shared.WebControls" %>
+<%@ Register Src="~/UserControls/ucColumnManager.ascx" TagPrefix="uc" TagName="ColumnManager" %>
+<%@ Register Src="~/UserControls/CabecalhoRelatorio.ascx" TagPrefix="uc" TagName="Cabecalho" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+    <link href="../css/basicStyle.css" type="text/css" rel="stylesheet"  />   
+    
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+    <uc:Cabecalho ID="Cabecalho1" runat="server" Titulo="Pedidos de Obtenção" />
+    <uc:ColumnManager runat="server" ID="ucColumn" />  
+    <div>
+    <br />
+    <Anthem:Panel runat="server" ID="pnGrid" >
+      <WebControls:ReportGridView runat="server" ID="gvPesquisa" Width="100%" CssClass="datagrid" 
+         AutoGenerateColumns="false" CellPadding="3" >
+        <HeaderStyle CssClass="dgHeader" />                                            
+        <AlternatingRowStyle CssClass="dgAlternatingItem" />
+        <FooterStyle CssClass="dgFooter" />
+        <Columns>
+            <asp:BoundField HeaderText="Número" ItemStyle-HorizontalAlign="center"  SortExpression="Numero" 
+                DataField="Numero" Visible="True" />
+            <asp:BoundField HeaderText="Data" ItemStyle-HorizontalAlign="center"  SortExpression="DataEmissao" 
+                DataField="DataEmissao" Visible="True" HtmlEncode="false" DataFormatString="{0:dd/MM/yyyy}" />
+            <asp:BoundField HeaderText="Aplicação" ItemStyle-HorizontalAlign="left"  SortExpression="Aplicacao" 
+                DataField="Aplicacao" Visible="True" />
+            <asp:BoundField HeaderText="Célula" ItemStyle-HorizontalAlign="left"  SortExpression="Celula" 
+                DataField="Celula" Visible="True" />
+            <asp:BoundField HeaderText="Status" ItemStyle-HorizontalAlign="center"  SortExpression="Status" 
+                DataField="Status" Visible="True" />             
+            <asp:BoundField HeaderText="Valor Total" ItemStyle-HorizontalAlign="right"  SortExpression="ValorTotal" 
+                DataField="ValorTotal" Visible="True" DataFormatString="{0:N2}" HtmlEncode="false" />            
+            <asp:BoundField HeaderText="Servidor" ItemStyle-HorizontalAlign="left"  SortExpression="Servidor" 
+                DataField="Servidor" Visible="False" />
+            <asp:BoundField HeaderText="Observação" ItemStyle-HorizontalAlign="left"  SortExpression="Observacao" 
+                DataField="Observacao" Visible="false" />
+            <asp:TemplateField HeaderText="Detalhes" ItemStyle-HorizontalAlign="Center"  Visible="True">
+                <ItemTemplate>
+                    <Anthem:LinkButton runat="server" ID="lnkDetalhes" Text="Detalhes" />
+                </ItemTemplate>
+            </asp:TemplateField> 
+        </Columns>
+    </WebControls:ReportGridView>  
+    </Anthem:Panel>
+    </div>
+    </div>    
+    </form>    
+</body>
+</html>

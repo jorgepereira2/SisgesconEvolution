@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Projeto : BusinessObject<Projeto>, IDescricao, IComparable<Projeto>	
+	{
+		#region Private Members
+		private string _descricao; 
+		private bool _flagativo; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Projeto()
+		{
+			_descricao = null; 
+			_flagativo = false; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 100)
+						throw new ArgumentOutOfRangeException("Invalid value for Descricao", value, value.ToString());
+				
+				_descricao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+		#endregion 
+		
+		
+		#region Public Methods
+		
+		public static Dictionary<int, string> List()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"select l.ID, l.Descricao 
+			from Projeto l  
+			where l.FlagAtivo = 1
+			order by l.Descricao");
+		
+			return BusinessHelper.ExecuteList(query); 
+		}
+		
+		public static List<Projeto> Select()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"from Projeto l  			
+			order by l.Descricao");
+		
+			return (List<Projeto>)query.List<Projeto>();
+		}
+		
+		#endregion
+
+        public override string ToString()
+        {
+            return _descricao;
+        }
+
+
+        public virtual int CompareTo(Projeto other)
+	    {
+	        if(other == null) return -1;
+	        return _descricao.CompareTo(other._descricao);
+	    }
+	}
+}

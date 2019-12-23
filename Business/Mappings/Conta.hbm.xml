@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Conta,Marinha.Business" table="TB_Conta" lazy="true">
+
+		<id name="ID" column="ID_Conta" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Projeto" column="ID_Projeto" class="Marinha.Business.Projeto,Marinha.Business" />
+		<many-to-one name="Fase" column="ID_Fase" class="Marinha.Business.Fase,Marinha.Business" />
+		<many-to-one name="NaturezaDespesa" column="ID_NaturezaDespesa" class="Marinha.Business.NaturezaDespesa,Marinha.Business" />
+		<property column="Ano" type="Int32" name="Ano" not-null="true" />
+		<property column="Descricao" type="String" name="Descricao" not-null="true" />
+        <many-to-one name="PTRES" column="ID_PTRES" class="Marinha.Business.PTRES,Marinha.Business" />
+        <many-to-one name="UGE" column="ID_UGE" class="Marinha.Business.UGE,Marinha.Business" />
+		
+	</class>
+</hibernate-mapping>

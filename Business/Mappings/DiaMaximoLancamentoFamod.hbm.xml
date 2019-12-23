@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.DiaMaximoLancamentoFamod,Marinha.Business" table="TB_DiaMaximoLancamentoFamod" lazy="true">
+
+		<id name="ID" column="ID_DiaMaximoLancamentoFamod" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Data" type="DateTime" name="Data" />
+    <property column="Mes" type="Int32" name="Mes" />
+    <property column="Ano" type="Int32" name="Ano" />
+	</class>
+</hibernate-mapping>

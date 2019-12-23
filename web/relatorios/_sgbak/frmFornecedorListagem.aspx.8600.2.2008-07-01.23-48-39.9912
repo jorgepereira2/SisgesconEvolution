@@ -1,0 +1,110 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmFornecedorListagem.aspx.cs" Inherits="frmFornecedorListagem" %>
+<%@ Register TagPrefix="WebControls" Assembly="Shared.WebControls" Namespace="Shared.WebControls" %>
+<%@ Register Src="~/UserControls/ucColumnManager.ascx" TagPrefix="uc" TagName="ColumnManager" %>
+<%@ Register Src="~/UserControls/CabecalhoRelatorio.ascx" TagPrefix="uc" TagName="Cabecalho" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+    <link href="../css/basicStyle.css" type="text/css" rel="stylesheet"  />   
+    
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+    <uc:Cabecalho ID="Cabecalho1" runat="server" Titulo="Listagem de Fornecedores" />
+    <uc:ColumnManager runat="server" ID="ucColumn" />  
+    <div>
+    <br />
+    <Anthem:Panel runat="server" ID="pnGrid" >
+      <WebControls:ReportGridView runat="server" ID="gvPesquisa" Width="100%" CssClass="datagrid" 
+         AutoGenerateColumns="false" CellPadding="3" >
+        <HeaderStyle CssClass="dgHeader" />                                            
+        <AlternatingRowStyle CssClass="dgAlternatingItem" />
+        <FooterStyle CssClass="dgFooter" />
+        <Columns>
+             <asp:BoundField HeaderText="Razão Social" ItemStyle-HorizontalAlign="left"  SortExpression="RazaoSocial" 
+                DataField="Razaosocial" Visible="True" />
+            <asp:BoundField HeaderText="CNPJ" ItemStyle-HorizontalAlign="center"  SortExpression="CNPJ" 
+                DataField="CNPJ" Visible="True" />
+            <asp:BoundField HeaderText="Tipo" ItemStyle-HorizontalAlign="center"  SortExpression="TipoFornecedor" 
+                DataField="TipoFornecedor" Visible="True" />
+            <asp:BoundField HeaderText="Telefone" ItemStyle-HorizontalAlign="center"  SortExpression="Telefone" 
+                DataField="Telefone" Visible="True" />
+            <asp:BoundField HeaderText="Fax" ItemStyle-HorizontalAlign="center"  SortExpression="Fax" 
+                DataField="Fax" Visible="True" />
+            <asp:BoundField HeaderText="E-mail" ItemStyle-HorizontalAlign="center"  SortExpression="Email" 
+                DataField="Email" Visible="True" />
+            <asp:BoundField HeaderText="Endereco" ItemStyle-HorizontalAlign="left"  SortExpression="Endereco" 
+                DataField="Endereco" Visible="false" />
+            <asp:BoundField HeaderText="Bairro" ItemStyle-HorizontalAlign="center"  SortExpression="Bairro" 
+                DataField="Bairro" Visible="false" />            
+            <asp:BoundField HeaderText="CEP" ItemStyle-HorizontalAlign="center"  SortExpression="CEP" 
+                DataField="CEP" Visible="false" />
+            <asp:BoundField HeaderText="Estado" ItemStyle-HorizontalAlign="center"  SortExpression="Estado" 
+                DataField="Estado" Visible="false" />
+            <asp:BoundField HeaderText="Município" ItemStyle-HorizontalAlign="center"  SortExpression="Municipio" 
+                DataField="Municipio" Visible="false" />
+             <asp:BoundField HeaderText="Observação" ItemStyle-HorizontalAlign="left"  SortExpression="Observacao" 
+                DataField="Observacao" Visible="false" />
+            <asp:BoundField HeaderText="Banco" ItemStyle-HorizontalAlign="center"  SortExpression="NumeroBanco" 
+                DataField="NumeroBanco" Visible="false" />
+            <asp:BoundField HeaderText="Agência" ItemStyle-HorizontalAlign="center"  SortExpression="Agencia" 
+                DataField="Agencia" Visible="false" />
+            <asp:BoundField HeaderText="Conta Corrente" ItemStyle-HorizontalAlign="center"  SortExpression="ContaCorrente" 
+                DataField="ContaCorrente" Visible="false" />
+            <asp:BoundField HeaderText="Validade Certidao Receita" ItemStyle-HorizontalAlign="center"  SortExpression="ValidadeCertidaoReceitaFederal" 
+                DataField="ValidadeCertidaoReceitaFederal" Visible="false" DataFormatString="{0:dd/MM/yyyy}" />
+            <asp:BoundField HeaderText="Val. Certidao FGTS" ItemStyle-HorizontalAlign="center"  SortExpression="validadecertidaofgts" 
+                DataField="validadecertidaofgts" Visible="false" DataFormatString="{0:dd/MM/yyyy}" />
+            <asp:BoundField HeaderText="Val. Cert. Divida União" ItemStyle-HorizontalAlign="center"  SortExpression="validadecertidaodividauniao" 
+                DataField="validadecertidaodividauniao" Visible="false" DataFormatString="{0:dd/MM/yyyy}" />
+            <asp:BoundField HeaderText="Material Fornecido" ItemStyle-HorizontalAlign="left"  SortExpression="descricaomaterialfornecido" 
+                DataField="descricaomaterialfornecido" />
+            
+            <asp:TemplateField ItemStyle-HorizontalAlign="left" headertext="Contatos" Visible="false"  >
+                <ItemTemplate>
+                
+                       <anthem:DataGrid runat="server" ID="dgContato" Width="100%" CssClass="datagrid"
+                             AutoGenerateColumns="false" CellPadding="3" BorderWidth="1px"  >
+                            <HeaderStyle Font-Bold="true"  />                                    
+                            <ItemStyle CssClass="dgItem" />
+                            <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                            <FooterStyle CssClass="dgFooter" />
+                            <EditItemStyle HorizontalAlign="Center" />
+                            <Columns>
+                                <asp:TemplateColumn HeaderText="Contato" ItemStyle-HorizontalAlign="left">
+                                    <ItemTemplate>
+                                        <%# ((FornecedorContato)Container.DataItem).Nome %>
+                                    </ItemTemplate>                                                                                  
+                                </asp:TemplateColumn>                    
+                                 <asp:TemplateColumn HeaderText="Telefone" ItemStyle-HorizontalAlign="center">
+                                    <ItemTemplate>
+                                       <%# ((FornecedorContato)Container.DataItem).Telefone %>
+                                    </ItemTemplate>                                            
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Celular" ItemStyle-HorizontalAlign="center">
+                                    <ItemTemplate>
+                                       <%# ((FornecedorContato)Container.DataItem).Celular %>
+                                    </ItemTemplate>                                            
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="E-mail" ItemStyle-HorizontalAlign="center">
+                                    <ItemTemplate>
+                                       <%# ((FornecedorContato)Container.DataItem).Email%>
+                                    </ItemTemplate>                                            
+                                </asp:TemplateColumn>
+                            </Columns>
+                        </anthem:DataGrid>
+                    
+                </ItemTemplate>
+            </asp:TemplateField>                       
+        </Columns>
+    </WebControls:ReportGridView>  
+    </Anthem:Panel>
+    </div>
+    </div>    
+    </form>    
+</body>
+</html>

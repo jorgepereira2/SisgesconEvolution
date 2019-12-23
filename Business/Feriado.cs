@@ -1,0 +1,144 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Feriado : BusinessObject<Feriado>, IDescricao	
+	{
+		#region Private Members
+		private DateTime _data; 
+		private bool _flagmeioexpediente; 
+		private string _descricao; 
+		private bool _flagativo; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Feriado()
+		{
+			_data = DateTime.MinValue; 
+			_flagmeioexpediente = false; 
+			_descricao = null; 
+			_flagativo = false; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime Data
+		{
+			get { return _data; }
+			set { _data = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagMeioExpediente
+		{
+			get { return _flagmeioexpediente; }
+			set { _flagmeioexpediente = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Descricao", value, value.ToString());
+				
+				_descricao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+			#endregion 
+		
+		
+		#region Public Methods
+	
+		public static List<Feriado> Select()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"from Feriado f  			
+			order by f.Data DESC");
+		
+			return (List<Feriado>)query.List<Feriado>();
+		}
+
+        public static List<Feriado> Select(int ano, int mes)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from Feriado f  			
+            where dbo.GetMonth(f.Data) = :mes   
+            and dbo.GetYear(:ano) = :ano
+			order by f.Data DESC");
+
+            query.SetInt32("ano", ano);
+            query.SetInt32("mes", mes);
+            return (List<Feriado>)query.List<Feriado>();
+        }
+
+        public static List<Feriado> Select(DateTime dataInicio, DateTime dataFim)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from Feriado f  			
+            where dbo.DateIsInBetween(f.Data, :dataInicio, :dataFim) = 1
+			order by f.Data DESC");
+
+            query.SetDateTime("dataInicio", dataInicio);
+            query.SetDateTime("dataFim", dataFim);
+            return (List<Feriado>)query.List<Feriado>();
+        }
+		
+		public static Feriado Get(DateTime data)
+		{
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from Feriado f  			
+			where f.Data = :data");
+
+		    query.SetDateTime("data", data);
+		    return query.UniqueResult<Feriado>();
+		}
+
+        public static bool EhMeioExpediente(DateTime data)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from Feriado f  			
+			where f.Data = :data
+            and f.FlagMeioExpediente = 1");
+
+            query.SetDateTime("data", data);
+            return query.UniqueResult<Feriado>() != null;
+        }
+		#endregion
+		
+		
+		
+	}
+}

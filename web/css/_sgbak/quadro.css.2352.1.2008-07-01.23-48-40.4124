@@ -1,0 +1,61 @@
+﻿table.quadro
+{
+    width:360px;
+    height:380px;
+}
+
+table.quadro tr td.top
+{
+    background: transparent url('../images/border_quadro_top.png') no-repeat 0 0;
+    height:25px;
+    text-align:center;
+    font-size:13px;
+    font-weight:bold;
+    font-family:Verdana;
+    color:White;
+}
+
+table.quadro tr td.bottom
+{
+    background: transparent url('../images/border_quadro_bottom.png') no-repeat 0 0;
+    height:25px;
+    text-align:center;    
+}
+
+table.quadro tr td.right
+{
+    background: transparent url('../images/border_quadro_right.png') repeat-y 0 0;
+    width:4px;
+    text-align:center;        
+}
+
+table.quadro tr td.left
+{
+    background: transparent url('../images/border_quadro_left.png') repeat-y 0 0;
+    width:4px;
+    text-align:center;    
+}
+
+table.quadro tr td.middle
+{
+    background-color:#E3E8EA;
+    vertical-align:top;
+    text-align:left;
+    height:330px;   
+    font-family:Verdana;
+    font-size:11px; 
+}
+
+.button
+{   
+   -moz-opacity:.70;
+   opacity:.70;   
+    
+}
+
+
+.button:hover
+{
+    -moz-opacity:1;
+    opacity:1;
+}

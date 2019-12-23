@@ -1,0 +1,520 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmFornecedorCadastro.aspx.cs" Inherits="frmFornecedorCadastro" %>
+<%@ Register TagPrefix="ComponentArt" Namespace="ComponentArt.Web.UI" Assembly="ComponentArt.Web.UI" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />
+      <link href="../css/tabStyle.css" type="text/css" rel="stylesheet" />  
+     <script type="text/javascript">
+    
+    function AbaAlterada()
+    {
+        parent.iframeresize();        
+    }
+    
+    function ShowMotivoInativo()
+    {
+        var chk = document.getElementById('chkFlagAtivo');
+        
+        if(chk.checked)
+            document.getElementById('trMotivoInativo').style.display = 'none';
+        else
+            document.getElementById('trMotivoInativo').style.display = '';
+    }
+    
+    function FornecedorAdicionado(id, razaosocial)
+    {
+        if(opener && opener.FornecedorAdicionado)
+            opener.FornecedorAdicionado(id, razaosocial);
+    }
+    </script> 
+</head>
+<body onload="ShowMotivoInativo();">
+    <form id="form1" runat="server">
+    <Anthem:ValidationSummary runat="server" ShowMessageBox="true" DisplayMode="BulletList" ShowSummary="true" />
+    <div align="center">
+    <div align="right" style="width:90%" Class="PageTitle">
+    <br />
+        Cadastro de Fornecedores
+    </div>
+      <table cellSpacing="4" cellPadding="3" border="0" Width="90%" >																		    
+        <tr>
+            <td style="border:solid 0px black" valign="top" align="left">               
+                <br />
+                
+                <ComponentArt:TabStrip id="TabStrip1" 
+                  CssClass="TopGroup"                  
+                  DefaultItemLookId="DefaultTabLook"
+                  DefaultSelectedItemLookId="SelectedTabLook"
+                  DefaultDisabledItemLookId="DisabledTabLook" 
+                  DefaultGroupTabSpacing="0" TopGroupAlign="Left" DefaultGroupAlign="Left" DefaultItemTextAlign="Left"
+                  ImagesBaseUrl="../images/tabstrip/"
+                  runat="server" MultiPageId="MultiPage1">
+                <Tabs>
+                    <ComponentArt:TabStripTab Text="Dados Básicos" PageViewId="pvDadosBasicos" LookId="DefaultTabLook" runat="server" ID="tabDadosBasicos" ClientSideCommand="AbaAlterada();" />
+                    <ComponentArt:TabStripTab Text="Contatos" runat="server" ID="tabContato" ClientSideCommand="AbaAlterada();" PageViewId="pvContato" />                    
+                </Tabs>  
+                <ItemLooks>
+                  <ComponentArt:ItemLook LookId="DefaultTabLook" CssClass="DefaultTab" HoverCssClass="DefaultTabHover" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="5" LabelPaddingBottom="4" LeftIconUrl="tab_left_icon.gif" RightIconUrl="tab_right_icon.gif" HoverLeftIconUrl="hover_tab_left_icon.gif" HoverRightIconUrl="hover_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" />
+                  <ComponentArt:ItemLook LookId="SelectedTabLook" CssClass="SelectedTab" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="4" LabelPaddingBottom="4" LeftIconUrl="selected_tab_left_icon.gif" RightIconUrl="selected_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" />
+                </ItemLooks>
+                </ComponentArt:TabStrip>
+                <ComponentArt:MultiPage id="MultiPage1" CssClass="MultiPage" runat="server">
+                    
+                  <ComponentArt:PageView CssClass="PageContent" id="pvDadosBasicos" runat="server">
+                    <table cellSpacing="4" cellPadding="3" border="0" Width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Fornecedor
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >
+                                    <tr>
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Razão Social:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtRazaoSocial" 
+                                                MaxLength="50" Columns="50" />
+                                           &nbsp;
+                                           <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtRazaoSocial"
+                                                 ErrorMessage="Campo obrigatório" Display="dynamic" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Tipo Pessoa:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlTipoPessoa" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ControlToValidate="ddlTipoPessoa"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" />
+						                </td>
+					                </tr> 
+                                    <tr>
+                                        <td class="msgErro" >*</td>
+                                        <td align="right" >
+                                           CNPJ/CPF:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:NumericTextBox runat="server" ID="txtCNPJ" decimalplaces="0"
+                                                MaxLength="20" Columns="50" />
+                                           &nbsp;
+                                           <Anthem:RegularExpressionValidator runat="server" ID="valCPF" ControlToValidate="txtCNPJ" ErrorMessage="CNPJ inválido"
+                                             Display="Dynamic" ValidationExpression="\b\d+\b"  />
+                                           <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtCNPJ"
+                                                 ErrorMessage="Campo obrigatório" Display="dynamic" />
+                                        </td>
+                                    </tr>                                                        
+                                   <tr>
+						                <td class="msgErro" >*</td>
+						                <td align="right" >
+						                   Tipo:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlTipoFornecedor" />	
+							                   &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ID="valTipoFornecedor" ControlToValidate="ddlTipoFornecedor"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" />
+						                </td>
+					                </tr> 
+					                 <tr>
+						                <td  class="msgErro">*</td>
+						                <td align="right" >
+						                   Telefone:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtTelefone" 
+										                MaxLength="50" Columns="40" />
+										     &nbsp;
+							                   <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtTelefone"
+									                 ErrorMessage="Campo obrigatório" Display="dynamic" />
+						                </td>
+					                </tr>
+					                 <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Fax:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtFax" 
+                                                MaxLength="25" Columns="50" />                           
+                                        </td>
+                                    </tr>
+					                 <tr>
+                                       <td ></td>
+                                        <td align="right" >
+                                           E-mail:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtEmail" MaxLength="70" Columns="50" />
+                                           &nbsp;
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="RegularExpressionValidator" 
+                                                ControlToValidate="txtEmail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                                        </td>
+                                    </tr>                                    
+                                   
+                                    <tr>
+                                        <td ></td>
+                                        <td align="right" >
+                                           Home Page:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:TextBox runat="server" ID="txtHomePage" 
+                                                MaxLength="100" Columns="50" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Observação:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtObservacao" 
+										                Columns="50" TextMode="MultiLine" Rows="2"  />
+						                </td>
+					                </tr>
+                                    <tr>
+                                        <td colspan="3" class="PageTitle" align="left">
+                                            <br />
+                                            Endereço
+                                            <hr size="1" class="divisor" />
+                                
+                                        </td>
+                                    </tr>
+                                  	<tr>
+						                <td >&nbsp;</td>
+						                <td align="right" >
+						                   Endereço:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtEndereco" 
+										                MaxLength="120" Columns="50" />	
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Bairro:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtBairro" 
+										                MaxLength="50" Columns="50" />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td >&nbsp;</td>
+						                <td align="right" >
+						                   CEP:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtCEP" MaxLength="9" Columns="12" />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Estado:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlEstado" AutoCallBack="true" />								                   
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Município:
+						                </td>
+						                <td align="left">
+							                <Anthem:DropDownList runat="server" ID="ddlMunicipio" />								                   
+						                </td>
+					                </tr>
+                                    <tr>
+                                        <td colspan="3" class="PageTitle" align="left">
+                                            <br />
+                                            Dados Bancários
+                                            <hr size="1" class="divisor" />
+                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Número Banco:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtNumeroBanco" 
+										                MaxLength="3" Columns="8" />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right" >
+						                   Agência:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtAgencia" 
+										                MaxLength="12" Columns="20" />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Conta Corrente:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtContaCorrente" 
+										                MaxLength="15" Columns="20" />
+						                </td>
+					                </tr>
+					                <tr>
+                                        <td colspan="3" class="PageTitle" align="left">
+                                            <br />
+                                            Dados Complementares
+                                            <hr size="1" class="divisor" />
+                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+						                <td >&nbsp;</td>
+						                <td align="right" >
+						                   Dt. Validade Certidão do INSS:
+						                </td>
+						                <td align="left">
+							                <Anthem:DateTextBox runat="server" ID="txtValidadeCertidaoReceitaFederal"  />	
+						                </td>
+					                </tr>
+					                <tr>
+						                <td >&nbsp;</td>
+						                <td align="right" >
+						                   Validade Cert. FGTS:
+						                </td>
+						                <td align="left">
+							                <Anthem:DateTextBox runat="server" ID="txtValidadeCertidaoFGTS"  />	
+						                </td>
+					                </tr>
+					                <tr>
+						                <td >&nbsp;</td>
+						                <td align="right" >
+						                   Validade Cert. Dívida união:
+						                </td>
+						                <td align="left">
+							                <Anthem:DateTextBox runat="server" ID="txtValidadeCertidaoDividaUniao"  />	
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Material Fornecido:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtMaterialFornecido" 
+										                Columns="50" TextMode="MultiLine" Rows="3"  />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   É OM?:
+						                </td>
+						                <td align="left">
+							                <Anthem:CheckBox runat="server" ID="chkFlagOM" />
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Optante Simples?:
+						                </td>
+						                <td align="left">
+							                <Anthem:CheckBox runat="server" ID="chkFlagOptanteSimples" />
+						                </td>
+					                </tr>
+                                     <tr>
+						                <td  class="msgErro"></td>
+						                <td align="right" >
+						                   Número Contrato:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtNumeroContrato" MaxLength="50" Columns="40" />										     
+						                </td>
+					                </tr>
+					                <tr>
+						                <td ></td>
+						                <td align="right">
+						                   Ativo:
+						                </td>
+						                <td align="left">
+							                <Anthem:CheckBox runat="server" ID="chkFlagAtivo" Checked="true" />
+						                </td>
+					                </tr>
+					                <tr id="trMotivoInativo">
+						                <td ></td>
+						                <td align="right">
+						                   Motivo Inativo:
+						                </td>
+						                <td align="left">
+							                <Anthem:TextBox runat="server" ID="txtMotivoInativo" 
+										                Columns="50" TextMode="MultiLine" Rows="2"  />
+						                </td>
+					                </tr>
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>
+                  </ComponentArt:PageView>
+                  
+                  
+                   <ComponentArt:PageView CssClass="PageContent" runat="server" id="pvContato" >
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Contatos
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgContato" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle CssClass="dgFooter" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Nome" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((FornecedorContato)Container.DataItem).Nome %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Telefone" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((FornecedorContato)Container.DataItem).Telefone %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="E-mail" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((FornecedorContato)Container.DataItem).Email %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Setor" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((FornecedorContato)Container.DataItem).Setor %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Celular" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((FornecedorContato)Container.DataItem).Celular %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnEditar" Text="Editar" 
+                                                    CommandName="Edit" CausesValidation="false" /> 
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                                <Anthem:LinkButton runat="server" ID="btnExcluir" Text="Excluir" CommandName="Delete" />                                                
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </anthem:datagrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>                      
+                        <tr>
+                            <td width="5%" >&nbsp;</td>
+                            <td align="right" width="15%">
+                               Nome:
+                            </td>
+                            <td align="left">
+                               <Anthem:TextBox runat="server" ID="txtNomeContato" Columns="50" MaxLength="50" />
+                               &nbsp;
+                               <Anthem:RequiredFieldValidator runat="server" ControlToValidate="txtNomecontato"
+                                ErrorMessage="Campo obrigatório"  Display="dynamic"
+                                ValidationGroup="Contato" />
+                            </td>
+                        </tr>
+                         <tr>
+                            <td >&nbsp;</td>
+                            <td align="right" >
+                               Telefone:
+                            </td>
+                            <td align="left">
+                               <Anthem:TextBox runat="server" ID="txtTelefoneContato" Columns="50" MaxLength="25" />                               
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td >&nbsp;</td>
+                            <td align="right" >
+                               Celular:
+                            </td>
+                            <td align="left">
+                               <Anthem:TextBox runat="server" ID="txtCelularContato" Columns="50" MaxLength="25" />                               
+                            </td>
+                        </tr> 
+                         <tr>
+                            <td >&nbsp;</td>
+                            <td align="right" >
+                               Setor:
+                            </td>
+                            <td align="left">
+                               <Anthem:TextBox runat="server" ID="txtSetorContato" Columns="50" MaxLength="40" />                               
+                            </td>
+                        </tr> 
+                        <tr>
+                           <td ></td>
+                            <td align="right" >
+                               E-mail:
+                            </td>
+                            <td align="left">
+                               <Anthem:TextBox runat="server" ID="txtEmailContato" MaxLength="70" Columns="50" />
+                               &nbsp;
+                                <asp:RegularExpressionValidator runat="server" ErrorMessage="RegularExpressionValidator" 
+                                    ControlToValidate="txtEmailContato" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                            </td>
+                        </tr>    
+                    </table> 
+                </ComponentArt:PageView>   
+                </ComponentArt:MultiPage>
+            </td>
+        </tr>
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+            
+            </td>
+            <td align="right">
+                <Anthem:Button runat="server" ID="btnSalvar" TextDuringCallBack="Aguarde" Text="Salvar"
+                     EnabledDuringCallBack="false" CssClass="Button" />
+                     
+                <Anthem:Button runat="server" ID="btnNovo" TextDuringCallBack="Aguarde" Text="Novo"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" />    
+                 <Anthem:Button runat="server" ID="btnExcluir" TextDuringCallBack="Aguarde" Text="Excluir"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" /> 
+                <Anthem:Button runat="server" ID="btnVoltar" Text="Voltar"
+                     CssClass="Button" CausesValidation="false" />
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

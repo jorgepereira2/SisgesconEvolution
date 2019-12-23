@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Marinha.Business;
+using Shared.Common;
+using Shared.NHibernateDAL;
+
+
+public partial class CotacaoItem : System.Web.UI.UserControl
+{
+    public PedidoObtencaoItem Item
+    {
+        get{ return Session["CotacaoItem.Item"] == null ? null : (PedidoObtencaoItem) Session["CotacaoItem.Item"];}
+        private set{ Session["CotacaoItem.Item"] = value;}
+    }
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if(!this.Page.IsPostBack)
+        {
+            Dictionary<int, string> list = Fornecedor.List();
+            Util.FillDropDownList(ddlFornecedor, list, "-- Escolha um Opção --");
+            Util.FillDropDownList(ddlFornecedor2, list, "-- Escolha um Opção --");
+            Util.FillDropDownList(ddlFornecedor3, list, "-- Escolha um Opção --");
+            Util.FillDropDownList(ddlFornecedor4, list, "-- Escolha um Opção --");
+        }
+    }
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        btnCancelar.Click += delegate {winCotacao.Hide();};
+        btnSalvar.Click += new EventHandler(btnSalvar_Click);
+    }
+
+    void btnSalvar_Click(object sender, EventArgs e)
+    {
+        Item.FornecedorCotacao = Fornecedor.Get(Convert.ToInt32(ddlFornecedor.SelectedValue));
+        Item.FornecedorCotacao2 = Fornecedor.Get(Convert.ToInt32(ddlFornecedor2.SelectedValue));
+        Item.FornecedorCotacao3 = Fornecedor.Get(Convert.ToInt32(ddlFornecedor3.SelectedValue));
+        Item.FornecedorCotacao4 = Fornecedor.Get(Convert.ToInt32(ddlFornecedor4.SelectedValue));
+        Item.ValorCotacao = PageReader.ReadNullableDecimal(txtValor);
+        Item.ValorCotacao2 = PageReader.ReadNullableDecimal(txtValor2);
+        Item.ValorCotacao3 = PageReader.ReadNullableDecimal(txtValor3);
+        Item.ValorCotacao4 = PageReader.ReadNullableDecimal(txtValor4);
+        Item.SalvarCotacao();
+        
+        winCotacao.Hide();
+        if (CotacaoAtualizada != null)
+            CotacaoAtualizada(this, new EventArgs());
+        Item = null;
+    }
+
+    void btnCancelar_Click(object sender, EventArgs e)
+    {
+        winCotacao.Hide();
+    }
+
+    public event EventHandler CotacaoAtualizada;    
+
+    
+    
+    public void Show(PedidoObtencaoItem item)
+    {
+        this.Item = item;
+
+        ddlFornecedor.SelectedValue = ObjectReader.ReadID(item.FornecedorCotacao);
+        ddlFornecedor2.SelectedValue = ObjectReader.ReadID(item.FornecedorCotacao2);
+        ddlFornecedor3.SelectedValue = ObjectReader.ReadID(item.FornecedorCotacao3);
+        ddlFornecedor4.SelectedValue = ObjectReader.ReadID(item.FornecedorCotacao4);
+
+        txtValor.Text = ObjectReader.ReadDecimal(item.ValorCotacao);
+        txtValor2.Text = ObjectReader.ReadDecimal(item.ValorCotacao2);
+        txtValor3.Text = ObjectReader.ReadDecimal(item.ValorCotacao3);
+        txtValor4.Text = ObjectReader.ReadDecimal(item.ValorCotacao4);
+     
+        RefreshFields();
+        winCotacao.Show();
+    }
+    
+    public void Close()
+    {
+        winCotacao.Hide();
+        ClearFields();
+    }
+
+    private void ClearFields()
+    {
+        ddlFornecedor.SelectedIndex = -1;
+        ddlFornecedor2.SelectedIndex = -1;
+        ddlFornecedor3.SelectedIndex = -1;
+        ddlFornecedor4.SelectedIndex = -1;
+        txtValor.Text = "";
+        txtValor2.Text = "";
+        txtValor3.Text = "";
+        txtValor4.Text = "";
+
+        RefreshFields();
+    }
+
+    private void RefreshFields()
+    {
+        ddlFornecedor.UpdateAfterCallBack = true;
+        ddlFornecedor2.UpdateAfterCallBack = true;
+        ddlFornecedor3.UpdateAfterCallBack = true;
+        ddlFornecedor4.UpdateAfterCallBack = true;
+        txtValor.UpdateAfterCallBack = true;
+        txtValor2.UpdateAfterCallBack = true;
+        txtValor3.UpdateAfterCallBack = true;
+        txtValor4.UpdateAfterCallBack = true;
+    }
+}

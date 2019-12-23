@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoServicoAtividadeSecundaria,Marinha.Business" table="TB_PedidoServicoAtividadeSecundaria" lazy="true">
+
+		<id name="ID" column="ID_PedidoServicoAtividadeSecundaria" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="CodigoInterno" type="Int32" name="CodigoInterno" not-null="true" />
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<many-to-one name="Cliente" column="ID_Cliente" class="Marinha.Business.Cliente,Marinha.Business" />
+		<many-to-one name="ClientePagador" column="ID_ClientePagador" class="Marinha.Business.Cliente,Marinha.Business" />		
+	  <property column="FlagRecusado" type="Boolean" name="FlagRecusado" not-null="true" />        
+		<many-to-one name="Status" column="ID_StatusPedidoServicoAtividadeSecundaria" class="Marinha.Business.StatusPedidoServicoAtividadeSecundaria,Marinha.Business" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+    <many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+      
+    <many-to-one name="MotivoCancelamento" column="ID_MotivoCancelamento" class="Marinha.Business.MotivoCancelamento,Marinha.Business" />
+    <property column="DataVencimento" type="DateTime" name="DataVencimento"  />
+    <property column="QuantidadeHH" type="Int32" name="QuantidadeHH"  />
+    <property column="Observacao" type="String" name="Observacao"  />
+
+    <property column="TaxaOperacionalMaoObra" type="Decimal" name="TaxaOperacionalMaoObra"  />
+    <property column="TaxaOperacionalMaterialServico" type="Decimal" name="TaxaOperacionalMaterialServico"  />
+    <property column="TaxaContribuicaoOperacional" type="Decimal" name="TaxaContribuicaoOperacional"  />
+
+    <property column="DescontoFRE170" type="Decimal" name="DescontoFRE170"  />
+    <property column="DescontoFRE171172" type="Decimal" name="DescontoFRE171172"  />
+    <property column="ValorHomemHora" type="Decimal" name="ValorHomemHora"  />
+
+        
+        <bag name="Historico" table="TB_HistoricoPedidoServicoAtividadeSecundaria" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoServicoAtividadeSecundaria" />
+            <one-to-many class="Marinha.Business.HistoricoPedidoServicoAtividadeSecundaria,Marinha.Business" />
+        </bag>
+
+        <bag name="Itens" table="TB_PedidoServicoAtividadeSecundariaItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoServicoAtividadeSecundariaItem],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoServicoAtividadeSecundaria" />
+            <one-to-many class="Marinha.Business.PedidoServicoAtividadeSecundariaItem,Marinha.Business" />
+        </bag>
+
+
+    </class>
+</hibernate-mapping>

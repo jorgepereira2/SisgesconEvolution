@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.DelineamentoOficina,Marinha.Business" table="TB_DelineamentoOficina" lazy="true">
+
+		<id name="ID" column="ID_DelineamentoOficina" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="DelineamentoOrcamento" column="ID_DelineamentoOrcamento" class="Marinha.Business.DelineamentoOrcamento,Marinha.Business" />
+		<many-to-one name="Oficina" column="ID_Oficina" class="Marinha.Business.Celula,Marinha.Business" />        		
+        <many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />    
+        <property column="Enviado" type="Boolean" name="Enviado" />
+        <property column="FlagRecusado" type="Boolean" name="FlagRecusado" />
+        <property column="Justificativa" type="String" name="Justificativa" />
+        <property column="Comentario" type="String" name="Comentario" />
+
+    </class>
+</hibernate-mapping>

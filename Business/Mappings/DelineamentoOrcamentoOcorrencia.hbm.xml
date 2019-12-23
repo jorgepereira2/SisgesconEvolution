@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.DelineamentoOrcamentoOcorrencia,Marinha.Business" table="TB_DelineamentoOrcamentoOcorrencia" lazy="true">
+
+		<id name="ID" column="ID_DelineamentoOrcamentoOcorrencia" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="DelineamentoOrcamento" column="ID_DelineamentoOrcamento" class="Marinha.Business.DelineamentoOrcamento,Marinha.Business" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="FlagServicoTerceiro" type="Boolean" name="FlagServicoTerceiro" not-null="true" />
+		<property column="DataInicio" type="DateTime" name="DataInicio" not-null="true" />		
+		<property column="DescricaoServico" type="String" name="DescricaoServico" not-null="true" length="1000" />
+		<property column="FlagParteEquipamento" type="Boolean" name="FlagParteEquipamento" not-null="true" />
+		<property column="DescricaoParteEquipamento" type="String" name="DescricaoParteEquipamento" length="100" />
+		<property column="DataPrevisaoFim" type="DateTime" name="DataPrevisaoFim" not-null="true" />
+		<property column="DataFim" type="DateTime" name="DataFim" />
+        <property column="DescricaoConclusao" type="String" name="DescricaoConclusao" length="500" />
+        <property column="FlagConcluido" type="Boolean" name="FlagConcluido" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.TB_PedidoObtencaoEmpenho ADD
+	PTRES varchar(100) NULL
+GO
+ALTER TABLE dbo.TB_PedidoObtencaoEmpenho SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+
+844 : Gerente
+3ºSG FN-MO ---	
+--- SOARES DA SILVA
+usuario: william
+senha: admin
+
+
+784 : Delineador
+CB-TE RENATO LIMA
+RENATO FREIRE DE LIMA
+usuario: renato
+senha: admin
+
+
+Entrega parcial dos itens de AC
+Metodologia de controle de valorização de item
+

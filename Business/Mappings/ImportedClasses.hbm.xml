@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <import class="Marinha.Business.EquipamentoUI,Marinha.Business"/>
+  <import class="Marinha.Business.ClienteUI,Marinha.Business"/>
+  <import class="Marinha.Business.ServicoMaterialUI,Marinha.Business"/>
+  <import class="Marinha.Business.PosicaoEstoqueUI,Marinha.Business"/>
+  <import class="Marinha.Business.PedidoServicoUI,Marinha.Business"/>
+  <import class="Marinha.Business.DelineamentoOrcamentoUI,Marinha.Business"/>
+  <import class="Marinha.Business.FornecedorUI,Marinha.Business"/>
+    <import class="Marinha.Business.ServidorUI,Marinha.Business"/>
+</hibernate-mapping>

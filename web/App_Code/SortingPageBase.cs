@@ -1,0 +1,228 @@
+using System;
+using System.Data;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Web.UI.WebControls;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Shared.Common;
+using Shared.SessionState;
+using System.Net.Mail;
+using A = Anthem;
+using System.Configuration;
+//using Shared.Common;
+using Label=System.Web.UI.WebControls.Label;
+
+public abstract class SortingPageBase : MarinhaPageBase
+{
+    public SortingPageBase()
+        : base()
+    {
+        
+    }
+
+	protected string SortExpression
+	{
+		get
+		{
+			if (ViewState["sortfield"] != null && ViewState["sortdirection"] != null)
+			{
+				return ViewState["sortfield"].ToString() + " " + ViewState["sortdirection"];
+			}
+			else
+				return String.Empty;
+		}
+	}
+
+    protected string SortField
+    {
+        get
+        {
+            if (ViewState["sortfield"] != null)
+            {
+                return ViewState["sortfield"].ToString();
+            }
+            else
+                return String.Empty;
+        }
+        set { ViewState["sortfield"] = value; }
+    }
+
+    protected string SortDirection
+    {
+        get
+        {
+            if (ViewState["sortdirection"] != null)
+            {
+                return ViewState["sortdirection"].ToString();
+            }
+            else
+                return String.Empty;
+        }
+        set { ViewState["sortdirection"] = value; }
+    }
+
+
+
+
+	#region GridView
+	private GridView _gv;
+	protected void RegisterSortingControl(GridView gv)
+	{
+		this._gv = gv;
+		this._gv.AllowSorting = true;
+		this._gv.RowCreated += new GridViewRowEventHandler(_gv_RowCreated);
+		this._gv.Sorting += new GridViewSortEventHandler(_gv_Sorting);
+        this._gv.PageIndexChanging += new GridViewPageEventHandler(_gv_PageIndexChanging);
+	}
+
+    void _gv_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        _gv.PageIndex = e.NewPageIndex;
+        Bind();
+    }
+
+	void _gv_Sorting(object sender, GridViewSortEventArgs e)
+	{
+		Sort(e);
+	}
+
+	void _gv_RowCreated(object sender, GridViewRowEventArgs e)
+	{
+		AdicionaSeta(this._gv, e.Row);	
+	}
+
+	protected virtual void Sort(GridViewSortEventArgs e)
+	{
+		ViewState.Add("sortfield", e.SortExpression);
+		if (ViewState["sortdirection"] == null)
+		{
+			ViewState.Add("sortdirection", "ASC");
+		}
+		else if (ViewState["sortdirection"].ToString() == "ASC")
+		{
+			ViewState["sortdirection"] = "DESC";
+		}
+		else
+		{
+			ViewState["sortdirection"] = "ASC";
+		}
+
+		this.Bind();
+	}
+
+	protected void AdicionaSeta(GridView grid, GridViewRow item)
+	{
+		if (ViewState["sortfield"] == null)
+			return;
+
+		Label espaco = new Label();
+		espaco.Text = "&nbsp;";
+		Image seta = new Image();		
+		seta.ImageUrl = String.Format("~/images/seta_{0}.gif", (ViewState["sortdirection"].ToString() == "ASC" ? "cima" : "baixo"));
+
+		// Find the column you sorted by
+		for (int i = 0; i < grid.Columns.Count; i++)
+		{
+			string colExpr = grid.Columns[i].SortExpression;
+			if (colExpr != "" && colExpr == ViewState["sortfield"].ToString())
+			{
+				item.Cells[i].Controls.Add(espaco);
+				item.Cells[i].Controls.Add(seta);
+			}
+		}
+	}
+	#endregion
+
+	#region DataGrid
+	private DataGrid _dg;
+	protected void RegisterSortingControl(DataGrid dg)
+	{
+		this._dg = dg;		
+		this._dg.AllowSorting = true;
+		this._dg.SortCommand += new DataGridSortCommandEventHandler(_dg_SortCommand);
+		this._dg.ItemCreated += new DataGridItemEventHandler(_dg_ItemCreated);
+		this._dg.PageIndexChanged += new DataGridPageChangedEventHandler(_dg_PageIndexChanged);
+	}
+
+	void _dg_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
+	{
+		_dg.CurrentPageIndex = e.NewPageIndex;
+		Bind();
+	}
+
+	void _dg_ItemCreated(object sender, DataGridItemEventArgs e)
+	{
+		if (e.Item.ItemType == ListItemType.Header)
+			AdicionaSeta(this._dg, e.Item);
+	}
+
+	void _dg_SortCommand(object source, DataGridSortCommandEventArgs e)
+	{
+		Sort(e);
+	}
+
+	protected void Sort(DataGridSortCommandEventArgs e)
+	{
+		ViewState.Add("sortfield", e.SortExpression);
+		if (ViewState["sortdirection"] == null)
+		{
+			ViewState.Add("sortdirection", "ASC");
+		}
+		else if (ViewState["sortdirection"].ToString() == "ASC")
+		{
+			ViewState["sortdirection"] = "DESC";
+		}
+		else
+		{
+			ViewState["sortdirection"] = "ASC";
+		}
+
+		this.Bind();
+	}
+
+	protected void AdicionaSeta(DataGrid grid, DataGridItem item)
+	{
+		if (ViewState["sortfield"] == null)
+			return;
+
+		Label espaco = new Label();
+		espaco.Text = "&nbsp;";
+		Image seta = new Image();
+		seta.ImageUrl = String.Format("~/images/seta_{0}.gif", (ViewState["sortdirection"].ToString() == "ASC" ? "cima" : "baixo"));
+
+		// Find the column you sorted by
+		for (int i = 0; i < grid.Columns.Count; i++)
+		{
+			string colExpr = grid.Columns[i].SortExpression;
+			if (colExpr != "" && colExpr == ViewState["sortfield"].ToString())
+			{
+				item.Cells[i].Controls.Add(espaco);
+				item.Cells[i].Controls.Add(seta);
+			}
+		}
+	}
+	#endregion
+
+	protected abstract void Bind();
+
+	protected virtual void Sort<T>(List<T> list)
+	{
+		if (!String.IsNullOrEmpty(this.SortExpression))
+		{
+			DynamicComparer<T> comparer = new DynamicComparer<T>(this.SortExpression);
+			list.Sort(comparer.Comparer);
+		}
+	}
+
+    protected DataView Sort(DataTable dt)
+    {
+        DataView dv = new DataView(dt);
+        if (!String.IsNullOrEmpty(this.SortExpression))
+            dv.Sort = this.SortExpression;
+        return dv;
+    }	
+}
+
+

@@ -1,0 +1,120 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="fchLicitacao.aspx.cs" Inherits="fchLicitacao" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+     <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />  
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center" Class="ReportTitle">
+        Detalhes do Licitação        
+    </div>
+    <br /><br />
+    <div class="PageTitle" style="width:98%;text-align:right;">
+            Dados Básicos
+        </div>  
+        <table style="width:98%" cellpadding="2" cellspacing="3" class="TabelaRelatorio">
+            <tr>
+                <td align="left" valign="top"  >
+                    <b>Número:
+                    <%# _licitacao.NumeroPregao %>
+                    </b> 
+                </td>
+                 <td align="left" valign="top" >
+                    <b>Data Pregão:</b> 
+                    <%# _licitacao.DataPregao.HasValue ? _licitacao.DataPregao.Value.ToShortDateString() : "" %>
+                </td>               
+            </tr>
+            <tr>
+                <td align="left" valign="top"  >
+                    <b>Data Emissão:</b> 
+                    <%# _licitacao.DataEmissao.ToShortDateString() %>
+                </td>
+                <td align="left" valign="top" >
+                    <b>Status:</b> 
+                    <%# Shared.Common.Util.GetDescription(_licitacao.Status) %>
+                </td>
+            </tr>
+            <tr>
+                <td align="left" valign="top"  colspan="2" >
+                    <b>Objetivo:</b> 
+                    <%# _licitacao.Objetivo %>
+                </td>                            
+            </tr>
+            <tr>
+                <td align="left" valign="top" colspan="2">
+                    <b>Observação:</b> 
+                    <%# _licitacao.Observacao %>
+                </td>
+            </tr>
+             <tr>
+                <td align="left" valign="top"  >
+                    <b>Valor Total Estimado:</b> 
+                    <%# _licitacao.ValorTotalEstimado.ToString("C2") %>
+                </td>
+                <td align="left" valign="top" >
+                    <b>Valor Total Final:</b> 
+                    <%# _licitacao.ValorTotalFinal.ToString("C2") %>
+                </td>
+            </tr>        
+        </table>
+        
+           
+              <br />
+            <div class="PageTitle" style="width:98%;text-align:right;">
+                Itens
+            </div>  
+           <anthem:DataGrid runat="server" ID="dgItem" Width="98%" CssClass="datagrid"
+                 AutoGenerateColumns="false" CellPadding="3" >
+                <HeaderStyle CssClass="dgHeader" />                                    
+                <ItemStyle CssClass="dgItem" />
+                <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                <FooterStyle CssClass="dgFooter" />
+                <EditItemStyle HorizontalAlign="Center" />
+                <Columns>
+                    <asp:TemplateColumn HeaderText="Material" ItemStyle-HorizontalAlign="left">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).Material.DescricaoCompleta %>
+                        </ItemTemplate>                                                                                  
+                    </asp:TemplateColumn>                    
+                     <asp:TemplateColumn HeaderText="Cotações" ItemStyle-HorizontalAlign="right">
+                        <ItemTemplate>
+                           <%# ((LicitacaoItem)Container.DataItem).Valor1.ToString("N2")%><br />
+                           <%# ((LicitacaoItem)Container.DataItem).Valor2.ToString("N2")%><br />
+                           <%# ((LicitacaoItem)Container.DataItem).Valor3.ToString("N2")%>
+                        </ItemTemplate>                                            
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Val. Estimado" ItemStyle-HorizontalAlign="right">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).ValorMedio.ToString("N2") %>
+                        </ItemTemplate>                                                                                  
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Qtd." ItemStyle-HorizontalAlign="center">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).Quantidade %>
+                        </ItemTemplate>                                                                                  
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Valor Final" ItemStyle-HorizontalAlign="right">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).ValorFinalPregao.ToString("N2") %>
+                        </ItemTemplate>                                                                                  
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Fornecedor" ItemStyle-HorizontalAlign="left">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).Fornecedor == null ? "" : ((LicitacaoItem)Container.DataItem).Fornecedor.RazaoSocial %>
+                        </ItemTemplate>                                                                                  
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Saldo Disponível" ItemStyle-HorizontalAlign="center">
+                        <ItemTemplate>
+                            <%# ((LicitacaoItem)Container.DataItem).QuantidadeDisponivel %>
+                        </ItemTemplate>                                 
+                    </asp:TemplateColumn>
+                </Columns>
+            </anthem:DataGrid>      
+          
+    </form>
+</body>
+</html>

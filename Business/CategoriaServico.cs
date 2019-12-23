@@ -1,0 +1,127 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+    public partial class CategoriaServico : BusinessObject<CategoriaServico>, IDescricao, IComparable<CategoriaServico>	
+	{
+		#region Private Members
+		private string _descricao; 
+		private string _identificador; 
+		private bool _flagativo;
+	    private bool _flagRequerFaturamento;
+
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public CategoriaServico()
+		{
+			_descricao = null; 
+			_identificador = null; 
+			_flagativo = false; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+
+        public virtual bool FlagMergulho { get; set; }
+        public virtual bool FlagRequerFaturamento
+        {
+            get { return _flagRequerFaturamento; }
+            set { _flagRequerFaturamento = value; }
+        }
+
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Descricao", value, value.ToString());
+				
+				_descricao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Identificador
+		{
+			get { return _identificador; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 2)
+						throw new ArgumentOutOfRangeException("Invalid value for Identificador", value, value.ToString());
+				
+				_identificador = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+			#endregion 
+		
+		
+		#region Public Methods
+		
+		public static Dictionary<int, string> List(bool flagMergulho)
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+            @"select c.ID, c.Identificador, c.Descricao 
+			from CategoriaServico c  
+			where c.FlagAtivo = 1
+            and c.FlagMergulho = :flagMergulho
+			order by c.Descricao");
+
+		    query.SetBoolean("flagMergulho", flagMergulho);
+		    IList list = query.List();
+		    Dictionary<int, string> categorias = new Dictionary<int, string>(list.Count);
+		    foreach (object obj in list)
+		    {
+		        object[] row = (object[]) obj;
+		        categorias.Add(Convert.ToInt32(row[0]), string.Format("{0} - {1}", row[1], row[2]));
+		    }
+		    return categorias;
+		}
+		
+		public static List<CategoriaServico> Select()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"from CategoriaServico c  			
+			order by c.Descricao");
+		
+			return (List<CategoriaServico>)query.List<CategoriaServico>();
+		}
+		
+		#endregion
+
+	    public virtual int CompareTo(CategoriaServico other)
+	    {
+            if (other == null) return 1;
+	        return _descricao.CompareTo(other.Descricao);
+	    }
+
+        public override string ToString()
+        {
+            return _descricao;
+        }
+	}
+}

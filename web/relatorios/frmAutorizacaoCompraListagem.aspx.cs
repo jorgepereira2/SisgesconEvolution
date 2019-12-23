@@ -1,0 +1,82 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+
+using Shared.SessionState;
+using ComponentArt.Web.UI;
+using Shared.Common;
+
+public partial class frmAutorizacaoCompraListagem : SortingPageBase
+{
+
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);       
+		this.RegisterSortingControl(gvPesquisa);
+        ucColumn.ColumnsChanged += new EventHandler(ucColumn_ColumnsChanged);
+        gvPesquisa.RowDataBound += new GridViewRowEventHandler(gvPesquisa_RowDataBound);
+    }
+
+    void ucColumn_ColumnsChanged(object sender, EventArgs e)
+    {
+        Bind();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+			Bind();
+			ucColumn.SetValues();
+        }
+    }
+    #endregion     
+
+    
+	protected override void Bind()
+    {
+	    bool? pago = null;
+        if(Request["pago"] != "0")
+            pago = Convert.ToBoolean(Request["pago"]);
+        List<AutorizacaoCompra> list = AutorizacaoCompra.Select(
+            Convert.ToInt32(Request["id_status"]),
+            pago,
+            HttpUtility.UrlDecode(Request["texto"]),
+			IsNull(HttpUtility.UrlDecode(Request["dataInicio"]), DateTime.MinValue),
+            IsNull(HttpUtility.UrlDecode(Request["dataFim"]), DateTime.MinValue),
+            Convert.ToInt32(Request["ano"]));
+
+	    this.Sort(list);
+        gvPesquisa.DataSource = list;		
+        gvPesquisa.DataBind();
+		pnGrid.UpdateAfterCallBack = true;
+
+	    lblValorTotal.Text = valorTotal.ToString("C2");
+    }
+
+    private decimal valorTotal = 0;
+    void gvPesquisa_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            AutorizacaoCompra ac = (AutorizacaoCompra)e.Row.DataItem;
+            LinkButton btnDetalhes = (LinkButton)e.Row.FindControl("lnkDetalhes");
+            Anthem.AnthemClientMethods.Popup(btnDetalhes, "../pedidoObtencao/fchAutorizacaoCompra.aspx?id_ac=" + ac.ID.ToString(),"detalhe_ac",
+            false, false, false, true, true, true, true, 10, 40, 700, 520, false);
+
+            valorTotal += ac.ValorTotal;
+        }
+    }
+}
+
+

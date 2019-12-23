@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.ProvisionadoSiafi,Marinha.Business" table="TB_ProvisionadoSiafi" lazy="true">
+
+		<id name="ID" column="ID_ProvisionadoSiafi" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Projeto" column="ID_Projeto" class="Marinha.Business.Projeto,Marinha.Business" />
+    <many-to-one name="NaturezaDespesa" column="ID_NaturezaDespesa" class="Marinha.Business.NaturezaDespesa,Marinha.Business" />
+    <property column="Ano" type="Int32" name="Ano"  />
+		<property column="CodigoSiafi" type="String" name="CodigoSiafi" />
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.StatusOMF,Marinha.Business" table="TB_StatusOMF" lazy="true">
+
+		<id name="ID" column="ID_StatusOMF" type="Int32" unsaved-value="0">
+			<generator class="assigned"/>
+		</id>
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="100" />
+		
+        <bag name="Responsaveis" table="TB_StatusOMFServidor" lazy="true"  collection-type="Marinha.Business.CustomList`1[Marinha.Business.Servidor],Marinha.Business" >
+            <key>
+                <column name="ID_StatusOMF" not-null="true"/>
+            </key>
+            <many-to-many class="Marinha.Business.Servidor,Marinha.Business">
+                <column name="ID_Servidor" not-null="true"/>
+            </many-to-many>
+        </bag>
+        
+    </class>
+</hibernate-mapping>

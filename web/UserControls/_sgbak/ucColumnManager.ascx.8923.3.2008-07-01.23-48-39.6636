@@ -1,0 +1,34 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucColumnManager.ascx.cs" Inherits="Relatorios_ucColumnManager" %>
+<%@ Register TagPrefix="WebControls" Assembly="Shared.WebControls" Namespace="Shared.WebControls" %>
+
+<div id="divControle" align="left" style="border: dotted 1px black; background-color:#F8F9FA;" class="noprint">
+    <div id="divLink" align="center" style="border-bottom: dotted 0px black; vertical-align:middle; background-color:#FFFFC5;">
+        <table width="98%" border="0" style="height:20px;" >
+            <tr>
+                <td align="left">
+                    <a href="#" onclick="ShowHideContent(this);" id="aShowContent">
+                        Mostrar Opções
+                    </a>    
+                </td>
+                <td align="right">
+                    <asp:LinkButton runat="server" ID="btnExportar" Text="Exportar para o Excel" />                     
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" onclick="print();" >
+                        Imprimir
+                    </a>
+                </td>
+            </tr>
+          </table>  
+        </div>        
+    <div id="divContent" style="display:none;">
+        &nbsp;<Anthem:LinkButton runat="server" ID="btnMarcarTodos" Text="Marcar Todos" AutoCallBack="true" /><br />
+        <Anthem:Panel runat="server" ID="pnManager">        
+            <WebControls:GridViewColumnManager runat="server" ID="gvManager" GridViewID="gvPesquisa" RepeatColumns="4" CellPadding="3"
+                RepeatDirection="Horizontal" />
+        </Anthem:Panel>
+        <br />
+        <div align="center">
+            <Anthem:Button runat="server" ID="btnAplicar" Text="Aplicar" TextDuringCallBack="Aguarde" CssClass="Button" />
+        </div>       
+    </div>    
+</div>  

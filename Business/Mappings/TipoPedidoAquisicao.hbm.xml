@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.TipoPedidoAquisicao,Marinha.Business" table="TB_TipoPedidoAquisicao" lazy="true">
+
+		<id name="ID" column="ID_TipoPedidoAquisicao" type="Int32" unsaved-value="0">
+			<generator class="assigned"/>
+		</id>
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="50" />
+		<property column="ValorLimitePO" type="Decimal" name="ValorLimitePO" />
+		<property column="ValorLimiteAno" type="Decimal" name="ValorLimiteAno" />
+		
+	</class>
+</hibernate-mapping>

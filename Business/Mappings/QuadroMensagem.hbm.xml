@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.QuadroMensagem,Marinha.Business" table="TB_QuadroMensagem" lazy="true">
+
+		<id name="ID" column="ID_QuadroMensagem" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Mensagem" type="String" name="Mensagem" not-null="true" length="7000" />
+		<property column="DataInicio" type="DateTime" name="DataInicio" not-null="true" />
+		<property column="DataFim" type="DateTime" name="DataFim" not-null="true" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Assinatura" type="String" name="Assinatura" not-null="true" length="50" />
+		<property column="Titulo" type="String" name="Titulo" not-null="true" length="40" />
+		
+	</class>
+</hibernate-mapping>

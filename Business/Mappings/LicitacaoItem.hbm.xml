@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.LicitacaoItem,Marinha.Business" table="TB_LicitacaoItem" lazy="true">
+
+		<id name="ID" column="ID_LicitacaoItem" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Licitacao" column="ID_Licitacao" class="Marinha.Business.Licitacao,Marinha.Business" />
+		<many-to-one name="Material" column="ID_Material" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+		<property column="Valor1" type="Decimal" name="Valor1" />
+		<property column="Valor2" type="Decimal" name="Valor2" />
+		<property column="Valor3" type="Decimal" name="Valor3" />
+        <property column="Valor4" type="Decimal" name="Valor4" />
+        <property column="Valor5" type="Decimal" name="Valor5"  />
+		<property column="ValorFinalPregao" type="Decimal" name="ValorFinalPregao" />
+		<many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<property column="ID_TipoCalculo" type="Int32" name="TipoCalculo" not-null="true" />
+		<property column="QuantidadeUtilizada" type="Decimal" name="QuantidadeUtilizada" not-null="true" />
+        <property column="NumeroContratoAta" type="String" name="NumeroContratoAta"  />
+        <property column="Observacao" type="String" name="Observacao"  />
+    
+    <many-to-one name="Contrato" column="ID_LicitacaoContrato" class="Marinha.Business.LicitacaoContrato,Marinha.Business" />		
+	</class>
+</hibernate-mapping>

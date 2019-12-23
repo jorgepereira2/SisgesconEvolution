@@ -1,0 +1,319 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPedidoAquisicaoAprovacao.aspx.cs" Inherits="frmPedidoAquisicaoAprovacao" %>
+<%@ Register Src="ucHistoricoPedidoAquisicao.ascx" TagPrefix="uc" TagName="Historico" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />          
+</head>
+<body >
+    <form id="form1" runat="server">
+    <Anthem:ValidationSummary runat="server" ShowMessageBox="true" DisplayMode="BulletList" ShowSummary="true" />
+    <div align="center">
+    <div align="right" style="width:90%" Class="PageTitle">
+    <br />
+        Aprovação de Pedido de Aquisição
+    </div>
+      <table cellSpacing="4" cellPadding="3" border="0" Width="90%" >																		    
+        <tr>
+            <td style="border:solid 0px black" valign="top" align="left">               
+                <br />
+                
+            
+                    <table cellspacing="4" cellpadding="3" border="0" width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Pedido
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >
+                                     <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Número:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                           <%# _pedido.Numero %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Status:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <%# _pedido.Status.Descricao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Data Emissão:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <%# _pedido.DataEmissao.ToShortDateString() %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Divisão:
+                                        </td>
+                                       <td align="left" class="legenda">
+                                            <%# _pedido.Celula.Descricao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Aplicação:
+                                        </td>
+                                      <td align="left" class="legenda">
+                                            <%# _pedido.Aplicacao %>
+                                        </td>
+                                    </tr>
+					                <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Fornecedor:
+                                        </td>
+                                       <td align="left" class="legenda">
+                                            <%# _pedido.Fornecedor %>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Fornecedor 2:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Fornecedor2 %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Fornecedor 3:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Fornecedor3 %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Fornecedor 4:
+                                        </td>
+                                       <td align="left" class="legenda">
+                                            <%# _pedido.Fornecedor4 %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Observação:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Observacao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Tipo Pagamento:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# Shared.Common.Util.GetDescription(_pedido.TipoPagamento) %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Conta:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Conta %>
+                                        </td>
+                                    </tr>	
+                                    <tr>
+                                        <td  ></td>
+                                        <td align="right" >
+                                           Meta:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Meta.Descricao %>
+                                        </td>
+                                    </tr>                                    
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>
+                  
+                  
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Itens
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgItem" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" ShowFooter="true" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle HorizontalAlign="Right" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Material" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((IPedidoAquisicaoItem)Container.DataItem).DescricaoItem %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Quantidade" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((IPedidoAquisicaoItem)Container.DataItem).Quantidade %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Valor" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((IPedidoAquisicaoItem)Container.DataItem).Valor.ToString("N2") %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Valor2" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((PedidoAquisicaoItem)Container.DataItem).Valor2.HasValue ?  ((PedidoAquisicaoItem)Container.DataItem).Valor2.Value.ToString("N2") : "" %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Valor3" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((PedidoAquisicaoItem)Container.DataItem).Valor3.HasValue ?  ((PedidoAquisicaoItem)Container.DataItem).Valor3.Value.ToString("N2") : "" %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Valor4" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((PedidoAquisicaoItem)Container.DataItem).Valor4.HasValue ?  ((PedidoAquisicaoItem)Container.DataItem).Valor4.Value.ToString("N2") : "" %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Valor Total" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((IPedidoAquisicaoItem)Container.DataItem).ValorTotal.ToString("C2") %>
+                                            </ItemTemplate>
+                                            <FooterTemplate>                                                
+                                               <b><%# _pedido.ValorTotal.ToString("C2") %></b>
+                                            </FooterTemplate>                                            
+                                        </asp:TemplateColumn>                                                                                                                      
+                                    </Columns>
+                                </anthem:DataGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>                      
+                    </table>      
+                    
+                         <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="left" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Histórico
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                               <uc:Historico runat="server" ID="ucHistorico" />                          
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>                      
+                    </table>     
+                    
+                      <table cellspacing="4" cellpadding="3" border="0" width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Pedido
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >
+                                    <tr runat="server" id="trRequerLicitacao">
+                                        <td ></td>
+                                        <td align="right" >
+                                           OBS.:
+                                        </td>
+                                        <td align="left" style="color:Red; font-weight:bold" >
+                                           REQUER LICITAÇÃO
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Aprovação:
+                                        </td>
+                                        <td align="left" >
+                                           <Anthem:RadioButton runat="server" ID="rbAprovar" Text="Aprovar" GroupName="Aprovacao" AutoCallBack="true"  />
+                                           <br />
+                                           <Anthem:RadioButton runat="server" ID="rbRecusar" Text="Recusar" GroupName="Aprovacao" />
+                                            <br />
+                                           <Anthem:RadioButton runat="server" ID="rbRetornarFinanceiro" Text="Retornar p/ Agente Financeiro" GroupName="Aprovacao" />
+                                        </td>
+                                    </tr>                                                           
+                                    <tr runat="server" id="trNumeroEmpenho" style="display:none">
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Número Empenho:
+                                        </td>
+                                        <td align="left" >
+                                           <Anthem:TextBox runat="server" ID="txtNumeroEmpenho" MaxLength="20" />
+                                        </td>
+                                    </tr>                                    
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Justificativa:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <Anthem:TextBox runat="server" ID="txtJustificativa" TextMode="MultiLine" Rows="3" Columns="40" />
+                                        </td>
+                                    </tr>                                    
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>           
+               
+            </td>
+        </tr>
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+            
+            </td>
+            <td align="right">
+                <Anthem:Button runat="server" ID="btnSalvar" TextDuringCallBack="Aguarde" Text="Salvar"
+                     EnabledDuringCallBack="false" CssClass="Button" /> 
+                <Anthem:Button runat="server" ID="btnImprimir" Text="Imprimir"
+                     CssClass="Button" CausesValidation="false" />                             
+                <Anthem:Button runat="server" ID="btnVoltar" Text="Voltar"
+                     CssClass="Button" CausesValidation="false" />
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

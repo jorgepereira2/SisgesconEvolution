@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoServicoMergulhoItemOrcamento,Marinha.Business" table="TB_PedidoServicoMergulhoItemOrcamento" lazy="true">
+
+		<id name="ID" column="ID_PedidoServicoMergulhoItemOrcamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoServicoMergulho" column="ID_PedidoServicoMergulho" class="Marinha.Business.PedidoServicoMergulho,Marinha.Business" />
+		<many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+		<property column="Valor" type="Decimal" name="Valor" not-null="true" />
+        <property column="ID_OrigemMaterial" type="Int32" name="OrigemMaterial" not-null="true" />
+        <property column="RMC" type="String" name="RMC" not-null="false" />
+        <property column="QuantidadeEntregue" type="Decimal" name="QuantidadeEntregue" not-null="true" />
+        <many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+        
+        
+
+        <many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+        <property column="Observacao" type="String" name="Observacao" />
+		
+	</class>
+</hibernate-mapping>

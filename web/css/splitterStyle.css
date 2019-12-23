@@ -1,0 +1,55 @@
+.HorizontalSplitterBar
+{
+  background: url(../images/splitter/splitter_horBg.gif); 
+}
+
+.CollapsedHorizontalSplitterBar
+{
+  background: url(../images/splitter/splitter_horBg.gif); 
+  border: 1px solid #000000;
+  border-right-width: 0px;
+}
+
+.VerticalSplitterBar
+{
+  background: url(../images/splitter/splitter_verBg.gif); 
+}
+
+.CollapsedVerticalSplitterBar
+{
+  background: url(../images/splitter/splitter_verBg.gif); 
+  border: 1px solid #000000;
+  border-bottom-width: 0px;
+}
+
+.ActiveSplitterBar
+{
+  background-color: #000000;  
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=40); 
+  opacity: 0.4;
+}
+
+.SplitterPane
+{
+	border-right: silver 1px solid;
+	border-top: silver 0px solid;
+	border-left: silver 1px solid;
+	border-bottom: silver 1px solid;
+}
+
+.MenuPane
+{
+	border-right: silver 0px solid;
+	border-top: silver 0px solid;
+	border-left: silver 0px solid;
+	border-bottom: silver 0px solid;
+	background-color: #eeeeee;
+}
+
+.DetailsPane
+{
+	border-right: 0px;
+	border-top: 0px;
+	border-left: 0px;
+	border-bottom: 0px;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoObtencaoItemCancelado,Marinha.Business" table="TB_PedidoObtencaoItemCancelado" lazy="true">
+
+		<id name="ID" column="ID_PedidoObtencaoItemCancelado" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoObtencao" column="ID_PedidoObtencao" class="Marinha.Business.PedidoObtencao,Marinha.Business" />
+        <many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Justificativa" type="String" name="Justificativa" not-null="true" length="500" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />		
+        <property column="ID_OrigemMaterial" type="Int32" name="OrigemMaterial" not-null="true" />
+    <many-to-one name="AutorizacaoCompra" column="ID_AutorizacaoCompra" class="Marinha.Business.AutorizacaoCompra,Marinha.Business" />
+	</class>
+</hibernate-mapping>

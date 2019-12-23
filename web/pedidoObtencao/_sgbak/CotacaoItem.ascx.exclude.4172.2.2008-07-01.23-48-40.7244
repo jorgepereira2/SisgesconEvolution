@@ -1,0 +1,77 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CotacaoItem.ascx.cs" Inherits="CotacaoItem" %>
+<Anthem:Window runat="server" ID="winCotacao" style="left:120px;" 
+    Caption="Cotação Serviço/Material" OnClientShow="window.parent.expandiframe()" ScrollBars="Auto" 
+    Width="620px"  Height="240px" Modal="true" >
+
+<br />
+
+<div style="text-align:center">
+
+<table cellpadding="3" border="1" rules="all"  width="90%">
+    <tr>
+        <td>
+            
+        </td>
+        <td align="center">
+            <b>Fornecedor</b>
+        </td>
+        <td align="center">
+            <b>Valor</b>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <b>1</b>
+        </td>
+        <td align="center">
+            <Anthem:DropDownList runat="server" ID="ddlFornecedor" />
+        </td>
+        <td align="center">
+            <Anthem:NumericTextBox runat="server" ID="txtValor" DecimalPlaces="2" Columns="10" CssClass="numerico" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+          2
+        </td>
+        <td align="center">
+            <Anthem:DropDownList runat="server" ID="ddlFornecedor2" />
+        </td>
+        <td align="center">
+            <Anthem:NumericTextBox runat="server" ID="txtValor2" DecimalPlaces="2" Columns="10" CssClass="numerico" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+           3
+        </td>
+        <td align="center">
+            <Anthem:DropDownList runat="server" ID="ddlFornecedor3" />
+        </td>
+        <td align="center">
+            <Anthem:NumericTextBox runat="server" ID="txtValor3" DecimalPlaces="2" Columns="10" CssClass="numerico" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            4
+        </td>
+        <td align="center">
+            <Anthem:DropDownList runat="server" ID="ddlFornecedor4" />
+        </td>
+        <td align="center">
+            <Anthem:NumericTextBox runat="server" ID="txtValor4" DecimalPlaces="2" Columns="10" CssClass="numerico" />
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+<div style="text-align:right">
+<Anthem:Button runat="server" ID="btnSalvar" CssClass="Button" Text="Salvar" EnabledDuringCallBack="false"
+    TextDuringCallBack="Aguarde" />&nbsp;
+<Anthem:Button runat="server" ID="btnCancelar" CssClass="Button" Text="Cancelar" CausesValidation="false" />&nbsp;
+</div>
+
+</div>
+
+</Anthem:Window>

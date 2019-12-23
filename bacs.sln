@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{7371E996-06FD-4E23-B851-F8CB35435C39}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{0e8b91c4-0e05-4ed9-b9c5-e7d500bcd7e2}|Marinha.Business.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/web"
+		Debug.AspNetCompiler.PhysicalPath = "web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\web\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/web"
+		Release.AspNetCompiler.PhysicalPath = "web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\web\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49185"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|Any CPU.Build.0 = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|x86.ActiveCfg = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Debug|x86.Build.0 = Debug|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|x86.ActiveCfg = Release|x86
+		{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}.Release|x86.Build.0 = Release|x86
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7371E996-06FD-4E23-B851-F8CB35435C39}.Release|x86.ActiveCfg = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

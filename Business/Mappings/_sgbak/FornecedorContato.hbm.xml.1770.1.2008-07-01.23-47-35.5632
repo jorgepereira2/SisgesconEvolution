@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.FornecedorContato,Marinha.Business" table="TB_FornecedorContato" lazy="true">
+
+		<id name="ID" column="ID_FornecedorContato" type="Int32">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		<property column="Nome" type="String" name="Nome" not-null="true" />
+		<property column="Setor" type="String" name="Setor" />
+		<property column="Telefone" type="String" name="Telefone" />
+		<property column="Celular" type="String" name="Celular" />
+		<property column="Email" type="String" name="Email" />
+		
+	</class>
+</hibernate-mapping>

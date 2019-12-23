@@ -1,0 +1,297 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPedidoObtencaoAprovacao.aspx.cs" Inherits="frmPedidoObtencaoAprovacao" %>
+<%@ Register Src="ucHistoricoPedidoObtencao.ascx" TagPrefix="uc" TagName="Historico" %>
+<%@ Register Src="CancelarItem.ascx" TagName="CancelarItem" TagPrefix="uc" %>
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />          
+</head>
+<body >
+    <form id="form1" runat="server">
+    <uc:CancelarItem runat="server" ID="ucCancelarItem" />       
+    <div align="center">
+    <div align="right" style="width:90%" Class="PageTitle">
+    <br />
+        Aprovação de AC/PM
+    </div>
+      <table cellSpacing="4" cellPadding="3" border="0" Width="90%" >																		    
+        <tr>
+            <td style="border:solid 0px black" valign="top" align="left">               
+                <br />
+                
+            
+                    <table cellspacing="4" cellpadding="3" border="0" width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Pedido
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >
+                                     <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Número:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                           <%# _pedido.CodigoComAno %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Tipo:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                           <%# Shared.Common.Util.GetDescription(_pedido.TipoPedido) %>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" width="20%" >
+                                           Tipo PO:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                           <%# Shared.Common.Util.GetDescription(_pedido.TipoPedidoObtencao) %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right"  >
+                                           Status:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <%# _pedido.Status.Descricao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" class="msgErro" ></td>
+                                        <td align="right" >
+                                           Data Emissão:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <%# _pedido.DataEmissao.ToShortDateString() %>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td ></td>
+                                        <td align="right" >
+                                           Código Interno:
+                                        </td>
+                                        <td align="left">
+                                           <Anthem:LinkButton runat="server" ID="lnkPS" />                           
+                                        </td>
+                                    </tr>  
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Divisão:
+                                        </td>
+                                       <td align="left" class="legenda">
+                                            <%# _pedido.Celula.Descricao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="msgErro" ></td>
+                                        <td align="right" >
+                                           Aplicação:
+                                        </td>
+                                      <td align="left" class="legenda">
+                                            <%# _pedido.Aplicacao %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td ></td>
+                                        <td align="right" >
+                                           Observação:
+                                        </td>
+                                        <td align="left" class="legenda">
+                                            <%# _pedido.Observacao %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>
+                  
+                  
+                    <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="center" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Itens
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                                <anthem:DataGrid runat="server" ID="dgItem" Width="98%" CssClass="datagrid"
+                                     AutoGenerateColumns="false" CellPadding="3" ShowFooter="true" >
+                                    <HeaderStyle CssClass="dgHeader" />                                    
+                                    <ItemStyle CssClass="dgItem" />
+                                    <AlternatingItemStyle CssClass="dgAlternatingItem" />
+                                    <FooterStyle HorizontalAlign="Right" />
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Material" ItemStyle-HorizontalAlign="left">
+                                            <ItemTemplate>
+                                                <%# ((PedidoObtencaoItem)Container.DataItem).ServicoMaterial.Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Quantidade" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).Quantidade %> 
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).ServicoMaterial.Unidade.Descricao %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Qtd. Estoque" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <asp:Label runat="server" ID="lblQuantidadeEstoque" />
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                         <asp:TemplateColumn HeaderText="Valor" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).Valor.ToString("N2") %>
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>                                        
+                                        <asp:TemplateColumn HeaderText="Valor Total" ItemStyle-HorizontalAlign="right">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).ValorTotal.ToString("C2") %>
+                                            </ItemTemplate>
+                                            <FooterTemplate>                                                
+                                               <b><%# _pedido.ValorTotal.ToString("C2") %></b>
+                                            </FooterTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        
+                                        <asp:TemplateColumn HeaderText="Cota" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).GetCota() %> 
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        
+                                        <asp:TemplateColumn HeaderText="Qtd. Aprovada" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).GetQuantidadeAprovada() %> 
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        
+                                        <asp:TemplateColumn HeaderText="Cota Disponível" ItemStyle-HorizontalAlign="center">
+                                            <ItemTemplate>
+                                               <%# ((PedidoObtencaoItem)Container.DataItem).GetCota() - ((PedidoObtencaoItem)Container.DataItem).GetQuantidadeAprovada()%> 
+                                            </ItemTemplate>                                            
+                                        </asp:TemplateColumn>
+                                        
+                                         <asp:TemplateColumn HeaderText="Cancelar" ItemStyle-HorizontalAlign="center">
+                                        <ItemTemplate>
+                                            <Anthem:LinkButton runat="server" ID="btnCancelar" Text="Cancelar" CommandName="Delete" CausesValidation="false" />
+                                        </ItemTemplate>                                        
+                                    </asp:TemplateColumn>                                                                                                                      
+                                    </Columns>
+                                </anthem:DataGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>                      
+                    </table>      
+                    
+                         <table border="0" cellpadding="2" cellspacing="2" width="750px" >
+                        <tr>                            
+                            <td colspan="3" align="left" valign="top">
+                            <br />
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle" >
+                                    Histórico
+                                    <hr size="1" class="divisor" style="" />
+                                </div>                                                                
+                                <br />
+                               <uc:Historico runat="server" ID="ucHistorico" />                          
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                &nbsp;
+                            </td>
+                        </tr>                      
+                    </table>     
+                    
+                      <table cellspacing="4" cellpadding="3" border="0" width="700px" >																		    
+                        <tr>
+                            <td style="border:solid 0px black" valign="top">
+                                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                                    Pedido
+                                    <hr size="1" class="divisor" />
+                                </div>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="4" width="100%" >                                    
+                                     <tr runat="server" id="trAprovacaoNormal">
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Aprovação:
+                                        </td>
+                                        <td align="left" >
+                                           <Anthem:RadioButton runat="server" ID="rbAprovar" Text="Aprovar" GroupName="Aprovacao"  />
+                                           <br />
+                                           <Anthem:RadioButton runat="server" ID="rbRecusar" Text="Recusar" GroupName="Aprovacao" />                                           
+                                        </td>
+                                    </tr>
+
+                                    <tr runat="server" id="trAprovacaoDepartamento">
+                                        <td width="10%" class="msgErro" >*</td>
+                                        <td align="right" width="20%" >
+                                           Aprovação:
+                                        </td>
+                                        <td align="left" >
+                                           <Anthem:RadioButton runat="server" ID="rbEnviarAprovacaoImediato" Text="Aprovar Diretamente" GroupName="AprovacaoDepartamento"  />                                           
+                                           <br />
+                                           <%--<Anthem:RadioButton runat="server" ID="rbEnviarPAR" Text="Enviar para o PAR" GroupName="AprovacaoDepartamento"  />                                           
+                                           <br />--%>
+                                           <Anthem:RadioButton runat="server" ID="rbRecusarDepartamento" Text="Recusar" GroupName="AprovacaoDepartamento" />                                           
+                                           
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="10%" class="msgErro" ><%--*--%></td>
+                                        <td align="right" width="20%" >
+                                           Justificativa:
+                                        </td>
+                                         <td align="left" class="legenda">
+                                            <Anthem:TextBox runat="server" ID="txtJustificativa" TextMode="MultiLine" Rows="3" Columns="40" />
+                                            <%--&nbsp;
+                                            <Anthem:RequiredFieldValidator runat="server" ID="valJustificativa" ControlToValidate="txtJustificativa" Display="Static" SetFocusOnError="true"  ErrorMessage="Campo obrigatório"/>--%>
+                                        </td>
+                                    </tr>                                    
+                                </table>
+                            </td>
+                        </tr>																			
+                    </table>           
+               
+            </td>
+        </tr>
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+            
+            </td>
+            <td align="right">
+                <Anthem:Button runat="server" ID="btnSalvar" TextDuringCallBack="Aguarde" Text="Salvar"
+                     EnabledDuringCallBack="false" CssClass="Button" /> 
+                <Anthem:Button runat="server" ID="btnImprimir" Text="Imprimir"
+                     CssClass="Button" CausesValidation="false" />                             
+                <Anthem:Button runat="server" ID="btnVoltar" Text="Voltar"
+                     CssClass="Button" CausesValidation="false" />
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

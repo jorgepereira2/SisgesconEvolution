@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoObtencaoItemPEPRodizio,Marinha.Business" table="TB_PedidoObtencaoItemPEPRodizio" lazy="true">
+
+		<id name="ID" column="ID_PedidoObtencaoItemPEPRodizio" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoObtencao" column="ID_PedidoObtencao" class="Marinha.Business.PedidoObtencao,Marinha.Business" />
+		<many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+    <many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />
+		<property column="Quantidade" type="Decimal" name="Quantidade" not-null="true" />
+		<property name="OrigemMaterial" column="ID_OrigemMaterial" type="Int32" not-null="true" />
+		<property column="QuantidadeEntregue" type="Decimal" name="QuantidadeEntregue" not-null="true" />
+    <property column="Valor" type="Decimal" name="Valor"  />
+    <property column="Especificacao" type="String" name="Especificacao" />
+    <property column="FlagCancelado" type="Boolean" name="FlagCancelado" />
+    <property column="DataCancelamento" type="DateTime" name="DataCancelamento" />
+    <many-to-one name="ServidorCancelamento" column="ID_ServidorCancelamento" class="Marinha.Business.Servidor,Marinha.Business" />
+	</class>
+</hibernate-mapping>

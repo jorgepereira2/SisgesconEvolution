@@ -1,0 +1,74 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+using Shared.SessionState;
+using Shared.Common;
+
+public partial class frmClasseServicoMaterialCadastro : CadastroSimples<ClasseServicoMaterial>
+{
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        RegistraControlesCadastro(dgCadastro, btnNovo);
+        base.BeforeSave += new CadastroSimples<ClasseServicoMaterial>.BeforeSaveEventHandler(frmClasseServicoMaterialCadastro_BeforeSave);
+        dgCadastro.ItemDataBound += new DataGridItemEventHandler(dgCadastro_ItemDataBound);
+       
+    }
+
+    void dgCadastro_ItemDataBound(object sender, DataGridItemEventArgs e)
+    {
+        if(e.Item.ItemType == ListItemType.EditItem)
+        {
+            DropDownList ddlTipoServicoMaterial = (DropDownList)e.Item.FindControl("ddlTipoServicoMaterial");
+            FillTipoServicoMaterial(ddlTipoServicoMaterial);
+
+            ClasseServicoMaterial s = (ClasseServicoMaterial) e.Item.DataItem;
+            ddlTipoServicoMaterial.SelectedValue = Convert.ToInt32(s.TipoServicoMaterial).ToString();
+        }
+        else  if(e.Item.ItemType == ListItemType.Footer)
+        {
+            DropDownList ddlTipoServicoMaterial = (DropDownList)e.Item.FindControl("ddlTipoServicoMaterialNovo");
+            FillTipoServicoMaterial(ddlTipoServicoMaterial);
+        }
+    }
+    
+    void FillTipoServicoMaterial(DropDownList ddl)
+    {
+        Util.FillDropDownList(ddl, typeof(TipoServicoMaterial));
+    }
+
+    void frmClasseServicoMaterialCadastro_BeforeSave(object sender, BeforeSaveEventArgs<ClasseServicoMaterial> e)
+    {
+        string controleID = "ddlTipoServicoMaterial" + (e.IsNew ? "Novo" : "");
+        DropDownList ddlTipoServicoMaterial = (DropDownList)e.DataGridItem.FindControl(controleID);
+        e.Object.TipoServicoMaterial = (TipoServicoMaterial)Convert.ToInt32(ddlTipoServicoMaterial.SelectedValue);
+
+        string controleCodigoID = "txtCodigo" + (e.IsNew ? "Novo" : "");
+        TextBox txtCodigo = (TextBox)e.DataGridItem.FindControl(controleCodigoID);
+        e.Object.Codigo = txtCodigo.Text;
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+
+    #endregion
+
+    #region Bind
+    protected override void Bind()
+    {
+        BindToGrid(ClasseServicoMaterial.Select());
+    }
+    #endregion
+}

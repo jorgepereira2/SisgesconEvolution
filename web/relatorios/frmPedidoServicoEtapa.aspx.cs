@@ -1,0 +1,82 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+
+using Shared.SessionState;
+using ComponentArt.Web.UI;
+using Shared.Common;
+
+public partial class frmPedidoServicoEtapa : MarinhaPageBase
+{
+    private List<DelineamentoOrcamento> _list;
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        dlPedido.ItemDataBound += new DataListItemEventHandler(dlPedido_ItemDataBound);
+    }
+  
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+			Bind();
+        }
+    }
+    #endregion     
+
+    
+	protected void Bind()
+    {
+        bool? progem = null;
+        if (Request["progem"] != "0")
+            progem = Convert.ToBoolean(Request["pago"]);
+        _list = PedidoServico.Select(
+            Convert.ToInt32(Request["id_gerente"]),
+            Convert.ToInt32(Request["id_equipamento"]),
+            Convert.ToInt32(Request["id_status"]),
+            Convert.ToInt32(Request["id_celula"]),
+            progem,
+            IsNull(HttpUtility.UrlDecode(Request["dataInicio"]), DateTime.MinValue),
+            IsNull(HttpUtility.UrlDecode(Request["dataFim"]), DateTime.MinValue),
+            null,
+            null,
+            Int32.MinValue,
+            Int32.MinValue,
+            "",
+            DateTime.MinValue,
+            DateTime.MinValue,
+            DateTime.MinValue,
+            DateTime.MinValue,
+            0,
+            0,
+            null, 0, DateTime.MinValue, DateTime.MinValue, false);
+       
+        dlPedido.DataSource = _list;
+        dlPedido.DataBind();
+    }
+
+    void dlPedido_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            DataGrid dgEtapa = (DataGrid)e.Item.FindControl("dgEtapa");
+            IPedido pedido = (IPedido)e.Item.DataItem;
+
+            
+            dgEtapa.DataSource = pedido.GetEtapas();
+            dgEtapa.DataBind();
+        }
+    }
+}
+
+

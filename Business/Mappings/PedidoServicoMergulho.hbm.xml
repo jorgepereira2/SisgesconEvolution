@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoServicoMergulho,Marinha.Business" table="TB_PedidoServicoMergulho" lazy="true">
+
+		<id name="ID" column="ID_PedidoServicoMergulho" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="CodigoInterno" type="Int32" name="CodigoInterno" not-null="true" />
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<many-to-one name="Cliente" column="ID_Cliente" class="Marinha.Business.Cliente,Marinha.Business" />
+		<many-to-one name="ClientePagador" column="ID_ClientePagador" class="Marinha.Business.Cliente,Marinha.Business" />
+		<property column="CodigoPedidoCliente" type="String" name="CodigoPedidoCliente" length="20" />		
+		<property column="Observacao" type="String" name="Observacao" length="1000" />
+		<property column="NumeroRegistro" type="String" name="NumeroRegistro" length="200" />		
+		<property column="Contatos" type="String" name="Contatos" length="200" />
+		<property column="TelefoneContatos" type="String" name="TelefoneContatos" length="50" />						
+    <property column="FlagRecusado" type="Boolean" name="FlagRecusado" not-null="true" />        
+		<many-to-one name="Status" column="ID_StatusPedidoServicoMergulho" class="Marinha.Business.StatusPedidoServicoMergulho,Marinha.Business" />
+		<many-to-one name="Celula" column="ID_Celula" class="Marinha.Business.Celula,Marinha.Business" />		
+    <property column="FlagABordo" type="Boolean" name="FlagABordo" not-null="true" />
+    <many-to-one name="ServidorCancelamento" column="ID_ServidorCancelamento" class="Marinha.Business.Servidor,Marinha.Business" />
+    <many-to-one name="CategoriaServico" column="ID_CategoriaServico" class="Marinha.Business.CategoriaServico,Marinha.Business" />
+    <many-to-one name="MotivoCancelamento" column="ID_MotivoCancelamento" class="Marinha.Business.MotivoCancelamento,Marinha.Business" />
+    <property column="DataPronto" type="DateTime" name="DataPronto"  />
+    <property column="DataPlanejamentoPS" type="DateTime" name="DataPlanejamentoPS"  />
+    <property column="Diversos" type="String" name="Diversos"  />
+    <property column="PrevisaoEntrega" type="DateTime" name="PrevisaoEntrega"  />
+        <property column="Localizacao" type="String" name="Localizacao"  />
+        <property column="MensagemSolicitacao" type="String" name="MensagemSolicitacao"  />
+        <many-to-one name="Prioridade" column="ID_Prioridade" class="Marinha.Business.Prioridade,Marinha.Business" />
+        <many-to-one name="Embarcacao" column="ID_Embarcacao" class="Marinha.Business.Embarcacao,Marinha.Business" />
+        <property column="DataPrevisaoInicio" type="DateTime" name="DataPrevisaoInicio"  />
+        <property column="DataPrevisaoFim" type="DateTime" name="DataPrevisaoFim"  />
+
+    <property column="NLPagamento" type="String" name="NLPagamento"  />
+    <property column="MensagemIndicacaoRecurso" type="String" name="MensagemIndicacaoRecurso"  />
+
+
+        <property column="ValorHomemHoraMergulho" name="ValorHomemHoraMergulho"  type="Decimal" />
+        <property column="ValorDeslocamentoMergulho" name="ValorDeslocamentoMergulho"  type="Decimal" />
+        <property column="ValorTaxaBoteMergulho" name="ValorTaxaBoteMergulho"  type="Decimal" />
+        <property column="ValorTaxaCatamaraMergulho" name="ValorTaxaCatamaraMergulho"  type="Decimal" />
+        <property column="TaxaMaoObraDiretaMergulho" name="TaxaMaoObraDiretaMergulho"  type="Decimal" />
+        <property column="TaxaMaoObraIndiretaMergulho" name="TaxaMaoObraIndiretaMergulho"  type="Decimal" />
+        <property column="TaxaOperacionalMaoObraMergulho" name="TaxaOperacionalMaoObraMergulho"  type="Decimal" />
+        <property column="TaxaContribuicaoOperacionalMergulho" name="TaxaContribuicaoOperacionalMergulho"  type="Decimal" />
+        <property column="DescontoFRE170Mergulho" name="DescontoFRE170Mergulho"  type="Decimal" />
+        <property column="DescontoFRE171172Mergulho" name="DescontoFRE171172Mergulho"  type="Decimal" />
+        <property column="ValorTaxaMaterialMergulho" name="ValorTaxaMaterialMergulho"  type="Decimal" />
+
+        <bag name="Historico" table="TB_HistoricoPedidoServicoMergulho" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoPedidoServicoMergulho],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoServicoMergulho" />
+            <one-to-many class="Marinha.Business.HistoricoPedidoServicoMergulho,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensOrcamento" table="TB_PedidoServicoMergulhoItemOrcamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoServicoMergulhoItemOrcamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoServicoMergulho" />
+            <one-to-many class="Marinha.Business.PedidoServicoMergulhoItemOrcamento,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensDelineamento" table="TB_PedidoServicoMergulhoDelineamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoServicoMergulhoDelineamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_PedidoServicoMergulho" />
+            <one-to-many class="Marinha.Business.PedidoServicoMergulhoDelineamento,Marinha.Business" />
+        </bag>
+
+
+    </class>
+</hibernate-mapping>

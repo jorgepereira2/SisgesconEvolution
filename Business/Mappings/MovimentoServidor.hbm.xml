@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.MovimentoServidor,Marinha.Business" table="TB_MovimentoServidor" lazy="true">
+
+		<id name="ID" column="ID_MovimentoServidor" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+        <many-to-one name="ServidorControleEntrada" column="ID_ServidorControleEntrada" class="Marinha.Business.Servidor,Marinha.Business" />
+        <many-to-one name="ServidorControleSaida" column="ID_ServidorControleSaida" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="ServidorAutorizacaoSaida" column="ID_ServidorAutorizacaoSaida" class="Marinha.Business.Servidor,Marinha.Business" />				
+		<property column="JustificativaSaida" type="String" name="JustificativaSaida" />
+		<property column="HoraEntrada" type="DateTime" name="HoraEntrada" />
+        <property column="HoraSaida" type="DateTime" name="HoraSaida" />
+	</class>
+</hibernate-mapping>

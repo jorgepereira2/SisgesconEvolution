@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PedidoAquisicaoItem,Marinha.Business" table="TB_PedidoAquisicaoItem" lazy="true">
+
+		<id name="ID" column="ID_PedidoAquisicaoItem" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoAquisicao" column="ID_PedidoAquisicao" class="Marinha.Business.PedidoAquisicao,Marinha.Business" />
+		<many-to-one name="ServicoMaterial" column="ID_ServicoMaterial" class="Marinha.Business.ServicoMaterial,Marinha.Business" />
+		<property column="Descricao" type="String" name="Descricao" length="300" />        
+		<property column="Quantidade" type="Int32" name="Quantidade" not-null="true" />
+		<property column="Valor" type="Decimal" name="Valor" not-null="true" />
+		<property column="Valor2" type="Decimal" name="Valor2" />
+		<property column="Valor3" type="Decimal" name="Valor3" />
+		<property column="Valor4" type="Decimal" name="Valor4" />
+		
+	</class>
+</hibernate-mapping>

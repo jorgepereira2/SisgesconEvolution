@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Equipamento,Marinha.Business" table="TB_Equipamento" lazy="true">
+
+		<id name="ID" column="ID_Equipamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="SubTipoEquipamento" column="ID_SubTipoEquipamento" class="Marinha.Business.SubTipoEquipamento,Marinha.Business" />
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="70" />
+		<property column="Codeq" type="String" name="Codeq" length="15" />
+		<property column="DescricaoCodeq" type="String" name="DescricaoCodeq" length="70" />
+		<property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true" />
+		<property column="ID_TipoOperativo" type="Int32" name="TipoOperativo" not-null="true" />
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.PerfilAcesso,Marinha.Business" table="TB_PerfilAcesso" lazy="true">
+
+		<id name="ID" column="ID_PerfilAcesso" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="Nome" type="String" name="Nome" not-null="true" length="50" />
+		<property column="Observacao" type="String" name="Observacao" length="500" />
+		<property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true" />
+    <property column="FlagPodeFazerPOOutraCelula" type="Boolean" name="FlagPodeFazerPOOutraCelula" not-null="true" />
+    
+    <bag name="Processos" table="TB_ProcessoPerfilAcesso" lazy="true"  collection-type="Marinha.Business.CustomList`1[Marinha.Business.Processo],Marinha.Business" >
+      <key>
+        <column name="ID_PerfilAcesso" not-null="true"/>
+      </key>
+      <many-to-many class="Marinha.Business.Processo,Marinha.Business">
+        <column name="ID_Processo" not-null="true"/>
+      </many-to-many>
+    </bag>
+    
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum ObjetoCancelavel
+	{
+		PedidoServico = 1,
+		PedidoObtencao = 2,
+        AutorizacaoCompra = 3
+	}
+}

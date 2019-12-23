@@ -1,0 +1,992 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using NHibernate;
+using Shared.Common;
+using Shared.DataAccessHelper;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class PedidoServico : BusinessObject<PedidoServico>, IPedido, IComparable<PedidoServico>	
+	{
+		#region Private Members
+		private int _codigointerno; 
+		private DateTime _dataemissao; 
+		private Cliente _cliente; 
+		private Cliente _clientepagador; 
+		private string _codigopedidocliente; 
+		private Equipamento _equipamento; 
+		private string _observacao; 
+		private string _numeroregistro; 
+		private string _defeitoreclamado; 
+		private string _contatos; 
+		private string _telefonecontatos; 
+		private int _quantidade; 
+		private Servidor _servidorgerente; 
+		private bool _flagprogem; 
+		private StatusPedidoServico _statuspedidoservico; 
+		private Celula _celula;
+	    private bool _flagRecusado;
+	    private bool _flagABordo;
+	    private Servidor _servidorCancelamento;
+	    private CategoriaServico _categoriaServico;
+	    private MotivoCancelamento _motivoCancelamento;
+
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public PedidoServico()
+		{
+			_codigointerno = 0; 
+			_dataemissao = DateTime.MinValue; 
+			_cliente =  null; 
+			_clientepagador =  null; 
+			_codigopedidocliente = null; 
+			_equipamento =  null; 
+			_observacao = null; 
+			_numeroregistro = null; 
+			_defeitoreclamado = null; 
+			_contatos = null; 
+			_telefonecontatos = null; 
+			_quantidade = 0; 
+			_servidorgerente =  null; 
+			_flagprogem = false;
+		    _statuspedidoservico = null;
+			_celula =  null;
+		    _flagRecusado = false;
+		    _flagABordo = false;
+		    _servidorCancelamento = null;
+		    
+		    _historico = new CustomList<HistoricoPedidoServico>();
+		    _orcamentos = new CustomList<DelineamentoOrcamento>();
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+        public virtual MotivoCancelamento MotivoCancelamento
+        {
+            get { return _motivoCancelamento; }
+            set { _motivoCancelamento = value; }
+        }
+
+        public virtual CategoriaServico CategoriaServico
+        {
+            get { return _categoriaServico; }
+            set { _categoriaServico = value; }
+        }
+        
+        public virtual Servidor ServidorCancelamento
+        {
+            get { return _servidorCancelamento; }
+            set { _servidorCancelamento = value; }
+        }
+        
+        public virtual bool FlagABordo
+        {
+            get { return _flagABordo; }
+            set { _flagABordo = value; }
+        }
+      
+		public virtual int CodigoInterno
+		{
+			get { return _codigointerno; }
+			set	{
+				_codigointerno = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime DataEmissao
+		{
+			get { return _dataemissao; }
+			set { _dataemissao = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Cliente Cliente
+		{
+			get { return _cliente; }
+			set { _cliente = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Cliente ClientePagador
+		{
+			get { return _clientepagador; }
+			set { _clientepagador = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string CodigoPedidoCliente
+		{
+			get { return _codigopedidocliente; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 20)
+						throw new ArgumentOutOfRangeException("Invalid value for CodigoPedidoCliente", value, value.ToString());
+				
+				_codigopedidocliente = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Equipamento Equipamento
+		{
+			get { return _equipamento; }
+			set { _equipamento = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 1000)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+				
+				_observacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string NumeroRegistro
+		{
+			get { return _numeroregistro; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 200)
+						throw new ArgumentOutOfRangeException("Invalid value for NumeroRegistro", value, value.ToString());
+				
+				_numeroregistro = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string DefeitoReclamado
+		{
+			get { return _defeitoreclamado; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 1000)
+						throw new ArgumentOutOfRangeException("Invalid value for DefeitoReclamado", value, value.ToString());
+				
+				_defeitoreclamado = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Contatos
+		{
+			get { return _contatos; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 200)
+						throw new ArgumentOutOfRangeException("Invalid value for Contatos", value, value.ToString());
+				
+				_contatos = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string TelefoneContatos
+		{
+			get { return _telefonecontatos; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for TelefoneContatos", value, value.ToString());
+				
+				_telefonecontatos = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual int Quantidade
+		{
+			get { return _quantidade; }
+			set { _quantidade = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Servidor ServidorGerente
+		{
+			get { return _servidorgerente; }
+			set { _servidorgerente = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagProgem
+		{
+			get { return _flagprogem; }
+			set { _flagprogem = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual StatusPedidoServico Status
+		{
+			get { return _statuspedidoservico; }
+			set { _statuspedidoservico = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Celula Celula
+		{
+			get { return _celula; }
+			set { _celula = value; }
+		}
+
+	    public int ID_PedidoServico
+	    {
+	        get { return ID;}
+	    }
+
+	    public virtual bool FlagRecusado
+        {
+            get { return _flagRecusado; }
+            set { _flagRecusado = value; }
+        }
+
+       
+        #endregion 
+   
+        #region Advanced Properties
+	    public virtual HistoricoPedidoServico UltimoHistorico
+	    {
+	        get
+	        {
+	            if(Historico.Count > 0)
+	                return Historico[Historico.Count - 1];
+	            else
+	                return null;
+	        }
+	    }
+	    
+	    internal virtual HistoricoPedidoServico GetUltimoHistorico(int id_delineamentoOrcamento)
+	    {
+	        for(int i = Historico.Count -1; i >= 0;i--)
+	        {
+	            if(Historico[i].ID_DelineamentoOrcamento == id_delineamentoOrcamento)
+	                return Historico[i];
+	        }
+	        return null;
+	    }
+        
+	    public virtual string CodigoComAno
+	    {
+	        get{ return string.Format("{0}/{1}", _codigointerno, _dataemissao.Year); }
+	    }
+
+        public virtual DelineamentoOrcamento GetOrcamentoNaoEnviado()
+        {
+            foreach (DelineamentoOrcamento orcamento in _orcamentos)
+            {
+                if (orcamento.Status.StatusPedidoServicoEnum == StatusPedidoServicoEnum.AguardandoOrcamento)
+                    return orcamento;
+            }
+            return null;
+        }
+        #endregion
+		
+		#region Collections
+
+	    private ICustomList<HistoricoPedidoServico> _historico;
+	    private ICustomList<DelineamentoOrcamento> _orcamentos;
+	    
+	    public virtual ICustomList<DelineamentoOrcamento> Orcamentos
+	    {
+	        get { return _orcamentos; }
+	        set { _orcamentos = value; }
+	    }
+
+	    public virtual ICustomList<HistoricoPedidoServico> Historico
+	    {
+	        get { return _historico; }
+	        set { _historico = value; }
+	    }
+
+        
+	    public virtual bool ExisteOrcamentoNaoEnviado
+	    {
+	        get
+	        {
+                foreach (DelineamentoOrcamento orcamento in _orcamentos)
+                {
+                    if(orcamento.Status.StatusPedidoServicoEnum == StatusPedidoServicoEnum.AguardandoOrcamento)
+                        return true;
+                }
+	            return false;
+	        }
+	    }
+	    #endregion
+		
+		#region Public Methods
+		
+		public static Dictionary<int, string> List()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+			@"select p.ID, p.Descricao 
+			from PedidoServico p  
+			where p.FlagAtivo = 1
+			order by p.Descricao");
+		
+			return BusinessHelper.ExecuteList(query); 
+		}
+
+        public static List<PedidoServico> Select(string texto, DateTime dataInicio, DateTime dataFim, int id_status, int id_gerente, int id_equipamento, 
+            string numeroPedidoCliente, string numeroRegistro, int id_celula)
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+            @"from PedidoServico p 
+                    inner join fetch p.Cliente c 
+                    inner join fetch p.Equipamento e 	                    
+			where dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1
+			and (dbo.BuscaCodigoPS(p.CodigoInterno, p.DataEmissao, :texto) = 1
+			or c.Descricao like :texto)
+			and p.Status.ID = IsNull(:id_status, p.Status.ID)
+			and IsNull(p.ServidorGerente.ID, -1) = IsNull(:id_gerente, IsNull(p.ServidorGerente.ID, -1))
+            and IsNull(p.Celula.ID, -1) = IsNull(:id_celula, IsNull(p.Celula.ID, -1))
+			and p.Equipamento.ID = IsNull(:id_equipamento, p.Equipamento.ID)
+            and p.CodigoPedidoCliente like :codigoPedidoCliente
+            and IsNull(p.NumeroRegistro, '') like :numeroRegistro 
+			order by p.CodigoInterno");
+
+            query.SetParameter("texto", string.Format("%{0}%", texto));
+            query.SetParameter("codigoPedidoCliente", string.Format("%{0}%", numeroPedidoCliente));
+            query.SetParameter("numeroRegistro", string.Format("%{0}%", numeroRegistro));
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetParameter("id_gerente", BusinessHelper.IsNullOrZero(id_gerente), NHibernateUtil.Int32);
+            query.SetParameter("id_equipamento", BusinessHelper.IsNullOrZero(id_equipamento), NHibernateUtil.Int32);
+            query.SetParameter("id_celula", BusinessHelper.IsNullOrZero(id_celula), NHibernateUtil.Int32);
+			return (List<PedidoServico>)query.List<PedidoServico>();
+		}
+
+        public static List<PedidoServico> SelectEditaveis(string texto, DateTime dataInicio, DateTime dataFim)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from PedidoServico p inner join fetch p.Cliente c inner join fetch p.Equipamento e 	
+			where dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1
+			and (dbo.BuscaCodigoPS(p.CodigoInterno, p.DataEmissao, :texto) = 1
+			or c.Descricao like :texto)
+			and p.Status.ID <= :id_status	
+			order by p.CodigoInterno");
+
+            query.SetParameter("texto", string.Format("%{0}%", texto));
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetInt32("id_status", Convert.ToInt32(StatusPedidoServicoEnum.OrcamentoFinalizado));
+            
+            return (List<PedidoServico>)query.List<PedidoServico>();
+        }
+
+        /// <summary>
+        /// Seleciona os pedidos que estao pendentes da ação de um servidor
+        /// </summary>
+        public static List<IPedido> Select(int id_servidor, int id_status)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select distinct p from PedidoServico p inner join p.Status s inner join fetch p.Cliente c inner join fetch p.Equipamento e 	                
+                inner join s.Responsaveis resp
+			where resp.ID = :id_servidor
+			and s.FlagVinculoPorDivisao = 0
+			and s.FlagSomenteGerente = 0
+			and s.ID <= :statusAguardandoOrcamento
+			and s.ID = IsNull(:status, s.ID)
+            and s.ID != :statusCancelado
+			order by p.CodigoInterno");
+			IQuery query2 = session.CreateQuery(
+            @"select distinct p from PedidoServico p inner join p.Status s inner join fetch p.Cliente c inner join fetch p.Equipamento e 	                
+                inner join s.ResponsaveisDivisao divisao
+			where divisao.Servidor.ID = :id_servidor
+			and divisao.Celula.ID = p.Celula.ID
+			and s.FlagVinculoPorDivisao = 1
+			and s.FlagSomenteGerente = 0
+			and s.ID <= :statusAguardandoOrcamento
+            and s.ID != :statusCancelado
+			and s.ID = IsNull(:status, s.ID)
+			order by p.CodigoInterno");
+
+            IQuery query3 = session.CreateQuery(
+            @"select distinct p from PedidoServico p inner join p.Status s inner join fetch p.Cliente c inner join fetch p.Equipamento e                
+			where s.FlagSomenteGerente = 1
+			and p.ServidorGerente.ID = :id_servidor
+			and s.ID <= :statusAguardandoOrcamento
+			and s.ID = IsNull(:status, s.ID)
+            and s.ID != :statusCancelado
+			order by p.CodigoInterno");
+
+            IQuery query4 = session.CreateQuery(
+            @"select distinct d from DelineamentoOrcamento d 
+                inner join fetch d.PedidoServico p 
+                inner join fetch d.Status s 
+                inner join fetch p.Cliente c 
+                inner join fetch p.Equipamento e 	                
+                inner join s.Responsaveis resp
+			where resp.ID = :id_servidor
+			and s.FlagVinculoPorDivisao = 0
+			and s.FlagSomenteGerente = 0
+			and s.ID > :statusOrcamentoFinalizado
+			and s.ID = IsNull(:status, s.ID)
+            and s.ID != :statusCancelado
+			order by p.CodigoInterno");
+			
+            IQuery query5 = session.CreateQuery(
+            @"select distinct d from DelineamentoOrcamento d 
+                inner join fetch d.PedidoServico p 
+                inner join fetch d.Status s 
+                inner join fetch p.Cliente c 
+                inner join fetch p.Equipamento e 	                
+                inner join s.ResponsaveisDivisao divisao
+			where divisao.Servidor.ID = :id_servidor
+			and divisao.Celula.ID = p.Celula.ID
+			and s.FlagVinculoPorDivisao = 1
+			and s.FlagSomenteGerente = 0
+			and s.ID > :statusOrcamentoFinalizado
+			and s.ID = IsNull(:status, s.ID)
+            and s.ID != :statusCancelado
+			order by p.CodigoInterno");
+
+            IQuery query6 = session.CreateQuery(
+            @"select distinct d from DelineamentoOrcamento d 
+                inner join fetch d.PedidoServico p 
+                inner join fetch d.Status s 
+                inner join fetch p.Cliente c 
+                inner join fetch p.Equipamento e                
+			where s.FlagSomenteGerente = 1
+			and p.ServidorGerente.ID = :id_servidor
+			and s.ID > :statusOrcamentoFinalizado
+			and s.ID = IsNull(:status, s.ID)
+            and s.ID != :statusCancelado
+			order by p.CodigoInterno");
+
+            query.SetInt32("id_servidor", id_servidor);
+            query.SetInt32("statusAguardandoOrcamento", Convert.ToInt32(StatusPedidoServicoEnum.AguardandoOrcamento));
+            query.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            query.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query2.SetInt32("id_servidor", id_servidor);
+            query2.SetInt32("statusAguardandoOrcamento", Convert.ToInt32(StatusPedidoServicoEnum.AguardandoOrcamento));
+            query2.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query2.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            query3.SetInt32("id_servidor", id_servidor);
+            query3.SetInt32("statusAguardandoOrcamento", Convert.ToInt32(StatusPedidoServicoEnum.AguardandoOrcamento));
+            query3.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query3.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+
+            query4.SetInt32("id_servidor", id_servidor);
+            query4.SetInt32("statusOrcamentoFinalizado", Convert.ToInt32(StatusPedidoServicoEnum.OrcamentoFinalizado));
+            query4.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query4.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            query5.SetInt32("id_servidor", id_servidor);
+            query5.SetInt32("statusOrcamentoFinalizado", Convert.ToInt32(StatusPedidoServicoEnum.OrcamentoFinalizado));
+            query5.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query5.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            query6.SetInt32("id_servidor", id_servidor);
+            query6.SetInt32("statusOrcamentoFinalizado", Convert.ToInt32(StatusPedidoServicoEnum.OrcamentoFinalizado));
+            query6.SetParameter("status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query6.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            
+            
+            List<PedidoServico> list1 = (List<PedidoServico>)query.List<PedidoServico>();
+            List<PedidoServico> list2 = (List<PedidoServico>)query2.List<PedidoServico>();
+            List<PedidoServico> list3 = (List<PedidoServico>)query3.List<PedidoServico>();
+            list1.AddRange(list2);
+            list1.AddRange(list3);
+
+            List<DelineamentoOrcamento> list4 = (List<DelineamentoOrcamento>)query4.List<DelineamentoOrcamento>();
+            List<DelineamentoOrcamento> list5 = (List<DelineamentoOrcamento>)query5.List<DelineamentoOrcamento>();
+            List<DelineamentoOrcamento> list6 = (List<DelineamentoOrcamento>)query6.List<DelineamentoOrcamento>();
+            list4.AddRange(list5);
+            list4.AddRange(list6);
+            
+            List<IPedido> list = new List<IPedido>();
+            foreach (PedidoServico servico in list1)
+            {
+                list.Add(servico);
+            }
+
+            foreach (DelineamentoOrcamento orcamento in list4)
+            {
+                list.Add(orcamento);
+            }
+            list.Sort(new Comparison<IPedido>(delegate (IPedido p1, IPedido p2)
+                {
+                    return p1.CodigoInterno.CompareTo(p2.CodigoInterno);
+                }));
+                
+            return list;
+        }
+
+
+        public static List<DelineamentoOrcamento> Select(int id_gerente, int id_equipamento, int id_status, int id_celula, bool? flagProgem, 
+            DateTime dataInicio, DateTime dataFim, string numeroRegistro, string observacao, int id_cliente, int ano)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select distinct p from PedidoServico p 
+                inner join p.Status s 
+                inner join fetch p.Cliente c 
+                inner join fetch p.ClientePagador cp 
+                inner join fetch p.Equipamento e 	                                                
+                left join fetch p.ServidorGerente sg
+                left join fetch p.Celula cel
+			where s.ID = IsNull(:id_status, s.ID)
+			and e.ID = IsNull(:id_equipamento, e.ID)
+            and c.ID = IsNull(:id_cliente, c.ID)
+			and dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1			
+			and (s.ID <= :statusAguardandoOrcamento OR s.ID = :statusCancelado)
+			and p.FlagProgem = IsNull(:progem, p.FlagProgem)
+			and IsNull(sg.ID, -1) = IsNull(:id_gerente, IsNull(sg.ID, -1))
+			and IsNull(cel.ID, -1) = IsNull(:id_celula, IsNull(cel.ID, -1))	
+			and IsNull(p.NumeroRegistro, 'xxx') like IsNull(:numeroRegistro, IsNull(p.NumeroRegistro, 'xxx'))	
+			and IsNull(p.Observacao, 'xxx') like IsNull(:observacao, IsNull(p.Observacao, 'xxx'))	
+            and dbo.GetYear(p.DataEmissao) = IsNull(:ano, dbo.GetYear(p.DataEmissao))
+			order by p.CodigoInterno");
+            IQuery query2 = session.CreateQuery(
+            @"select distinct d from DelineamentoOrcamento d 
+                inner join fetch d.PedidoServico p 
+                inner join fetch d.Status s 
+                inner join fetch p.Cliente c 
+                inner join fetch p.ClientePagador cp 
+                inner join fetch p.Equipamento e 	                                                
+                inner join fetch p.ServidorGerente sg
+                inner join fetch p.Celula cel                                
+			where s.ID = IsNull(:id_status, s.ID)
+			and e.ID = IsNull(:id_equipamento, e.ID)
+            and c.ID = IsNull(:id_cliente, c.ID)
+			and sg.ID = IsNull(:id_gerente, sg.ID)
+			and cel.ID = IsNull(:id_celula, cel.ID)			
+			and dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1				
+			and s.ID > :statusOrcamentoFinalizado
+			and p.FlagProgem = IsNull(:progem, p.FlagProgem)
+			and IsNull(p.NumeroRegistro, 'xxx') like IsNull(:numeroRegistro, IsNull(p.NumeroRegistro, 'xxx'))	
+			and IsNull(p.Observacao, 'xxx') like IsNull(:observacao, IsNull(p.Observacao, 'xxx'))	
+            and dbo.GetYear(p.DataEmissao) = IsNull(:ano, dbo.GetYear(p.DataEmissao))
+			order by p.CodigoInterno");
+           
+
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetParameter("id_equipamento", BusinessHelper.IsNullOrZero(id_equipamento), NHibernateUtil.Int32);
+            query.SetParameter("id_cliente", BusinessHelper.IsNullOrZero(id_cliente), NHibernateUtil.Int32);
+            query.SetInt32("statusAguardandoOrcamento", Convert.ToInt32(StatusPedidoServicoEnum.AguardandoOrcamento));
+            query.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetParameter("progem", BusinessHelper.IsNull(flagProgem), NHibernateUtil.Boolean);
+            query.SetParameter("id_gerente", BusinessHelper.IsNullOrZero(id_gerente), NHibernateUtil.Int32);
+            query.SetParameter("id_celula", BusinessHelper.IsNullOrZero(id_celula), NHibernateUtil.Int32);
+            query.SetString("numeroRegistro", string.Format("%{0}%", numeroRegistro));
+            query.SetString("observacao", string.Format("%{0}%", observacao));
+            query.SetParameter("ano", BusinessHelper.IsNullOrZero(ano), NHibernateUtil.Int32);
+            
+            query2.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query2.SetParameter("id_equipamento", BusinessHelper.IsNullOrZero(id_equipamento), NHibernateUtil.Int32);
+            query2.SetParameter("id_cliente", BusinessHelper.IsNullOrZero(id_cliente), NHibernateUtil.Int32);
+            query2.SetInt32("statusOrcamentoFinalizado", Convert.ToInt32(StatusPedidoServicoEnum.AguardandoOrcamento));
+            query2.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query2.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query2.SetParameter("id_gerente", BusinessHelper.IsNullOrZero(id_gerente), NHibernateUtil.Int32);
+            query2.SetParameter("id_celula", BusinessHelper.IsNullOrZero(id_celula), NHibernateUtil.Int32);
+            query2.SetParameter("progem", BusinessHelper.IsNull(flagProgem), NHibernateUtil.Boolean);
+            query2.SetString("numeroRegistro", string.Format("%{0}%", numeroRegistro));
+            query2.SetString("observacao", string.Format("%{0}%", observacao));
+            query2.SetParameter("ano", BusinessHelper.IsNullOrZero(ano), NHibernateUtil.Int32);
+
+            
+            List<PedidoServico> pedidos = (List<PedidoServico>)query.List<PedidoServico>();
+            List<DelineamentoOrcamento> orcamentos = (List<DelineamentoOrcamento>)query2.List<DelineamentoOrcamento>();
+            
+            foreach (PedidoServico ps in pedidos)
+            {
+                DelineamentoOrcamento orcamento = new DelineamentoOrcamento();
+                orcamento.PedidoServico = ps;
+                orcamentos.Add(orcamento);
+            }
+
+            orcamentos.Sort(new Comparison<DelineamentoOrcamento>(delegate(DelineamentoOrcamento p1, DelineamentoOrcamento p2)
+            {
+                return p1.CodigoInterno.CompareTo(p2.PedidoServico.CodigoInterno);
+            }));
+
+            return orcamentos;
+        }
+        
+        /// <summary>
+        /// Retorna a lista de pedido onde a etapa id_statusPedidoServico demorou mais que x dias
+        /// </summary>
+        public static List<IPedido> Select(int id_gerente, int id_equipamento, int id_status, int id_celula, bool? flagProgem, 
+            DateTime dataInicio, DateTime dataFim, int id_statusPedidoServico, int dias)
+        {
+            List<DelineamentoOrcamento> list = Select(id_gerente, id_equipamento, id_status, id_celula, flagProgem, dataInicio, dataFim, null, null, Int32.MinValue, Int32.MinValue);
+            foreach (IPedido pedido in list)
+            {
+                //TODO: inserir logica aqui
+            }
+
+            return list.ConvertAll<IPedido>(delegate(DelineamentoOrcamento orcamento) { return (IPedido) orcamento; });
+        }
+
+	    #endregion
+
+        #region Relatorios CrossTable
+
+        public static DataSet SelectStatusPorCelula(int ano, bool? progem)
+        {
+            SQLHelper helper = new SQLHelper();
+            object[] param = new object[3];
+            param[1] = ano;
+            param[2] = progem;
+
+            return helper.ExecuteDataSet("PedidoServico_SelectStatusPorCelula", param);
+        }
+
+        public static DataSet SelectStatusPorEquipamento(int ano, bool? progem)
+        {
+            SQLHelper helper = new SQLHelper();
+            object[] param = new object[3];
+            param[1] = ano;
+            param[2] = progem;
+
+            return helper.ExecuteDataSet("PedidoServico_SelectStatusPorEquipamento", param);
+        }
+        #endregion
+
+        public override void Save()
+        {
+            if(!this.IsPersisted)
+                CriarNovo();
+            else
+                base.Save();
+        }
+
+	    private void CriarNovo()
+	    {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+	        IQuery query1 = session.CreateQuery(
+	            @"from PedidoServico p 
+	            where p.CodigoPedidoCliente = :codigo
+	            and p.Status.ID != :statusCancelado
+	            and p.Cliente.ID = :id_cliente");
+	        query1.SetString("codigo", this.CodigoPedidoCliente);
+	        query1.SetInt32("id_cliente", this.Cliente.ID);
+            query1.SetInt32("statusCancelado", Convert.ToInt32(StatusPedidoServicoEnum.Cancelado));
+            if(query1.List<PedidoServico>().Count > 0)
+                throw new Exception("Já existe um PS com este número de pedido do cliente.");
+	        
+	        this.DataEmissao = DateTime.Today;
+	        this.Status = StatusPedidoServico.Get(StatusPedidoServicoEnum.NaoEnviado);
+	        
+	        using (TransactionBlock tran = new TransactionBlock())
+	        {
+                
+                IQuery query = session.CreateQuery(
+                    @"select MAX(p.CodigoInterno) from PedidoServico p ");
+
+                object result = query.UniqueResult();
+                if (result == null)
+                    this.CodigoInterno = 1;
+                else
+                    this.CodigoInterno = Convert.ToInt32(result) + 1;
+                    
+                base.Save();
+                    
+	            tran.IsValid = true;
+	        }
+	    }
+
+        #region Workflow
+	    public virtual void Enviar(int id_servidor)
+	    {
+	        if(this.Status.StatusPedidoServicoEnum != StatusPedidoServicoEnum.NaoEnviado)
+	            throw new Exception("Este pedido não pode mais ser enviado.");
+
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoServico historico = GetHistorico(id_servidor, StatusPedidoServicoEnum.AguardandoDAC);
+
+                historico.Save();
+                this.Status = historico.StatusPosterior;
+                _flagRecusado = false;
+                base.Save();
+                this._historico.Add(historico);
+                tran.IsValid = true;
+            }  
+	    }
+
+        /// <summary>
+        /// Encaminha o serviço para o gerente
+        /// </summary>
+        /// <param name="id_servidor">Servidor que está encaminhando</param>
+	    public virtual void EncaminharParaGerente(int id_servidor)
+	    {
+            if (this.Status.StatusPedidoServicoEnum != StatusPedidoServicoEnum.AguardandoDAC)
+                throw new Exception("Este pedido não pode ser encaminhado.");
+            
+            //TODO:Verificar se o servidor que está encaminhando tem permissão
+            
+            if(this.ServidorGerente == null)
+                throw new Exception("O gerente não foi definido.");
+
+            if (this.Celula == null)
+                throw new Exception("A divisão não foi definida.");
+                
+            using(TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoServico historico = GetHistorico(id_servidor, StatusPedidoServicoEnum.AguardandoEnvioParaDelineamento);
+
+                historico.Save();
+                
+                this.Status = historico.StatusPosterior;
+                _flagRecusado = false;
+                base.Save();
+
+                this._historico.Add(historico);
+                
+                tran.IsValid = true;    
+            }   
+	    }
+
+	    public virtual void EnviarParaDelineamento(int id_servidor, int id_categoriaServico)
+	    {
+            if (this.Status.StatusPedidoServicoEnum != StatusPedidoServicoEnum.AguardandoEnvioParaDelineamento)
+                throw new Exception("Este pedido não pode ser encaminhado.");
+
+	        this.CategoriaServico = CategoriaServico.Get(id_categoriaServico);
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoServico historico = GetHistorico(id_servidor, StatusPedidoServicoEnum.EmDelineamento);
+
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+                _flagRecusado = false;
+                base.Save();
+
+                this._historico.Add(historico);
+
+                tran.IsValid = true;
+            }  
+	    }
+
+        /// <summary>
+        /// Acusa a finalizacao do delineamento e passa para a etapa de orçamento
+        /// </summary>
+        public virtual void FinalizarDelineamento(int id_servidor)
+        {
+            if (this.Status.StatusPedidoServicoEnum != StatusPedidoServicoEnum.EmDelineamento)
+                throw new Exception("Este pedido não pode ser encaminhado.");
+
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoServico historico = GetHistorico(id_servidor, StatusPedidoServicoEnum.AguardandoOrcamento);
+
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+                _flagRecusado = false;
+                base.Save();
+
+                this._historico.Add(historico);
+
+                tran.IsValid = true;
+            }
+        }
+
+        
+      
+	    private HistoricoPedidoServico GetHistorico(int id_servidor, StatusPedidoServicoEnum novoStatus)
+	    {
+	        HistoricoPedidoServico historico = new HistoricoPedidoServico();
+	        historico.Data = DateTime.Now;
+	        historico.PedidoServico = this;
+	        historico.StatusAnterior = this.Status;
+	        historico.Servidor = Servidor.Get(id_servidor);
+	        historico.StatusPosterior = Business.StatusPedidoServico.Get(novoStatus);
+	        return historico;
+	    }
+	    
+	    /// <summary>
+	    /// Retorna para o status anterior
+	    /// </summary>
+	    public virtual void Recusar(int id_servidor, string  justificativa)
+	    {
+	        StatusPedidoServicoEnum novoStatus = StatusPedidoServico.GetAnterior(_statuspedidoservico.StatusPedidoServicoEnum);
+	        HistoricoPedidoServico historico = GetHistorico(id_servidor, novoStatus);
+            historico.JustificativaRecusa = justificativa;
+            
+            using(TransactionBlock tran = new TransactionBlock())
+            {
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+                _flagRecusado = true;
+
+                base.Save();
+
+                this._historico.Add(historico);
+                tran.IsValid = true;
+            }
+	    }
+	    #endregion
+
+	    public static IEnumerable FastSearch(string texto)
+	    {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select new PedidoServicoUI(p.ID, p.CodigoInterno, p.DataEmissao)
+            from PedidoServico p
+			where dbo.BuscaCodigoPS(p.CodigoInterno, p.DataEmissao, :texto) = 1
+			order by p.ID ASC");
+
+            query.SetMaxResults(20);
+            query.SetString("texto", "%" + texto + "%");
+            
+            return query.List<PedidoServicoUI>();	        
+	    }
+
+        #region IComparable<PedidoServico> Members
+
+        public int CompareTo(PedidoServico other)
+        {
+            if(other == null) return -1;
+            return ID.CompareTo(other.ID);
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return CodigoComAno;
+        }
+
+	    public virtual void Cancelar(int id_servidor, int id_motivo)
+	    {
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoServico historico = GetHistorico(id_servidor, StatusPedidoServicoEnum.Cancelado);
+
+                historico.Save();
+                
+                foreach (DelineamentoOrcamento orcamento in _orcamentos)
+                {
+                    if(orcamento.PedidoObtencao != null)
+                        orcamento.PedidoObtencao.Cancelar(id_servidor, id_motivo);
+
+                    orcamento.Status = historico.StatusPosterior;
+                    orcamento.Save();
+                }
+
+                this.Status = historico.StatusPosterior;
+                this.MotivoCancelamento = MotivoCancelamento.Get(id_motivo);
+                _flagRecusado = false;
+                base.Save();
+
+                this._historico.Add(historico);
+
+                tran.IsValid = true;
+            }   
+	    }
+	    
+	    private DelineamentoOrcamento GetOrcamento(int id_orcamento)
+	    {
+	        foreach (DelineamentoOrcamento orcamento in _orcamentos)
+	        {
+	            if(orcamento.ID == id_orcamento)
+	                return orcamento;
+	        }
+	        return null;
+	    }
+	    
+	    public virtual List<Etapa> GetEtapas()
+	    {
+	        return GetEtapas(-1);
+	    }
+	    
+	    internal virtual List<Etapa> GetEtapas(int id_delineamentoOrcamento)
+	    {
+	        List<Etapa> etapas = new List<Etapa>();
+	        for(int i = 0; i < Historico.Count; i++)
+	        {
+	            if(id_delineamentoOrcamento <= 0 || 
+	                Historico[i].ID_DelineamentoOrcamento == null ||
+	                Historico[i].ID_DelineamentoOrcamento == id_delineamentoOrcamento )
+	            {
+	                Etapa etapa = new Etapa();
+	                etapa.Tipo = "PS";
+	                etapa.ID_PedidoServico = ID;
+	                etapa.Data = Historico[i].Data;
+	                etapa.Texto = Historico[i].Texto;
+	                if (i + 1 < Historico.Count)
+	                    etapa.DiasDemora = (Historico[i + 1].Data - etapa.Data).Days;
+	                etapas.Add(etapa);
+	            }
+	        }
+
+	        DelineamentoOrcamento orcamento = GetOrcamento(id_delineamentoOrcamento);
+	        if(orcamento != null && orcamento.PedidoObtencao != null)
+	        {
+                for (int i = 0; i < orcamento.PedidoObtencao.Historico.Count; i++)
+                {
+                    Etapa etapa = new Etapa();
+                    etapa.ID_PedidoServico = ID;
+                    etapa.Tipo = "PO";
+                    etapa.Data = orcamento.PedidoObtencao.Historico[i].Data;
+                    etapa.Texto = orcamento.PedidoObtencao.Historico[i].Descricao;
+                    if (i + 1 < orcamento.PedidoObtencao.Historico.Count)
+                        etapa.DiasDemora = (orcamento.PedidoObtencao.Historico[i + 1].Data - etapa.Data).Days;
+                    etapas.Add(etapa);
+                    
+                    
+                }
+	        }
+	        return etapas;
+	    }
+	}
+}

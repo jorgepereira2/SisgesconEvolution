@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.LicitacaoContrato,Marinha.Business" table="TB_LicitacaoContrato" lazy="true">
+
+		<id name="ID" column="ID_LicitacaoContrato" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Licitacao" column="ID_Licitacao" class="Marinha.Business.Licitacao,Marinha.Business" />		
+		<property column="NumeroContrato" type="String" name="NumeroContrato"  />
+    <property column="DataVigencia" type="DateTime" name="DataVigencia"  />
+    <property column="DataAssinatura" type="DateTime" name="DataAssinatura"  />		
+		<many-to-one name="Fornecedor" column="ID_Fornecedor" class="Marinha.Business.Fornecedor,Marinha.Business" />
+		
+	</class>
+</hibernate-mapping>

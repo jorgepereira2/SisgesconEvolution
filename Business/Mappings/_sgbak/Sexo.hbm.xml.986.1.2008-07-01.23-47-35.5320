@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Sexo,Marinha.Business" table="TB_Sexo" lazy="true">
+
+		<id name="ID" column="ID_Sexo" type="Int32" unsaved-value="0">
+			<generator class="assigned"/>
+		</id>
+		<property column="Descricao" type="String" name="Descricao" not-null="true" length="20" />
+		
+	</class>
+</hibernate-mapping>

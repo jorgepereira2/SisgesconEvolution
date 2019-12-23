@@ -1,0 +1,252 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using Web = System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Shared.Common;
+using Marinha.Business;
+using Shared.SessionState;
+using Anthem;
+
+
+public partial class BuscaServicoMaterial : System.Web.UI.UserControl
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Manager.Register(this);
+       
+        
+        if(!this.IsPostBack)
+        {
+            string s = @"<script language='javascript' type='text/javascript'>
+            function UpdateUserControl(userControlID, ID) {         
+	            Anthem_InvokeControlMethod(
+		            userControlID,
+		            'FireEvent',
+		            [ID],
+		            function(result) {}
+	            );
+            }
+            </script>";
+
+            this.Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "popupbusca", s);
+            txtServicoMaterial.Style.Add("border", "solid 1px blue");
+            //if(SearchURL == "")
+            //    lnkBusca.Visible = false;
+            //else
+           
+            
+        }
+        string address = "../busca/frmServicoMaterialBusca.aspx?id_controle=" + this.ClientID;
+        if (TipoServicoMaterial.HasValue)
+            address += "&tipoMaterial=" + Convert.ToInt32(TipoServicoMaterial.Value).ToString();
+
+        AnthemClientMethods.Popup(lnkBusca, address, false, false, false, true, true, true,
+            true, 10, 10, 760, 550, false);
+    }
+
+    public delegate void SelectedValueChangedHandler(object source, BuscaServicoMaterialEventArgs e);
+    public event SelectedValueChangedHandler SelectedValueChanged;
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        txtServicoMaterial.TextChanged += new Anthem.AutoSuggestBox.TextChangedEventHandler(txtServicoMaterial_TextChanged);
+        txtServicoMaterial.SelectedValueChanged += new Anthem.AutoSuggestBox.SelectedValueChangedHandler(txtServicoMaterial_SelectedValueChanged);
+        txtServicoMaterial.CallBackControlID = txtServicoMaterial.ClientID;
+    }
+
+    void txtServicoMaterial_SelectedValueChanged(object source, EventArgs e)
+    {
+        if (SelectedValueChanged != null)
+        {
+            FireEvent(txtServicoMaterial.SelectedValue);
+        }
+    }
+
+    void txtServicoMaterial_TextChanged(object source, Anthem.AutoSuggestEventArgs e)
+    {
+        try
+        {
+            txtServicoMaterial.DataSource = ServicoMaterial.FastSearch(e.CurrentText, this.TipoServicoMaterial,
+                this.MostraMaterialNaoEstocavel, ((MarinhaPageBase)this.Page).SJBLiberados, ((MarinhaPageBase)this.Page).FlagAcessaTodosMateriais);
+            txtServicoMaterial.DataBind();
+        }
+        catch (Exception e1)
+        {
+            AnthemClientMethods.Alert(MarinhaPageBase.GetCompleteErrorMessage(e1), this.Page);
+        }
+    }
+
+   
+    public void Reset()
+    {
+        txtServicoMaterial.Text = String.Empty;
+        txtServicoMaterial.SelectedValue = "0";
+        txtServicoMaterial.UpdateAfterCallBack = true;
+    }
+	  
+    public TipoServicoMaterial? TipoServicoMaterial
+    {
+        get
+        {
+            if(ViewState["TipoServicoMaterial"] == null)
+                return null;
+            else
+                return (Marinha.Business.TipoServicoMaterial) ViewState["TipoServicoMaterial"];
+        }
+        set { ViewState["TipoServicoMaterial"] = value;}
+    }
+
+    public bool MostraMaterialNaoEstocavel
+    {
+        get
+        {
+            return ViewState["MostraMaterialNaoEstocavel"] != null ? Convert.ToBoolean(ViewState["MostraMaterialNaoEstocavel"]) : true;
+        }
+        set { ViewState["MostraMaterialNaoEstocavel"] = value; }
+    }
+
+    public string SearchURL
+    {
+        get
+        {
+            return ViewState["SearchURL"] != null ? ViewState["SearchURL"].ToString() : "";
+        }
+        set { ViewState["SearchURL"] = value; }
+    }
+    
+    public string ValidationGroup
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.ValidationGroup;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.ValidationGroup = value;
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.ErrorMessage;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.ErrorMessage = value;
+        }
+    }
+
+    public bool Required
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.Required;
+        }
+        set 
+        {
+            EnsureChildControls();
+            txtServicoMaterial.Required = value;
+        }
+    }
+
+    public bool UpdateAfterCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.UpdateAfterCallBack;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.UpdateAfterCallBack = value;
+        }
+    }
+
+    public string SelectedValue
+    {
+        get 
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.SelectedValue == "" ? "0" : txtServicoMaterial.SelectedValue; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.SelectedValue = value;
+        }
+    }
+
+    public string Text
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.Text;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.Text = value;
+        }
+    }
+
+    public bool AutoCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtServicoMaterial.AutoCallBack; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtServicoMaterial.AutoCallBack = value;
+        }
+    }
+	 
+    [Anthem.Method]
+    public void FireEvent(string id)
+    {
+        ServicoMaterial servicoMaterial = new ServicoMaterial();
+        if (id != "" && id != "0")
+            servicoMaterial = ServicoMaterial.Get(Convert.ToInt32(id));
+        
+        txtServicoMaterial.SelectedValue = id;
+        txtServicoMaterial.Text = servicoMaterial.Descricao;
+        
+        txtServicoMaterial.UpdateAfterCallBack = true;
+        if (SelectedValueChanged != null)
+            SelectedValueChanged(this, new BuscaServicoMaterialEventArgs(servicoMaterial));
+    }
+	
+}
+
+public class BuscaServicoMaterialEventArgs : EventArgs
+{
+    private readonly ServicoMaterial _servicoMaterial;
+
+    public BuscaServicoMaterialEventArgs(ServicoMaterial _servicoMaterial)
+    {
+        this._servicoMaterial = _servicoMaterial;
+    }
+
+    public ServicoMaterial ServicoMaterial
+    {
+        get { return _servicoMaterial; }
+    }
+}

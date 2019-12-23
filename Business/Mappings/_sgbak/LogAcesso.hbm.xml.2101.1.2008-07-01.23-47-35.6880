@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.LogAcesso,Marinha.Business" table="TB_LogAcesso" lazy="true">
+
+		<id name="ID" column="ID_LogAcesso" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<property column="IP" type="String" name="IP" not-null="true" length="20" />
+		<property column="Browser" type="String" name="Browser" not-null="true" length="30" />
+		
+	</class>
+</hibernate-mapping>

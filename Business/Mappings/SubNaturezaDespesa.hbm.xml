@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Marinha.Business.SubNaturezaDespesa,Marinha.Business" table="TB_SubNaturezaDespesa" lazy="true">
+
+    <id name="ID" column="ID_SubNaturezaDespesa" type="Int32" unsaved-value="0">
+      <generator class="native"/>
+    </id>
+    <property column="Descricao" type="String" name="Descricao" not-null="true" />
+    <many-to-one name="NaturezaDespesa" column="ID_NaturezaDespesa" class="Marinha.Business.NaturezaDespesa,Marinha.Business" />
+    <property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true" />
+    <property column="Industrial" type="Boolean" name="Industrial" not-null="true" />
+
+  </class>
+</hibernate-mapping>

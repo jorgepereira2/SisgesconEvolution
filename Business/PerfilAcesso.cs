@@ -1,0 +1,140 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class PerfilAcesso : BusinessObject<PerfilAcesso>
+	{
+		#region Private Members
+		
+		private string _nome;
+		private string _observacao;
+		private bool _flagativo;
+        private bool _flagPodeFazerPOOutraCelula;
+		#endregion
+
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public PerfilAcesso()
+		{
+			_nome = null;
+			_observacao = null;
+			_flagativo = false;
+			_processos = new CustomList<Processo>();
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+        public virtual bool FlagPodeFazerPOOutraCelula
+        {
+            get { return _flagPodeFazerPOOutraCelula; }
+            set { _flagPodeFazerPOOutraCelula = value; }
+        }
+		
+		public virtual string Nome
+		{
+			get { return _nome; }
+			set
+			{
+				if (value != null)
+					if (value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Nome", value, value.ToString());
+
+				_nome = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set
+			{
+				if (value != null)
+					if (value.Length > 500)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+
+				_observacao = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+		#endregion
+
+		#region Collections
+		private ICustomList<Processo> _processos;
+
+	    public virtual ICustomList<Processo> Processos
+		{
+			get { return _processos; }
+			set { _processos = value; }
+		}
+		#endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Retorna uma coleção de perfis baseado nos ids passados
+        /// </summary>
+        /// <param name="id_perfis">List<string> contendo os IDs dos perfis</param>        
+        public static ICustomList<PerfilAcesso> SelectByString(string id_perfis)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+
+            IQuery query = session.CreateQuery("@from PerfilAcesso pa where pa.ID IN (:id_perfis) order by pa.Nome asc");
+
+            //query = query.SetParameterList("Lista", Util.LeLista(id_perfis));
+            query = query.SetString("id_perfis", id_perfis);
+
+            IList<PerfilAcesso> list = query.List<PerfilAcesso>();
+            CustomList<PerfilAcesso> perfis = new CustomList<PerfilAcesso>();
+
+            foreach (PerfilAcesso p in list)
+                perfis.Add(p);
+
+            return perfis;
+        }
+
+		public static Dictionary<int, string> List()
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+				@"select p.ID, p.Nome
+				from PerfilAcesso p 
+				where p.FlagAtivo = 1
+				order by p.Nome");
+			return BusinessHelper.ExecuteList(query);
+		}
+
+
+		public static List<PerfilAcesso> Select(string nome)
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+				@"from PerfilAcesso p 
+				where p.Nome like :nome
+				order by p.Nome");
+			
+			query.SetString("nome", "%" + nome + "%");
+			return (List<PerfilAcesso>)query.List<PerfilAcesso>();
+		}
+
+
+		#endregion
+     
+	}
+}

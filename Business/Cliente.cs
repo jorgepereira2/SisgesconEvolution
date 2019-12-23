@@ -1,0 +1,409 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Cliente : BusinessObject<Cliente>, IComparable<Cliente>	
+	{
+		#region Private Members
+		private TipoCliente _tipocliente; 
+		private string _cnpjcpf; 
+		private string _codigo; 
+		private string _indicativonaval; 
+		private string _descricao; 
+		private string _observacao; 
+		private string _endereco; 
+		private string _bairro; 
+		private string _cep; 
+		private Estado _estado; 
+		private Municipio _municipio; 
+		private string _telefone; 
+		private string _fax; 
+		private string _email; 
+		private string _homepage; 
+		private bool _flagativo;
+	    private Cliente _clientePagador;
+	    private string _senha;
+
+	    #endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Cliente()
+		{
+			_tipocliente =  null; 
+			_cnpjcpf = null; 
+			_codigo = null; 
+			_indicativonaval = null; 
+			_descricao = null; 
+			_observacao = null; 
+			_endereco = null; 
+			_bairro = null; 
+			_cep = null; 
+			_estado =  null; 
+			_municipio =  null; 
+			_telefone = null; 
+			_fax = null; 
+			_email = null; 
+			_homepage = null; 
+			_flagativo = false;
+		    _clientePagador = null; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+
+        public virtual Cliente ClientePagador
+        {
+            get { return _clientePagador; }
+            set { _clientePagador = value; }
+        }		
+        
+		public virtual TipoCliente TipoCliente
+		{
+			get { return _tipocliente; }
+			set { _tipocliente = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string CNPJCPF
+		{
+			get { return _cnpjcpf; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 20)
+						throw new ArgumentOutOfRangeException("Invalid value for CNPJCPF", value, value.ToString());
+				
+				_cnpjcpf = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Codigo
+		{
+			get { return _codigo; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 20)
+						throw new ArgumentOutOfRangeException("Invalid value for Codigo", value, value.ToString());
+				
+				_codigo = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string IndicativoNaval
+		{
+			get { return _indicativonaval; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 12)
+						throw new ArgumentOutOfRangeException("Invalid value for IndicativoNaval", value, value.ToString());
+				
+				_indicativonaval = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 100)
+						throw new ArgumentOutOfRangeException("Invalid value for Descricao", value, value.ToString());
+				
+				_descricao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 400)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+				
+				_observacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Endereco
+		{
+			get { return _endereco; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 100)
+						throw new ArgumentOutOfRangeException("Invalid value for Endereco", value, value.ToString());
+				
+				_endereco = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Bairro
+		{
+			get { return _bairro; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Bairro", value, value.ToString());
+				
+				_bairro = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string CEP
+		{
+			get { return _cep; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 9)
+						throw new ArgumentOutOfRangeException("Invalid value for CEP", value, value.ToString());
+				
+				_cep = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Estado Estado
+		{
+			get { return _estado; }
+			set { _estado = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Municipio Municipio
+		{
+			get { return _municipio; }
+			set { _municipio = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Telefone
+		{
+			get { return _telefone; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 25)
+						throw new ArgumentOutOfRangeException("Invalid value for Telefone", value, value.ToString());
+				
+				_telefone = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Fax
+		{
+			get { return _fax; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 15)
+						throw new ArgumentOutOfRangeException("Invalid value for Fax", value, value.ToString());
+				
+				_fax = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Email
+		{
+			get { return _email; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 80)
+						throw new ArgumentOutOfRangeException("Invalid value for Email", value, value.ToString());
+				
+				_email = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string HomePage
+		{
+			get { return _homepage; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 100)
+						throw new ArgumentOutOfRangeException("Invalid value for HomePage", value, value.ToString());
+				
+				_homepage = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual bool FlagAtivo
+		{
+			get { return _flagativo; }
+			set { _flagativo = value; }
+		}
+
+        public virtual string Senha
+        {
+            get
+            {
+                return _senha;
+            }
+            set
+            {
+                _senha = value;
+            }
+        }
+
+       
+			#endregion 
+			
+        #region Advanced Properties
+	    public virtual string DescricaoParaOrcamento
+	    {
+	        get
+	        {
+	            if(String.IsNullOrEmpty(_indicativonaval))
+	                return _descricao;
+	            else
+	                return string.Format("{0} - {1}", _codigo, _indicativonaval);
+	        }
+	    }
+
+        public virtual string DescricaoCompleta
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_indicativonaval))
+                    return string.Format("{0} - {1}", _codigo, _descricao);
+                else
+                    return string.Format("{1} - {0} - {2}", _codigo, _indicativonaval, _descricao);
+            }
+        }
+
+	 
+
+	    #endregion
+
+        #region Public Methods
+
+        public static Cliente Get(string userName, string password)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+                @"from Cliente c 
+				where c.IndicativoNaval = :Login
+				and c.Senha = :Senha");
+            query.SetString("Login", userName);
+            query.SetString("Senha", password);
+
+            return query.UniqueResult<Cliente>();
+        }
+
+        public static Dictionary<int, string> List()
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select f.ID, f.Descricao 
+			from Cliente f  
+			where f.FlagAtivo = 1
+			order by f.Descricao");
+
+            return BusinessHelper.ExecuteList(query);
+        }
+
+        public static List<Cliente> Select(string texto, int id_tipoCliente)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from Cliente c 
+			where (c.Descricao like :texto
+			OR c.CNPJCPF like :texto
+			OR c.Codigo like :texto
+            OR c.IndicativoNaval like :texto)
+			and c.TipoCliente.ID = IsNull(:id_tipoCliente, c.TipoCliente.ID)
+			order by c.Descricao");
+
+            query.SetString("texto", string.Format("%{0}%", texto));
+            query.SetParameter("id_tipoCliente", BusinessHelper.IsNullOrZero(id_tipoCliente), NHibernateUtil.Int32);
+            query.SetMaxResults(300);
+            return (List<Cliente>)query.List<Cliente>();
+        }
+
+        #endregion
+        
+        #region Fast Search
+        public static IEnumerable<ClienteUI> FastSearch(string texto)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select new ClienteUI(e.ID, e.Descricao, e.Codigo, e.IndicativoNaval)
+            from Cliente e 
+			where (e.Descricao like :texto
+			or e.Codigo like :texto
+			or e.IndicativoNaval like :texto)
+			order by e.Codigo");
+
+            query.SetMaxResults(20);
+            query.SetString("texto", "%" + texto + "%");
+            return query.List<ClienteUI>();
+        }
+        #endregion
+
+	    public virtual int CompareTo(Cliente other)
+	    {
+	        return Descricao.CompareTo(other.Descricao);
+	    }
+
+        public override string ToString()
+        {
+            return Descricao;
+        }
+	}
+}

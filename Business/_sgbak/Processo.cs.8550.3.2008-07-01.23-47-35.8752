@@ -1,0 +1,194 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+using Iesi.Collections.Generic;
+using NHibernate.Expression;
+using Shared.Common;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class Processo : BusinessObject<Processo>	
+	{
+		#region Private Members		
+		private string _nome; 
+		private string _link; 
+		private int _ordem; 
+		private Processo _processopai; 		
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public Processo()
+		{
+			ID = 0; 
+			_nome = null; 
+			_link = null; 
+			_ordem = 0; 
+			_processopai =  null;
+            _processos = new HashedSet<Processo>();            
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Nome
+		{
+			get { return _nome; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 50)
+						throw new ArgumentOutOfRangeException("Invalid value for Nome", value, value.ToString());
+				
+				_nome = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Link
+		{
+			get { return _link; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 70)
+						throw new ArgumentOutOfRangeException("Invalid value for Link", value, value.ToString());
+				
+				_link = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual int Ordem
+		{
+			get { return _ordem; }
+			set { _ordem = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Processo ProcessoPai
+		{
+			get { return _processopai; }
+			set { _processopai = value; }
+		}
+			#endregion 
+			
+        #region Collections
+        private ISet<Processo> _processos;
+		private ISet<Servidor> _servidores;
+
+        public virtual ISet<Processo> Processos
+        {
+            get { return _processos; }
+            set { _processos = value; }
+        }
+
+		public virtual ISet<Servidor> Servidores
+        {
+            get { return _servidores; }
+			set { _servidores = value; }
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Retorna uma lista dos processos do inicio da árvore.
+        /// Cada processo possui a sua própria coleção com os processos filhos
+        /// </summary>        
+        public static ProcessoCollection Select()
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            ICriteria crit = session.CreateCriteria(typeof(Processo))
+                                .Add(Expression.IsNull("ProcessoPai"))                                
+                                .AddOrder(Order.Asc("Ordem"));
+
+            IList<Processo> list = crit.List<Processo>();
+
+            ProcessoCollection processos = new ProcessoCollection();
+            BusinessHelper.CloneIListToList<Processo>(list, processos);
+
+            return processos;
+        }
+
+        /// <summary>
+        /// Seleciona os processos que o usuário tem acesso
+        /// Esta coleção não está na forma hierarquica
+        /// </summary>
+        public static ProcessoCollection SelectMenu(int id_servidor)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+				@"select p from Processo as p 
+                inner join p.Servidores as servidores
+            WHERE   servidores.ID = :id_servidor
+            ORDER BY p.ProcessoPai.ID, p.Ordem, p.Nome");
+
+			query = query.SetInt32("id_servidor", id_servidor);
+			
+            
+            ProcessoCollection processos = new ProcessoCollection();
+            BusinessHelper.CloneIListToList<Processo>(query.List<Processo>(), processos);
+
+            Servidor servidor = Servidor.Get(id_servidor);
+            foreach (PerfilAcesso perfil in servidor.Perfis)
+            {
+                foreach (Processo processo in perfil.Processos)
+                {
+                    if(!processos.Contains(processo))
+                        processos.Add(processo);
+                }
+            }
+
+            return processos;      
+        }
+
+        /// <summary>
+        /// Retorna uma coleção de processos baseado nos ids passados
+        /// </summary>
+        /// <param name="id_processos">List<string> contendo os IDs dos processos</param>        
+        public static ICustomList<Processo> SelectByList(List<string> id_processos)
+        {
+            if(id_processos.Count == 0)
+                return new CustomList<Processo>();
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery("from Processo p where p.ID IN (:Lista)");
+            
+            query = query.SetParameterList("Lista",  id_processos);
+
+            IList<Processo> list = query.List<Processo>();
+			CustomList<Processo> processos = new CustomList<Processo>();
+			foreach (Processo p in list)
+				processos.Add(p);
+            return processos;
+        }
+
+		///// <summary>
+		///// Retorna uma instancia do processo com o nome especificado
+		///// </summary>
+		///// <param name="nomeProcesso"></param>
+		///// <returns></returns>
+		//public static Processo Get(string nomeProcesso)
+		//{
+		//    ISession session = NHibernateSessionManager.Instance.GetSession();
+		//    ICriteria crit = session.CreateCriteria(typeof(Processo))
+		//                        .Add(Expression.Eq("Nome", nomeProcesso));
+
+		//    return crit.UniqueResult<Processo>();
+		//}
+        #endregion
+    }
+
+}

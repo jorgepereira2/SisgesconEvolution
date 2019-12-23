@@ -1,0 +1,174 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using Web = System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Shared.Common;
+using Marinha.Business;
+using Shared.SessionState;
+using Anthem;
+
+
+public partial class UserControls_BuscaCooperado : System.Web.UI.UserControl
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Manager.Register(this);
+        string s = @"<script language='javascript' type='text/javascript'>
+            function UpdateUserControl(userControlID, ID) {                
+	            Anthem_InvokeControlMethod(
+		            userControlID,
+		            'FireEvent',
+		            [ID],
+		            function(result) {}
+	            );
+            }
+            </script>";
+
+        this.Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "popupbusca", s);
+    }
+
+    public delegate void SelectedValueChangedHandler(object source, BuscaCooperadoEventArgs e);
+    public event SelectedValueChangedHandler SelectedValueChanged;
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        txtCooperado.TextChanged += new Anthem.AutoSuggestBox.TextChangedEventHandler(txtCooperado_TextChanged);
+        txtCooperado.SelectedValueChanged += new Anthem.AutoSuggestBox.SelectedValueChangedHandler(txtCooperado_SelectedValueChanged);
+        txtCooperado.CallBackControlID = txtCooperado.ClientID;
+    }
+
+
+    void txtCooperado_SelectedValueChanged(object source, EventArgs e)
+    {
+        if (SelectedValueChanged != null)
+        {
+            FireEvent(txtCooperado.SelectedValue);
+        }
+    }
+
+    void txtCooperado_TextChanged(object source, Anthem.AutoSuggestEventArgs e)
+    {
+		List<Cooperado> list = Cooperado.Select(e.CurrentText);
+        txtCooperado.DataSource = list;
+        txtCooperado.DataBind();
+    }
+
+   
+    public void Reset()
+    {
+        txtCooperado.Text = String.Empty;
+        txtCooperado.SelectedValue = "0";
+        txtCooperado.UpdateAfterCallBack = true;
+    }
+	  
+    
+    public string ValidationGroup
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtCooperado.ValidationGroup;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtCooperado.ValidationGroup = value;
+        }
+    }
+
+    public bool Required
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtCooperado.Required;
+        }
+        set 
+        {
+            EnsureChildControls();
+            txtCooperado.Required = value;
+        }
+    }
+
+    public bool UpdateAfterCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtCooperado.UpdateAfterCallBack;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtCooperado.UpdateAfterCallBack = value;
+        }
+    }
+
+    public string SelectedValue
+    {
+        get 
+        {
+            EnsureChildControls();
+            return txtCooperado.SelectedValue; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtCooperado.SelectedValue = value;
+        }
+    }
+
+    public string Text
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtCooperado.Text;
+        }
+        set
+        {
+            EnsureChildControls();
+            txtCooperado.Text = value;
+        }
+    }
+
+    public bool AutoCallBack
+    {
+        get
+        {
+            EnsureChildControls();
+            return txtCooperado.AutoCallBack; 
+        }
+        set
+        {
+            EnsureChildControls();
+            txtCooperado.AutoCallBack = value;
+        }
+    }
+	 
+    [Anthem.Method]
+    public void FireEvent(string id)
+    {
+        Cooperado pessoa;
+        if (id == "")
+            pessoa = new Cooperado();
+        else
+            pessoa = Cooperado.Get(Convert.ToInt32(id));
+
+        txtCooperado.SelectedValue = id;
+        txtCooperado.Text = pessoa.Nome;
+
+        txtCooperado.UpdateAfterCallBack = true;
+        
+        if (SelectedValueChanged != null)
+            SelectedValueChanged(this, new BuscaCooperadoEventArgs(pessoa));
+    }
+	
+}

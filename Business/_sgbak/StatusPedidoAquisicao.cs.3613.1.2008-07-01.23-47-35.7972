@@ -1,0 +1,164 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class StatusPedidoAquisicao : BusinessObject<StatusPedidoAquisicao>, IComparable<StatusPedidoAquisicao>	
+	{
+		#region Private Members
+		private string _descricao;
+	    private bool _flagVinculoPorDivisao;
+	    
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public StatusPedidoAquisicao()
+		{
+			_descricao = null;
+		    _flagVinculoPorDivisao = false;
+		    _responsaveis = new CustomList<Servidor>();
+            _responsaveisDivisao = new CustomList<StatusPedidoAquisicaoDivisao>();
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+      
+        public virtual bool FlagVinculoPorDivisao
+        {
+            get { return _flagVinculoPorDivisao; }
+            set { _flagVinculoPorDivisao = value; }
+        } 		
+        	
+		public virtual string Descricao
+		{
+			get { return _descricao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 100)
+						throw new ArgumentOutOfRangeException("Invalid value for Descricao", value, value.ToString());
+				
+				_descricao = value;
+			}
+		}
+			#endregion
+
+	    #region Collections
+
+	    private ICustomList<Servidor> _responsaveis;
+        private ICustomList<StatusPedidoAquisicaoDivisao> _responsaveisDivisao;
+
+        public virtual ICustomList<StatusPedidoAquisicaoDivisao> ResponsaveisDivisao
+        {
+            get { return _responsaveisDivisao; }
+            set { _responsaveisDivisao = value; }
+        }
+
+	    public virtual ICustomList<Servidor> Responsaveis
+	    {
+	        get { return _responsaveis; }
+	        set { _responsaveis = value; }
+	    }
+
+	    public virtual StatusPedidoAquisicaoEnum StatusPedidoAquisicaoEnum
+	    {
+	        get { return (Business.StatusPedidoAquisicaoEnum) this.ID;}
+	    }
+
+	    #endregion
+		
+		#region Public Methods
+
+        public static List<StatusPedidoAquisicao> Select()
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from StatusPedidoAquisicao s  			
+			order by s.ID");
+
+            return (List<StatusPedidoAquisicao>)query.List<StatusPedidoAquisicao>();
+        }
+		
+		public static Dictionary<int, string> List()
+		{
+		    if(_list == null)
+		    {
+		        SetList();
+		    }
+		    return _list;
+		}
+
+	    private static void SetList()
+	    {
+	        ISession session = NHibernateSessionManager.Instance.GetSession();
+	        IQuery query = session.CreateQuery(
+	            @"select s.ID, s.Descricao 
+		        	from StatusPedidoAquisicao s  			
+		    	    order by s.ID");
+
+	        _list = BusinessHelper.ExecuteList(query);
+	    }
+
+	    private static Dictionary<int, string> _list;
+
+        public override void Save()
+        {
+            base.Save();
+            SetList();
+        }
+        
+        /// <summary>
+        /// Retorna o item seguinte do enum
+        /// </summary>
+	    public static StatusPedidoAquisicaoEnum GetNext(StatusPedidoAquisicaoEnum statusAtual)
+	    {
+	        if(statusAtual == StatusPedidoAquisicaoEnum.Reprovado)
+	            statusAtual = StatusPedidoAquisicaoEnum.NaoEnviado;
+	        bool achouAtual = false;
+	        foreach (KeyValuePair<int, string> pair in List())
+	        {
+                if (achouAtual)
+                {
+                    return (Business.StatusPedidoAquisicaoEnum) pair.Key;
+                }
+	            if(pair.Key == Convert.ToInt32(statusAtual))
+	            {
+	                achouAtual = true;
+	            }
+	        }
+	        return 0;
+	    }
+		#endregion
+
+		#region Responsaveis Por Divisao
+		
+		public virtual List<Servidor> GetResponsaveisDivisao(int id_divisao)
+		{
+		    List<Servidor> list = new List<Servidor>();
+		    return list;
+		}
+		
+		#endregion
+
+	    public static StatusPedidoAquisicao Get(StatusPedidoAquisicaoEnum status)
+	    {
+	        return StatusPedidoAquisicao.Get(Convert.ToInt32(status));
+	    }
+
+	    public int CompareTo(StatusPedidoAquisicao other)
+	    {
+	        return Descricao.CompareTo(other.Descricao);
+	    }
+
+        public override string ToString()
+        {
+            return Descricao;
+        }
+	}
+}

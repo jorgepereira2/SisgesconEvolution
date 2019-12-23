@@ -1,0 +1,726 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0E8B91C4-0E05-4ED9-B9C5-E7D500BCD7E2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Marinha.Business</RootNamespace>
+    <AssemblyName>Marinha.Business</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Marinha.Business.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Marinha.Business.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\Marinha.Business.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Marinha.Business.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\Referencias 4.0\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>C:\Users\Jorge\Desktop\ExportGridToPdf\Bin\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\Referencias 4.0\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Shared.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Referencias\Shared.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Shared.DataAccessHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Referencias\Shared.DataAccessHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Shared.NHibernateDAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Referencias 4.0\Shared.NHibernateDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Apropriacao.cs" />
+    <Compile Include="Atividade.cs" />
+    <Compile Include="AutorizacaoCompra.cs" />
+    <Compile Include="AutorizacaoCompraPagamento.cs" />
+    <Compile Include="SubNaturezaDespesa.cs" />
+    <Compile Include="Modalidade.cs" />
+    <Compile Include="TipoServico.cs" />
+    <Compile Include="FaturaPagamentoMensal.cs" />
+    <Compile Include="TipoFaturaPagamento.cs" />
+    <Compile Include="LicitacaoContrato.cs" />
+    <Compile Include="PedidoServicoAtividadeSecundariaItem.cs" />
+    <Compile Include="HistoricoPedidoServicoAtividadeSecundaria.cs" />
+    <Compile Include="PedidoServicoAtividadeSecundaria.cs" />
+    <Compile Include="StatusPedidoServicoAtividadeSecundariaDivisao.cs" />
+    <Compile Include="StatusPedidoServicoAtividadeSecundaria.cs" />
+    <Compile Include="Enums\StatusPedidoServicoAtividadeSecundariaEnum.cs" />
+    <Compile Include="TipoAtividadeSecundaria.cs" />
+    <Compile Include="PedidoServicoMergulhoDelineamento.cs" />
+    <Compile Include="PedidoServicoMergulhoItemOrcamento.cs" />
+    <Compile Include="Embarcacao.cs" />
+    <Compile Include="HistoricoPedidoServicoMergulho.cs" />
+    <Compile Include="StatusPedidoServicoMergulhoDivisao.cs" />
+    <Compile Include="StatusPedidoServicoMergulho.cs" />
+    <Compile Include="Enums\StatusPedidoServicoMergulhoEnum.cs" />
+    <Compile Include="PedidoServicoMergulho.cs" />
+    <Compile Include="PedidoObtencaoDocumento.cs" />
+    <Compile Include="PedidoObtencaoEmpenho.cs" />
+    <Compile Include="Enums\ProcessoLicitatorio.cs" />
+    <Compile Include="PedidoServicoEquipamento.cs" />
+    <Compile Include="Enums\SistemaLicitatorio.cs" />
+    <Compile Include="LicitacaoDocumento.cs" />
+    <Compile Include="RotinaCategoriaServicoItemOrcamento.cs" />
+    <Compile Include="RotinaCategoriaServicoDelineamento.cs" />
+    <Compile Include="RotinaCategoriaServico.cs" />
+    <Compile Include="Interfaces\IPedidoObtencao.cs" />
+    <Compile Include="PedidoObtencaoPagamento.cs" />
+    <Compile Include="ModalidadePregao.cs" />
+    <Compile Include="TipoLicitacao.cs" />
+    <Compile Include="Rotina.cs" />
+    <Compile Include="HistoricoLicitacao.cs" />
+    <Compile Include="StatusLicitacao.cs" />
+    <Compile Include="DelineamentoOficina.cs" />
+    <Compile Include="Enums\TipoNaturezaDespesa.cs" />
+    <Compile Include="Prioridade.cs" />
+    <Compile Include="MovimentoVisitante.cs" />
+    <Compile Include="UI\ServidorUI.cs" />
+    <Compile Include="Visitante.cs" />
+    <Compile Include="ServidorCursoMilitar.cs" />
+    <Compile Include="ServidorCondecoracao.cs" />
+    <Compile Include="ServidorDependente.cs" />
+    <Compile Include="Enums\EstadoCivil.cs" />
+    <Compile Include="Enums\TipoSanguineo.cs" />
+    <Compile Include="MovimentoServidor.cs" />
+    <Compile Include="CotaMaterial.cs" />
+    <Compile Include="UGE.cs" />
+    <Compile Include="PedidoAquisicaoParsitManager.cs" />
+    <Compile Include="MovimentoConta.cs" />
+    <Compile Include="PedidoAquisicaoManager.cs" />
+    <Compile Include="ServidorHistorico.cs" />
+    <Compile Include="ProvisionadoSiafi.cs" />
+    <Compile Include="Meta.cs" />
+    <Compile Include="TipoMoeda.cs" />
+    <Compile Include="Fase.cs" />
+    <Compile Include="Enums\TipoOperacaoFinanceira.cs" />
+    <Compile Include="Enums\TipoMovimentoFinanceiro.cs" />
+    <Compile Include="PTRES.cs" />
+    <Compile Include="EntradaValores.cs" />
+    <Compile Include="Conta.cs" />
+    <Compile Include="DiaMaximoLancamentoFamod.cs" />
+    <Compile Include="CustoHH.cs" />
+    <Compile Include="Enums\TipoValor.cs" />
+    <Compile Include="Enums\TipoTAV.cs" />
+    <Compile Include="HistoricoOMF.cs" />
+    <Compile Include="MedidaEtiqueta.cs" />
+    <Compile Include="NotaEntregaMaterialOMFResponsavelPericia.cs" />
+    <Compile Include="TipoNotificacao.cs" />
+    <Compile Include="TipoEmprego.cs" />
+    <Compile Include="StatusOMF.cs" />
+    <Compile Include="DelineamentoOrcamentoFaturamento.cs" />
+    <Compile Include="EncarregadoCelula.cs" />
+    <Compile Include="Enums\StatusOMFEnum.cs" />
+    <Compile Include="Enums\OrigemPO.cs" />
+    <Compile Include="Enums\ObjetoCancelavel.cs" />
+    <Compile Include="Enums\TipoPessoa.cs" />
+    <Compile Include="Enums\SituacaoFAMOD.cs" />
+    <Compile Include="Enums\TipoPedidoObtencao.cs" />
+    <Compile Include="Enums\TipoPedido.cs" />
+    <Compile Include="Enums\TipoCompraEnum.cs" />
+    <Compile Include="Interfaces\ICompra.cs" />
+    <Compile Include="Localizacao.cs" />
+    <Compile Include="MotivoCancelamento.cs" />
+    <Compile Include="NotaEntregaMaterialOMF.cs" />
+    <Compile Include="NotaEntregaMaterialOMFItem.cs" />
+    <Compile Include="PedidoCotacaoItemDescartado.cs" />
+    <Compile Include="TipoCompra.cs" />
+    <Compile Include="UI\ClienteUI.cs" />
+    <Compile Include="Enums\TipoRequisicaoEstoqueEnum.cs" />
+    <Compile Include="HistoricoAutorizacaoCompra.cs" />
+    <Compile Include="Enums\TipoOperacaoEstoque.cs" />
+    <Compile Include="StatusAutorizacaoCompra.cs" />
+    <Compile Include="PedidoCotacaoItem.cs" />
+    <Compile Include="CategoriaServico.cs" />
+    <Compile Include="Celula.cs" />
+    <Compile Include="ClasseServicoMaterial.cs" />
+    <Compile Include="Cliente.cs" />
+    <Compile Include="Collections\CustomList.cs" />
+    <Compile Include="Collections\ProcessoCollection.cs" />
+    <Compile Include="PedidoCotacao.cs" />
+    <Compile Include="DelineamentoOrcamentoOcorrencia.cs" />
+    <Compile Include="Enums\StatusAutorizacaoCompraEnum.cs" />
+    <Compile Include="HistoricoPedidoObtencao.cs" />
+    <Compile Include="Interfaces\IItemServicoMaterial.cs" />
+    <Compile Include="OrigemMaterialManager.cs" />
+    <Compile Include="PedidoObtencao.cs" />
+    <Compile Include="PedidoObtencaoItem.cs" />
+    <Compile Include="PedidoObtencaoItemCancelado.cs" />
+    <Compile Include="PedidoObtencaoItemPEPRodizio.cs" />
+    <Compile Include="StatusPedidoObtencaoDivisao.cs" />
+    <Compile Include="Enums\StatusPedidoObtencaoEnum.cs" />
+    <Compile Include="StatusPedidoObtencao.cs" />
+    <Compile Include="EntradaMaterial.cs" />
+    <Compile Include="EntradaMaterialItem.cs" />
+    <Compile Include="Enums\StatusEntregaMaterial.cs" />
+    <Compile Include="Enums\TipoPedidoAquisicaoEnum.cs" />
+    <Compile Include="Famod.cs" />
+    <Compile Include="Feriado.cs" />
+    <Compile Include="FonteRecurso.cs" />
+    <Compile Include="NaturezaDespesa.cs" />
+    <Compile Include="Projeto.cs" />
+    <Compile Include="Enums\TipoPagamentoPO.cs" />
+    <Compile Include="HistoricoPedidoAquisicao.cs" />
+    <Compile Include="Enums\StatusPedidoAquisicaoEnum.cs" />
+    <Compile Include="StatusPedidoAquisicao.cs" />
+    <Compile Include="StatusPedidoAquisicaoDivisao.cs" />
+    <Compile Include="DelineamentoOrcamento.cs" />
+    <Compile Include="Enums\StatusRequisicaoEstoque.cs" />
+    <Compile Include="Enums\TipoMovimento.cs" />
+    <Compile Include="Enums\TipoOperativo.cs" />
+    <Compile Include="Enums\StatusAprovacao.cs" />
+    <Compile Include="Enums\FuncaoServidor.cs" />
+    <Compile Include="Enums\StatusLicitacaoEnum.cs" />
+    <Compile Include="HistoricoPedidoServico.cs" />
+    <Compile Include="Interfaces\IPedidoAquisicaoItem.cs" />
+    <Compile Include="Interfaces\IPedido.cs" />
+    <Compile Include="MensagemChat.cs" />
+    <Compile Include="MovimentoEstoque.cs" />
+    <Compile Include="Parametro.cs" />
+    <Compile Include="PedidoAquisicao.cs" />
+    <Compile Include="PedidoAquisicaoItem.cs" />
+    <Compile Include="PedidoServicoDelineamento.cs" />
+    <Compile Include="PedidoServicoItemOrcamento.cs" />
+    <Compile Include="RequisicaoEstoque.cs" />
+    <Compile Include="RequisicaoEstoqueItem.cs" />
+    <Compile Include="UI\FornecedorUI.cs" />
+    <Compile Include="UI\DelineamentoOrcamentoUI.cs" />
+    <Compile Include="UI\Etapa.cs" />
+    <Compile Include="UI\PedidoServicoUI.cs" />
+    <Compile Include="UI\ServicoMaterialUI.cs" />
+    <Compile Include="Enums\TipoCalculoLicitacaoItem.cs" />
+    <Compile Include="Enums\StatusPedidoServicoEnum.cs" />
+    <Compile Include="Enums\OrigemMaterial.cs" />
+    <Compile Include="Enums\TipoServicoMaterial.cs" />
+    <Compile Include="Enums\TipoServidor.cs" />
+    <Compile Include="Equipamento.cs" />
+    <Compile Include="UI\EquipamentoUI.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="Fabricante.cs" />
+    <Compile Include="Fornecedor.cs" />
+    <Compile Include="FornecedorContato.cs" />
+    <Compile Include="Interfaces\IDescricao.cs" />
+    <Compile Include="Licitacao.cs" />
+    <Compile Include="LicitacaoItem.cs" />
+    <Compile Include="LocalAcesso.cs" />
+    <Compile Include="LogAcesso.cs" />
+    <Compile Include="Municipio.cs" />
+    <Compile Include="NHibernateDialect\MarinhaDialect.cs" />
+    <Compile Include="PedidoServico.cs" />
+    <Compile Include="PerfilAcesso.cs" />
+    <Compile Include="Processo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuadroMensagem.cs" />
+    <Compile Include="RegraAcessoPerfilAcesso.cs" />
+    <Compile Include="RegraAcessoPessoa.cs" />
+    <Compile Include="ServicoMaterial.cs" />
+    <Compile Include="Servidor.cs" />
+    <Compile Include="Sexo.cs" />
+    <Compile Include="SJB.cs" />
+    <Compile Include="StatusPedidoServico.cs" />
+    <Compile Include="StatusPedidoServicoDivisao.cs" />
+    <Compile Include="SubClasseServicoMaterial.cs" />
+    <Compile Include="SubTipoEquipamento.cs" />
+    <Compile Include="TipoCelula.cs" />
+    <Compile Include="TipoCliente.cs" />
+    <Compile Include="TipoEquipamento.cs" />
+    <Compile Include="TipoFornecedor.cs" />
+    <Compile Include="TipoPedidoAquisicao.cs" />
+    <Compile Include="TipoRequisicaoEstoque.cs" />
+    <Compile Include="Unidade.cs" />
+    <Compile Include="ValorIndiretoDepartamento.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Celula.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Processo.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Servidor.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\Sexo.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\LocalAcesso.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PerfilAcesso.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RegraAcessoPerfilAcesso.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RegraAcessoServidor.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Apropriacao.hbm.xml" />
+    <EmbeddedResource Include="Mappings\CategoriaServico.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Fabricante.hbm.xml" />
+    <EmbeddedResource Include="Mappings\SJB.hbm.xml" />
+    <EmbeddedResource Include="Mappings\SubTipoEquipamento.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoCliente.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoEquipamento.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoFornecedor.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Unidade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\FornecedorContato.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Fornecedor.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Estado.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Municipio.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Cliente.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ClasseServicoMaterial.hbm.xml" />
+    <EmbeddedResource Include="Mappings\SubClasseServicoMaterial.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Equipamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ServicoMaterial.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\LogAcesso.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\QuadroMensagem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ImportedClasses.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServico.hbm.xml" />
+    <EmbeddedResource Include="Mappings\StatusPedidoServico.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoServicoDivisao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Licitacao.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\LicitacaoItem.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MensagemChat.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoPedidoServico.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoDelineamento.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\PedidoServicoItemOrcamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\DelineamentoOrcamento.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MovimentoEstoque.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RequisicaoEstoque.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RequisicaoEstoqueItem.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoRequisicaoEstoque.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Parametro.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoAquisicao.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PedidoAquisicaoItem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoAquisicao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoAquisicaoDivisao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoPedidoAquisicao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Projeto.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\FonteRecurso.hbm.xml" />
+    <EmbeddedResource Include="Mappings\NaturezaDespesa.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoPedidoAquisicao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Atividade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Famod.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Feriado.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\EntradaMaterial.hbm.xml" />
+    <EmbeddedResource Include="Mappings\EntradaMaterialItem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoObtencao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoObtencaoDivisao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoPedidoObtencao.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PedidoObtencaoItem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencaoItemPEPRodizio.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencaoItemCancelado.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\DelineamentoOrcamentoOcorrencia.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\AutorizacaoCompra.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PedidoCotacaoItem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoCotacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusAutorizacaoCompra.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoAutorizacaoCompra.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\AutorizacaoCompraPagamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoCompra.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Localizacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\EncarregadoCelula.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\DelineamentoOrcamentoFaturamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MotivoCancelamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusOMF.hbm.xml" />
+    <EmbeddedResource Include="Mappings\HistoricoOMF.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoEmprego.hbm.xml" />
+    <EmbeddedResource Include="Mappings\TipoNotificacao.hbm.xml" />
+    <EmbeddedResource Include="Mappings\NotaEntregaMaterialOMF.hbm.xml" />
+    <EmbeddedResource Include="Mappings\NotaEntregaMaterialOMFItem.hbm.xml" />
+    <EmbeddedResource Include="Mappings\PedidoCotacaoItemDescartado.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\NotaEntregaMaterialOMFResponsavelPericia.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MedidaEtiqueta.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\CustoHH.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\DiaMaximoLancamentoFamod.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\CotaMaterial.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ValorIndiretoDepartamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\EntradaValores.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PTRES.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Fase.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoMoeda.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Meta.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ProvisionadoSiafi.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ServidorHistorico.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Conta.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MovimentoConta.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\UGE.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MovimentoServidor.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ServidorDependente.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ServidorCondecoracao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ServidorCursoMilitar.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Visitante.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MovimentoVisitante.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Prioridade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\DelineamentoOficina.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusLicitacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoLicitacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Rotina.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoLicitacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\ModalidadePregao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencaoPagamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RotinaCategoriaServicoDelineamento.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RotinaCategoriaServicoItemOrcamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\RotinaCategoriaServico.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\LicitacaoDocumento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoEquipamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencaoEmpenho.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoObtencaoDocumento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoMergulho.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoServicoMergulho.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoPedidoServicoMergulho.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Embarcacao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoServicoMergulhoDivisao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoMergulhoItemOrcamento.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoMergulhoDelineamento.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoAtividadeSecundaria.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoServicoAtividadeSecundaria.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\StatusPedidoServicoAtividadeSecundariaDivisao.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoAtividadeSecundaria.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\HistoricoPedidoServicoAtividadeSecundaria.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\PedidoServicoAtividadeSecundariaItem.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\LicitacaoContrato.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\TipoFaturaPagamento.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\FaturaPagamentoMensal.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\Modalidade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\SubNaturezaDespesa.hbm.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

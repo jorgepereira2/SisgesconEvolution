@@ -1,0 +1,203 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmFamodCadastro.aspx.cs" Inherits="frmFamodCadastro" %>
+<%@ Import Namespace="Marinha.Business" %>
+<%@ Register Src="~/UserControls/BuscaPedidoServico.ascx" TagName="PedidoServico" TagPrefix="uc" %>
+<%@ Register Src="~/UserControls/BuscaPedidoServicoMergulho.ascx" TagName="PedidoServicoMergulho" TagPrefix="uc" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+      <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />
+      
+     
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+    <div align="right" style="width:90%" class="PageTitle">
+    <br />
+        Lançamento de FAMOD       
+    
+    </div>
+    <table cellSpacing="4" cellPadding="3" border="0" Width="90%" >																		    
+        <tr>
+            <td style="border:solid 1px black" valign="top">
+                <div align="left" style="vertical-align:text-bottom" class="PageTitle">
+                    FAMOD
+                    <hr size="1" class="divisor" />
+                </div>
+                <br />
+                <table border="0" cellpadding="2" cellspacing="4" width="100%" >
+                    <tr>
+                        <td class="msgErro" >*</td>
+                        <td align="right" class="label">
+                           Data:
+                        </td>
+                        <td align="left">
+                           <Anthem:DateTextBox runat="server" ID="txtData" AutoCallBack="true" />
+                           &nbsp;
+                           <Anthem:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtData"
+                                 ErrorMessage="Campo obrigatório" Display="dynamic" />
+                        </td>
+                    </tr>
+                    <tr>
+						<td class="msgErro" >*</td>
+						<td align="right" class="label">
+						   Oficina:
+						</td>
+						<td align="left">
+							<Anthem:DropDownList runat="server" ID="ddlOficina" AutoCallBack="true" />	
+							   &nbsp;
+							   <Anthem:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlOficina"
+									 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" />
+						</td>
+					</tr> 
+					 <tr>
+                        <td class="msgErro" >*</td>
+                        <td align="right" width="20%" class="label">
+                          Servidor:
+                        </td>
+                        <td align="left">
+                           <Anthem:DropDownList runat="server" ID="ddlServidor" AutoCallBack="true" />
+                           &nbsp;
+                           <Anthem:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="ddlServidor"
+                                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="right" width="20%" class="label">
+                          Horas Lançadas:
+                        </td>
+                        <td colspan="2" align="left">
+                            <anthem:GridView runat="server" ID="gvFamod" Width="100%" CssClass="datagrid"
+                                 AutoGenerateColumns="false" CellPadding="3" AllowSorting="false" >
+                                <HeaderStyle CssClass="dgHeader" />                                    
+                                <RowStyle CssClass="dgItem" />
+                                <AlternatingRowStyle CssClass="dgAlternatingItem" />
+                                <FooterStyle CssClass="dgFooter" />
+                                <Columns>
+                                    <asp:BoundField HeaderText="PS" ItemStyle-HorizontalAlign="center"  DataField="CodigoPSPSM" />
+                                    <asp:BoundField HeaderText="Atividade" ItemStyle-HorizontalAlign="left"  DataField="Atividade" />
+                                    <asp:BoundField HeaderText="Horas" ItemStyle-HorizontalAlign="center"  DataField="HorasApropriadas" />
+                                    <asp:HyperLinkField NavigateUrl="" Text="Editar" itemstyle-horizontalalign="center"
+                                         DataNavigateUrlFields="ID" DataNavigateUrlFormatString="frmFamodCadastro.aspx?id_famod={0}" />                                       
+                                </Columns>
+                            </anthem:gridview>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="msgErro" >*</td>
+                        <td align="right" width="20%" class="label">
+                           Atividade:
+                        </td>
+                        <td align="left">
+                           <Anthem:DropDownList runat="server" ID="ddlAtividade" AutoCallBack="true"
+                                 />
+                           &nbsp;
+                           <Anthem:RequiredFieldValidator runat="server" ID="valCodigo" ControlToValidate="ddlAtividade"
+                                 ErrorMessage="Campo obrigatório" Display="dynamic" InitialValue="0" />
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="msgErro" ></td>
+                        <td align="right" class="label">
+                           Atividade Direta:
+                        </td>
+                        <td align="left">
+                           <Anthem:Label runat="server" ID="lblAtividadeDireta" CssClass="legenda" />
+                        </td>
+                    </tr>
+                     
+                    
+                   
+                     <tr runat="server" id="trPedidoServico">
+                        <td class="msgErro" >*</td>
+                        <td align="right"  class="label">
+                           Cod. Serv.:
+                        </td>
+                        <td align="left">
+                           <uc:PedidoServico runat="server" ID="ucPedidoServico" AutoCallBack="true" />                           
+                        </td>
+                    </tr>
+
+                    <tr runat="server" id="trPedidoServicoMergulho">
+                        <td class="msgErro" >*</td>
+                        <td align="right"  class="label">
+                           Cod. Serv.:
+                        </td>
+                        <td align="left">
+                           <uc:PedidoServicoMergulho runat="server" ID="ucPedidoServicoMergulho" AutoCallBack="true" />                           
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="msgErro" ></td>
+                        <td align="right" class="label">
+                           Equipamento:
+                        </td>
+                        <td align="left">
+                           <Anthem:Label runat="server" ID="lblEquipamento" CssClass="legenda"  /> -                            
+                           <Anthem:Label runat="server" ID="lblNumeroRegistro" CssClass="legenda"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="msgErro" ></td>
+                        <td align="right" class="label">
+                           Horas Lançadas:
+                        </td>
+                        <td align="left">
+                           <Anthem:Label runat="server" ID="lblHorasLancadas" CssClass="legenda"  />
+                           
+                        </td>
+                    </tr>             
+                     <tr>
+                        <td class="msgErro" >*</td>
+                        <td align="right" class="label">
+                           Horas Apropriadas:
+                        </td>
+                        <td align="left">
+                           <Anthem:NumericTextBox runat="server" ID="txtHorasApropriadas" DecimalPlaces="0" />
+                           &nbsp;
+                           <Anthem:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtHorasApropriadas"
+                                 ErrorMessage="Campo obrigatório" Display="dynamic" />
+                        </td>
+                    </tr>                                   
+					<tr>
+                        <td class="msgErro" ></td>
+                        <td align="right" class="label">
+                           Descrição:
+                        </td>
+                        <td align="left">
+                           <Anthem:TextBox runat="server" ID="txtDescricao" Columns="40" TextMode="MultiLine" Rows="2" />
+                           
+                        </td>
+                    </tr>                     
+                </table>                     
+            </td>
+        </tr>																			
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">
+            
+            </td>
+            <td align="right">
+                <Anthem:Button runat="server" ID="btnSalvar" TextDuringCallBack="Aguarde" Text="Salvar"
+                     EnabledDuringCallBack="false" CssClass="Button" />
+                <Anthem:Button runat="server" ID="btnNovo" TextDuringCallBack="Aguarde" Text="Novo"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" />     
+                  <Anthem:Button runat="server" ID="btnExcluir" TextDuringCallBack="Aguarde" Text="Excluir"
+                     EnabledDuringCallBack="false" CssClass="Button" CausesValidation="false" />     
+                <Anthem:Button runat="server" ID="btnVoltar" Text="Voltar"
+                     CssClass="Button" CausesValidation="false" />
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

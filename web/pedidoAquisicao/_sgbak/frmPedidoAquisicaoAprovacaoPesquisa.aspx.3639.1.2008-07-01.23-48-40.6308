@@ -1,0 +1,87 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPedidoAquisicaoAprovacaoPesquisa.aspx.cs" Inherits="frmPedidoAquisicaoAprovacaoPesquisa" %>
+
+<%@ Import Namespace="Marinha.Business" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+    <link href="../css/basicStyle.css" type="text/css" rel="stylesheet" />         
+</head>
+<body>
+    <script type="text/javascript" src="../js/wz_tooltip.js" ></script>
+    <form id="form1" runat="server">   
+    <div align="center">
+    <div align="right" style="width:90%" class="PageTitle">
+    <br />
+        Pedidos de Aquisição Pendentes
+    </div>
+    <table cellSpacing="4" cellPadding="3" border="0" Width="94%" style="height:350px;" >																		    
+        <tr>
+            <td valign="top">                
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" >                   
+                    <tr>
+                        <td valign="top" align="center">
+                             <anthem:GridView runat="server" ID="gvPesquisa" Width="100%" CssClass="datagrid"
+                                 AutoGenerateColumns="false" CellPadding="3" AllowSorting="true" >
+                                <HeaderStyle CssClass="dgHeader" />                                    
+                                <RowStyle CssClass="dgItem" />
+                                <AlternatingRowStyle CssClass="dgAlternatingItem" />
+                                <FooterStyle CssClass="dgFooter" />
+                                <Columns>                                    
+                                    <asp:TemplateField HeaderText="Número" ItemStyle-HorizontalAlign="Center" SortExpression="Numero">
+                                        <ItemTemplate>
+                                            <%# ((PedidoAquisicao)Container.DataItem).Numero %>
+                                        </ItemTemplate>                                          
+                                    </asp:TemplateField>                     
+                                    <asp:TemplateField HeaderText="Fornecedor" ItemStyle-HorizontalAlign="left" SortExpression="Fornecedor">
+                                        <ItemTemplate>
+                                            <%# ((PedidoAquisicao)Container.DataItem).Fornecedor.RazaoSocial %>
+                                        </ItemTemplate>                                          
+                                    </asp:TemplateField>                                   
+                                    <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="center" SortExpression="Status">
+                                        <ItemTemplate>
+                                            <%# ((PedidoAquisicao)Container.DataItem).Status.Descricao %>
+                                        </ItemTemplate>                                          
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Data" ItemStyle-HorizontalAlign="center" SortExpression="DataEmissao">
+                                        <ItemTemplate>
+                                            <%# ((PedidoAquisicao)Container.DataItem).DataEmissao.ToShortDateString() %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Valor" ItemStyle-HorizontalAlign="right" SortExpression="ValorTotal">
+                                        <ItemTemplate>
+                                            <%# ((PedidoAquisicao)Container.DataItem).ValorTotal.ToString("N2") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:HyperLinkField NavigateUrl="" Text="Aprovação" itemstyle-horizontalalign="center"
+                                             DataNavigateUrlFields="ID" DataNavigateUrlFormatString="frmPedidoAquisicaoAprovacao.aspx?id_pedido={0}" /> 
+                                </Columns>
+                            </anthem:gridview>
+                            <Anthem:Panel runat="server" ID="pnMensagem" CssClass="msgErro" Visible="false">
+                                <br />
+                                Nenhum registro foi encontrado.
+                            </Anthem:Panel>
+                        </td>
+                    </tr>
+                </table>     
+                
+            </td>
+        </tr>																			
+    </table>
+    <table class="PageFooter" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="40%" align="left">                
+            </td>
+            <td align="right">              
+                
+            </td>
+            <td width="10px">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    </div>    
+    </form>    
+</body>
+</html>

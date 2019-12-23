@@ -1,0 +1,200 @@
+<%@ Page language="c#" Inherits="_Default" CodeFile="Default.aspx.cs" %>
+<%@ Register TagPrefix="Frame" TagName="Menu" src="usercontrols/menu.ascx"%>
+<%@ Register TagPrefix="Frame" TagName="Cabecalho" src="usercontrols/Cabecalho.ascx"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="EN">
+  	<head id="Head1" runat="server">
+    <title>SisGesCon</title>
+    <LINK href="css/basicStyle.css" type="text/css" rel="stylesheet">
+    <LINK href="css/menuStyle.css" type="text/css" rel="stylesheet">
+    <script language="javascript">		
+		function direciona(link, popup) 
+		{
+		    if(popup == 1)
+		        window.open(link, 'popupmenu', 'menubar=yes,scrollbars=yes,resizable=yes,location=yes,directories=yes,status=yes, left=10, top=10, width=700, height=600');
+		    else
+		        top.myframe.location=link;
+		}
+		
+        function iframeresize(height)
+        {
+            //CODIGO FUNCIONANDO PERFEITAMENTE NO NETSCAPE E MOZILLA
+	        try
+	        {
+	            
+	            var oFrame	=	document.getElementById('myframe');
+	            	             
+	             if(height) 
+	             {
+	                oFrame.height = height;
+	                return;
+	             }
+	             
+	             var oBody	=	oFrame.contentWindow.document.body;
+            	
+	            oFrame.height = oBody.scrollHeight;	            
+	        }
+	        //An error is raised if the IFrame domain != its container's domain
+	        catch(e)
+	        {
+	            window.status =	'Error: ' + e.number + '; ' + e.description;
+	        }
+        }
+        
+       
+        function expandiframe()
+        {
+            var iframe = document.getElementById('myframe');
+            var newHeight; 
+            if(document.all)
+            {
+                newHeight = (document.body.parentNode.clientHeight - document.getElementById('tbHeader').clientHeight) - 5;
+                
+            }
+            else
+                newHeight = (window.innerHeight - document.getElementById('tbHeader').clientHeight) - 5;
+            
+            //if(iframe.height < newHeight)
+            {
+                //iframe.contentWindow.document.body.style.height =  newHeight + "px";
+                iframeresize(newHeight);
+            }
+        }
+        
+        function HideHeader()
+        {
+            var header = document.getElementById("divCabecalho");
+            var link = document.getElementById("aHideHeader");
+            var img = document.getElementById("imgHideHeader");
+            var newImg;
+            if(header.style.display == "none" )
+            {
+                header.style.display = "";            
+                link.title = "Ocultar Cabeçalho";
+                newImg = new Image();
+                newImg.src = "images/hideheader.gif";            
+            }
+            else
+            {
+                header.style.display = "none";
+                link.title = "Mostrar Cabeçalho";
+                newImg = new Image();
+                newImg.src = "images/showheader.gif";
+            }
+            img.src = newImg.src;
+            
+        }
+		
+
+
+        N = (document.all) ? 0 : 1;
+
+
+        function CloseClick()
+        {
+            document.getElementById('panel').style.display = 'none';
+        }    	
+
+        function ShowFavoritos(e)
+        {
+            var panel = document.getElementById('panel');
+            panel.style.display = '';
+            var div = document.getElementById('divImagem');
+            
+            var position = findPos(div);
+            dd.elements.panel.moveTo(position[0] - 150, position[1] + 30);
+
+        }   
+
+        function findPos(obj) {
+	        var curleft = curtop = 0;
+	        if (obj.offsetParent) {
+		        curleft = obj.offsetLeft
+		        curtop = obj.offsetTop
+		        while (obj = obj.offsetParent) {
+			        curleft += obj.offsetLeft
+			        curtop += obj.offsetTop
+		        }
+	        }
+	        return [curleft,curtop];
+        }        	
+      
+        function OpenChat()
+        {
+            window.open('Chat/frmListaUsuarios.aspx', 'listaUsuarios', 
+            'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=350px,height=474px,top=20,left=100');
+        }
+        
+        function LogoffUser()
+        {
+             Anthem_InvokePageMethod(
+                'LogoffUser',
+                [],
+                function(result) {}
+            );
+        }
+        </script>
+	</head>
+	<body style="margin:0 0 0 0;" >	    
+		<form id="frmFormulario" method="post" runat="server">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" id="tbHeader">
+				<!-- MSTableType="layout" -->
+				<tr>
+					<td valign="top" align="center">
+						<!-- CABECALHO -->
+						<div id="divCabecalho">
+						<Frame:Cabecalho runat="server" ID="frmCabecalho" />
+						</div>
+						<!--- FIM CABEÇALHO --->
+						<!-- MENU -->
+						
+						<table bgcolor="#EEEEEE" cellpadding="0" 
+						    style="height:24px; width:100%; border: solid 0px black; border-top: solid 1px #C0C0C0; border-bottom:  solid 1px #C0C0C0;">
+							<tr>
+								<td align="left">
+									<Frame:Menu runat="server" ID="frmMenu" />
+								</td>
+								<td align="right" class="formtext" >
+								    <a href="javascript:direciona('home.aspx', 0);" style="text-decoration:none; color:White; font-size:11px; "
+								          id="a2">
+								        <img id="img3" src="images/home.gif" style="border-width:0px;" alt="Página Inicial" />
+								    </a>
+								</td>
+								<td align="right" class="formtext" width="10px" >
+								    <a href="javascript:OpenChat();" style="text-decoration:none; color:White; font-size:11px; "
+								          id="a1">
+								        <img id="img2" src="images/chat.png" style="border-width:0px;" alt="Comunicação Interna" />
+								    </a>
+								</td>	
+								<td align="right" class="formtext" width="10px" >
+								    <a href="javascript:HideHeader();" style="text-decoration:none; color:White; font-size:11px; "
+								         title="Ocultar Cabeçalho" id="aHideHeader">
+								        <img id="imgHideHeader" src="images/hideheader.gif" style="border-width:0px;" />
+								    </a>
+								</td>
+								<td align="right" class="formtext" style="width:9px;">
+								    <a href="javascript:LogoffUser();" style="text-decoration:none;"
+								         title="Sair do Sistema" >
+								        <img id="img1" src="images/logoff.gif" style="border-width:0px;"  />
+								    </a>
+								</td>
+							</tr>
+						</table>
+						<!-- FIM MENU -->
+						<!-- MENSAGEM/TÍTULO DA PÁGINA -->
+												
+						<!-- FIM MENSAGEM/TÍTULO DA PÁGINA -->
+					</td>
+				</tr>
+			</table>
+			<!-- MIOLO/Formulários -->
+			<iframe frameborder="0" marginwidth="0" runat="server" marginheight="0" hspace="0" vspace="0"
+				src="home.aspx" scrolling="auto" width="100%" height="100%" name="myframe"
+				id="myframe"></iframe>
+			<!-- FIM MIOLO/Formulários -->           
+             <Anthem:Timer ID="timerPopup" Visible="true" runat="server" >
+            </Anthem:Timer>
+            <Anthem:HiddenField Value="0" ID="hiddenServidor_ID" runat="server" />
+		</form>
+	</body>
+</HTML>

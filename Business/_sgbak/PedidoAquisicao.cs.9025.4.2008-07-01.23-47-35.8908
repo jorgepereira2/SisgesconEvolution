@@ -1,0 +1,612 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class PedidoAquisicao : BusinessObject<PedidoAquisicao>	
+	{
+		#region Private Members
+		private DateTime _dataemissao; 
+		private string _aplicacao; 
+		private Servidor _servidorcadastro; 
+		private Celula _celula; 
+		private string _observacao; 
+		private Fornecedor _fornecedor; 
+		private Fornecedor _fornecedor2; 
+		private Fornecedor _fornecedor3; 
+		private Fornecedor _fornecedor4;
+	    private int _numero;
+	    private StatusPedidoAquisicao _status;
+	    private TipoPagamentoPO? _tipoPagamento;
+	    private Projeto _projeto;
+	    private NaturezaDespesa _naturezaDespesa;
+	    private FonteRecurso _fonteRecurso;
+	    private TipoPedidoAquisicao _tipoPedidoAquisicao;
+	    
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public PedidoAquisicao()
+		{
+		    _status = null;
+			_dataemissao = DateTime.MinValue; 
+			_aplicacao = null; 
+			_servidorcadastro =  null; 
+			_celula =  null; 
+			_observacao = null; 
+			_fornecedor =  null; 
+			_fornecedor2 =  null; 
+			_fornecedor3 =  null; 
+			_fornecedor4 =  null;
+		    _numero = 0;
+		    _fonteRecurso = null;
+		    _naturezaDespesa = null;
+		    _tipoPedidoAquisicao = null;
+		    _tipoPagamento = null;
+		    _itens = new CustomList<PedidoAquisicaoItem>();
+		    _historico = new CustomList<HistoricoPedidoAquisicao>();
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+        public virtual TipoPedidoAquisicao TipoPedidoAquisicao
+        {
+            get { return _tipoPedidoAquisicao; }
+            set { _tipoPedidoAquisicao = value; }
+        }
+        
+        public virtual FonteRecurso FonteRecurso
+        {
+            get { return _fonteRecurso; }
+            set { _fonteRecurso = value; }
+        }
+
+        public virtual NaturezaDespesa NaturezaDespesa
+        {
+            get { return _naturezaDespesa; }
+            set { _naturezaDespesa = value; }
+        }
+        
+        public virtual Projeto Projeto
+        {
+            get { return _projeto; }
+            set { _projeto = value; }
+        }
+        public virtual TipoPagamentoPO? TipoPagamento
+        {
+            get { return _tipoPagamento; }
+            set { _tipoPagamento = value; }
+        }
+        
+        public virtual StatusPedidoAquisicao Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+
+        public virtual int Numero
+        {
+            get { return _numero; }
+            set { _numero = value; }
+        }
+        	
+		public virtual DateTime DataEmissao
+		{
+			get { return _dataemissao; }
+			set { _dataemissao = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Aplicacao
+		{
+			get { return _aplicacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 2000)
+						throw new ArgumentOutOfRangeException("Invalid value for Aplicacao", value, value.ToString());
+				
+				_aplicacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Servidor ServidorCadastro
+		{
+			get { return _servidorcadastro; }
+			set { _servidorcadastro = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Celula Celula
+		{
+			get { return _celula; }
+			set { _celula = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string Observacao
+		{
+			get { return _observacao; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 2000)
+						throw new ArgumentOutOfRangeException("Invalid value for Observacao", value, value.ToString());
+				
+				_observacao = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Fornecedor Fornecedor
+		{
+			get { return _fornecedor; }
+			set { _fornecedor = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Fornecedor Fornecedor2
+		{
+			get { return _fornecedor2; }
+			set { _fornecedor2 = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Fornecedor Fornecedor3
+		{
+			get { return _fornecedor3; }
+			set { _fornecedor3 = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Fornecedor Fornecedor4
+		{
+			get { return _fornecedor4; }
+			set { _fornecedor4 = value; }
+		}
+
+	    public virtual bool PodeSerAlterada
+	    {
+	        get { return true; }
+	    }
+
+	    #endregion 
+	  
+	    #region Collections
+
+	    private ICustomList<PedidoAquisicaoItem> _itens;
+        private ICustomList<HistoricoPedidoAquisicao> _historico;
+
+        public virtual ICustomList<HistoricoPedidoAquisicao> Historico
+        {
+            get { return _historico; }
+            set { _historico = value; }
+        }
+        
+	    public virtual ICustomList<PedidoAquisicaoItem> Itens
+	    {
+	        get { return _itens; }
+	        set { _itens = value; }
+	    }
+	    #endregion
+
+        #region Advanced Properties
+        public virtual decimal ValorTotal
+        {
+            get
+            {
+                decimal valor = 0;
+                foreach (PedidoAquisicaoItem item in _itens)
+                {
+                    valor += item.ValorTotal;
+                }
+                return valor;
+            }
+        }
+
+        public virtual bool PodeSerAlterado
+        {
+            get
+            {
+                return  _status == null ||
+                        _status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.NaoEnviado ||
+                        _status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.Reprovado;
+            }
+        }
+
+        public virtual HistoricoPedidoAquisicao UltimoHistorico
+        {
+            get
+            {
+                if (Historico.Count > 0)
+                    return Historico[Historico.Count - 1];
+                else
+                    return null;
+            }
+        }
+        
+	    public virtual bool RequerLicitacao
+	    {
+	        get
+	        {
+	            if(_tipoPedidoAquisicao == null) return false;
+	            if(!_tipoPedidoAquisicao.ValorLimitePO.HasValue) return false;
+	            return this.ValorTotal > _tipoPedidoAquisicao.ValorLimitePO.Value;
+	        }
+	    }
+        #endregion
+		
+		#region Public Methods
+		
+		public static List<PedidoAquisicao> Select(string texto, DateTime dataInicio, DateTime dataFim, int id_servidorConsulta, int id_status)
+		{
+			ISession session = NHibernateSessionManager.Instance.GetSession();
+			IQuery query = session.CreateQuery(
+            @"from PedidoAquisicao p
+                inner join fetch p.Celula c 
+                inner join fetch p.Status s
+			where p.Numero like :texto
+            and s.ID = IsNull(:id_status, s.ID)
+			and dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1  			
+            and  (:FlagPodeVerPAOutraCelula = 1 OR dbo.CelulaPertenceACelula(:CelulaServidor, c.Codigo) = 1)		
+			order by p.Numero");
+
+            Servidor servidor = Servidor.Get(id_servidorConsulta);
+
+		    query.SetString("texto", string.Format("%{0}%", texto));
+		    query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetBoolean("FlagPodeVerPAOutraCelula", servidor.FlagPodeVerPAOutraCelula);
+            query.SetString("CelulaServidor", servidor.Celula.Codigo);
+			return (List<PedidoAquisicao>)query.List<PedidoAquisicao>();
+		}
+
+        public static List<PedidoAquisicao> Select(int id_celula, int id_fornecedor, int id_status, int id_tipo, int id_projeto, int id_naturezaDespesa,
+            int id_fonteRecurso, DateTime dataInicio, DateTime dataFim, int id_servidorConsulta)
+        {
+            Servidor servidor = Servidor.Get(id_servidorConsulta);
+
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from PedidoAquisicao p 
+                    inner join fetch p.Celula c 
+                    inner join fetch p.Fornecedor f 
+                    inner join fetch p.TipoPedidoAquisicao t
+                    inner join fetch p.Status s
+                    left join fetch p.Projeto pr
+                    left join fetch p.NaturezaDespesa n
+                    left join fetch p.FonteRecurso fr
+			where c.ID = IsNull(:id_celula, c.ID)
+			and   f.ID = IsNull(:id_fornecedor, f.ID)
+			and   t.ID = IsNull(:id_tipo, t.ID)
+			and   s.ID = IsNull(:id_status, s.ID)
+			and   IsNull(pr.ID, -1) = IsNull(:id_projeto, IsNull(pr.ID, -1))
+			and   IsNull(n.ID, -1) = IsNull(:id_naturezaDespesa, IsNull(n.ID, -1))
+			and   IsNull(fr.ID, -1) = IsNull(:id_fonteRecurso, IsNull(fr.ID, -1))
+			and dbo.DateIsInBetween(p.DataEmissao, :dataInicio, :dataFim) = 1  	
+            and  (:FlagPodeVerPAOutraCelula = 1 OR dbo.CelulaPertenceACelula(:CelulaServidor, c.Codigo) = 1)		
+			order by p.Numero");
+
+            query.SetParameter("id_celula", BusinessHelper.IsNullOrZero(id_celula), NHibernateUtil.Int32);
+            query.SetParameter("id_fornecedor", BusinessHelper.IsNullOrZero(id_fornecedor), NHibernateUtil.Int32);
+            query.SetParameter("id_tipo", BusinessHelper.IsNullOrZero(id_tipo), NHibernateUtil.Int32);
+            query.SetParameter("id_status", BusinessHelper.IsNullOrZero(id_status), NHibernateUtil.Int32);
+            query.SetParameter("id_projeto", BusinessHelper.IsNullOrZero(id_projeto), NHibernateUtil.Int32);
+            query.SetParameter("id_naturezaDespesa", BusinessHelper.IsNullOrZero(id_naturezaDespesa), NHibernateUtil.Int32);
+            query.SetParameter("id_fonteRecurso", BusinessHelper.IsNullOrZero(id_fonteRecurso), NHibernateUtil.Int32);
+            query.SetParameter("dataInicio", BusinessHelper.IsNull(dataInicio), NHibernateUtil.DateTime);
+            query.SetParameter("dataFim", BusinessHelper.IsNull(dataFim), NHibernateUtil.DateTime);
+            query.SetBoolean("FlagPodeVerPAOutraCelula", servidor.FlagPodeVerPAOutraCelula);
+            query.SetString("CelulaServidor", servidor.Celula.Codigo);
+            
+            return (List<PedidoAquisicao>)query.List<PedidoAquisicao>();
+        }
+
+        public static List<PedidoAquisicao> SelectPedidosRecusados(int id_servidor)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"from PedidoAquisicao p
+			where p.ServidorCadastro.ID = :id_servidor
+			and p.Status.ID = :statusRecusado
+			order by p.Numero");
+
+            query.SetInt32("id_servidor", id_servidor);
+            query.SetInt32("statusRecusado", Convert.ToInt32(StatusPedidoAquisicaoEnum.Reprovado));;
+            return (List<PedidoAquisicao>)query.List<PedidoAquisicao>();
+        }
+
+        /// <summary>
+        /// Seleciona os pedidos que estao pendentes da ação de um servidor
+        /// </summary>
+        public static List<PedidoAquisicao> Select(int id_servidor)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select distinct p from PedidoAquisicao p inner join p.Status s inner join fetch p.Fornecedor f 
+                inner join s.Responsaveis resp
+			where resp.ID = :id_servidor
+			and s.FlagVinculoPorDivisao = 0									
+			order by p.Numero");
+
+            IQuery query2 = session.CreateQuery(
+            @"select distinct p from PedidoAquisicao p inner join p.Status s inner join fetch p.Fornecedor f 
+                inner join s.ResponsaveisDivisao divisao
+			where divisao.Servidor.ID = :id_servidor
+			and divisao.Celula.ID = p.Celula.ID
+			and s.FlagVinculoPorDivisao = 1
+            and s.ID != :id_statusAprovacaoDepartamento
+			order by p.Numero");
+
+            query.SetInt32("id_servidor", id_servidor);
+            query2.SetInt32("id_servidor", id_servidor);
+            query2.SetInt32("id_statusAprovacaoDepartamento", Convert.ToInt32(StatusPedidoAquisicaoEnum.AguardandoAprovacaoEncarregadoDepartamento));
+
+            List<PedidoAquisicao> list1 = (List<PedidoAquisicao>)query.List<PedidoAquisicao>();
+            List<PedidoAquisicao> list2 = (List<PedidoAquisicao>)query2.List<PedidoAquisicao>();
+            list1.AddRange(list2);
+            list1.AddRange(SelectPorDepartamento(id_servidor));
+
+            list1.Sort(new Comparison<PedidoAquisicao>(delegate(PedidoAquisicao p1, PedidoAquisicao p2)
+            {
+                return p1.Numero.CompareTo(p2.Numero);
+            }));
+
+            return list1;
+        }
+
+        /// <summary>
+        /// Seleciona PA's que estao com o status AguardandoAprovacaoEncarregadoDepartamento e
+        /// cujas as divisoes dentro do departamento do servidor
+        /// </summary>
+        /// <param name="id_servidor"></param>
+        /// <returns></returns>
+        private static List<PedidoAquisicao> SelectPorDepartamento(int id_servidor)
+        {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
+            IQuery query = session.CreateQuery(
+            @"select distinct p from PedidoAquisicao p inner join p.Status s 
+                inner join s.ResponsaveisDivisao divisao
+			where divisao.Servidor.ID = :id_servidor												
+			and s.ID = :id_status
+			and dbo.CelulaPertenceADepartamento(p.Celula.Codigo, divisao.Celula.Codigo) = 1
+			order by p.Numero");
+
+            query.SetInt32("id_status", Convert.ToInt32(StatusPedidoAquisicaoEnum.AguardandoAprovacaoEncarregadoDepartamento));
+            query.SetInt32("id_servidor", id_servidor);
+            return (List<PedidoAquisicao>)query.List<PedidoAquisicao>();
+        }
+		#endregion
+
+        public override void Save()
+        {
+            Validar();
+            if (!this.IsPersisted)
+                CriarNovo();
+            else
+                base.Save();
+        }
+
+	    private void Validar()
+	    {
+	        if(!this.PodeSerAlterado)
+	            throw new Exception("Este PO não pode ser alterado neste estágio.");
+	    }
+
+        private void ValidarEnvio()
+        {
+            Parametro parametro = Parametro.Get();
+
+            if (this.ValorTotal > parametro.ValorMaximoSemOrcamentoPA)
+            {
+                if ((Fornecedor2 == null && parametro.NumeroMinimoCotacoesCompra > 1)
+                    || (Fornecedor3 == null && parametro.NumeroMinimoCotacoesCompra > 2)
+                    || (Fornecedor4 == null && parametro.NumeroMinimoCotacoesCompra > 3))
+                    throw new Exception(
+                        string.Format("O número mínimo de cotações é {0}.", parametro.NumeroMinimoCotacoesCompra));
+
+                foreach (PedidoAquisicaoItem item in _itens)
+                {
+                    if (((!item.Valor2.HasValue || item.Valor2.Value == 0) && parametro.NumeroMinimoCotacoesCompra > 1)
+                        ||
+                        ((!item.Valor3.HasValue || item.Valor2.Value == 0) && parametro.NumeroMinimoCotacoesCompra > 2)
+                        ||
+                        ((!item.Valor2.HasValue || item.Valor2.Value == 0) && parametro.NumeroMinimoCotacoesCompra > 3))
+                        throw new Exception(
+                            "Não foi possível enviar. Verifique se todos os valores foram preenchidos corretamente.");
+                }
+            }
+            try
+            {
+                //verifica se nao tem fornecedor repetido
+                Dictionary<int, int> dic = new Dictionary<int, int>();
+                dic.Add(_fornecedor.ID, 0);
+                if (_fornecedor2 != null) dic.Add(_fornecedor2.ID, 0);
+                if (_fornecedor3 != null) dic.Add(_fornecedor3.ID, 0);
+                if (_fornecedor4 != null) dic.Add(_fornecedor4.ID, 0);
+            }
+            catch
+            {
+                throw new Exception("Selecione fornecedores diferentes.");
+            }
+        }
+
+	    private void CriarNovo()
+        {
+            this.DataEmissao = DateTime.Today;
+	        this.Status = StatusPedidoAquisicao.Get(StatusPedidoAquisicaoEnum.NaoEnviado);
+	        this.Celula = _servidorcadastro.Celula.GetDivisao();
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                ISession session = NHibernateSessionManager.Instance.GetSession();
+                IQuery query = session.CreateQuery(
+                    @"select MAX(p.Numero) from PedidoAquisicao p ");
+
+                object result = query.UniqueResult();
+                if (result == null)
+                    this.Numero = 1;
+                else
+                    this.Numero = Convert.ToInt32(result) + 1;
+
+                base.Save();
+
+                tran.IsValid = true;
+            }
+        }
+        
+        #region WorkFlow
+        
+        public virtual void Enviar(int id_servidor)
+        {
+            if (this.Status.StatusPedidoAquisicaoEnum != StatusPedidoAquisicaoEnum.NaoEnviado
+            && this.Status.StatusPedidoAquisicaoEnum != StatusPedidoAquisicaoEnum.Reprovado)
+                throw new Exception("Este pedido já foi enviado.");
+
+            ValidarEnvio();
+
+            if(_itens.Count == 0)
+                throw new Exception("Insira pelo menos um item.");
+            
+            IrParaProximoStatus(id_servidor, null);
+        }
+        
+        public virtual void IrParaProximoStatus(int id_servidor, string justificativa)
+        {
+            if(!this.IsPersisted)
+                throw new Exception("Salve os dados do pedido antes de enviá-lo.");
+                
+            if (this.Status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.Finalizado)
+                throw new Exception("Este pedido já foi finalizado.");
+           
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                HistoricoPedidoAquisicao historico;
+                //Caso não precise de licitacao, não passa pelo encarregado pela divisão de suprimentos
+                if(_status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.AguardandoParecerOrdenadorDespesa && !this.RequerLicitacao)
+                    historico = GetHistorico(id_servidor, StatusPedidoAquisicaoEnum.Finalizado);
+                else if(_status.StatusPedidoAquisicaoEnum == StatusPedidoAquisicaoEnum.NaoEnviado && _celula.TipoCelula == TipoCelula.Departamento)
+                    historico = GetHistorico(id_servidor, StatusPedidoAquisicaoEnum.AguardandoAprovacaoEncarregadoDepartamento);
+                else
+                    historico = GetHistorico(id_servidor, StatusPedidoAquisicao.GetNext(_status.StatusPedidoAquisicaoEnum));
+                    
+                historico.Justificativa = justificativa;
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+                base.Save();
+
+                this._historico.Add(historico);
+
+                tran.IsValid = true;
+            }   
+        }
+
+        private HistoricoPedidoAquisicao GetHistorico(int id_servidor, StatusPedidoAquisicaoEnum novoStatus)
+        {
+            HistoricoPedidoAquisicao historico = new HistoricoPedidoAquisicao();
+            historico.Data = DateTime.Now;
+            historico.PedidoAquisicao = this;
+            historico.StatusAnterior = this.Status;
+            historico.Servidor = Servidor.Get(id_servidor);
+            historico.StatusPosterior = Business.StatusPedidoAquisicao.Get(novoStatus);
+            return historico;
+        }
+
+        public virtual void Reprovar(int id_Servidor, string justificativa)
+        {
+            if(justificativa.Trim() == "")
+                throw new Exception("A justificativa é obrigatória.");
+                
+            StatusPedidoAquisicaoEnum novoStatus = StatusPedidoAquisicaoEnum.Reprovado;
+            HistoricoPedidoAquisicao historico = GetHistorico(id_Servidor, novoStatus);
+            historico.Justificativa = justificativa;
+
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+
+                base.Save();
+
+                this._historico.Add(historico);
+                tran.IsValid = true;
+            }
+        }
+        #endregion
+
+	    public virtual void EmitirParecerFinanceiro(int id_Servidor, string justificativa, TipoPagamentoPO tipoPagamentoPO, Projeto projeto,
+	        NaturezaDespesa naturezaDespesa, FonteRecurso fonteRecurso)
+	    {
+	        if(Convert.ToInt32(tipoPagamentoPO) == 0)
+	            throw new Exception("Campo Tipo Pagamento obrigatório.");
+            if (tipoPagamentoPO == TipoPagamentoPO.ExecucaoFinanceira && projeto == null)
+                throw new Exception("Campo Projeto obrigatório.");
+	        this.TipoPagamento = tipoPagamentoPO;
+	        if(tipoPagamentoPO == TipoPagamentoPO.ExecucaoFinanceira)
+	        {
+	            this.Projeto = projeto;
+	            if(_fornecedor.FlagOM)
+	            {
+	                this.FonteRecurso = fonteRecurso;
+	                this.NaturezaDespesa = null;
+	            }
+	            else
+	            {
+	                this.FonteRecurso = null;
+	                this.NaturezaDespesa = naturezaDespesa;
+	            }
+	        }
+	        else
+	            this.Projeto = null;
+
+            this.IrParaProximoStatus(id_Servidor, justificativa);
+	    }
+
+	    public virtual void RetornarFinanceiro(int id_servidor, string justificativa)
+	    {
+            if (justificativa.Trim() == "")
+                throw new Exception("A justificativa é obrigatória.");
+
+            StatusPedidoAquisicaoEnum novoStatus = StatusPedidoAquisicaoEnum.AguardandoParecerAgenteFinanceiro;
+            HistoricoPedidoAquisicao historico = GetHistorico(id_servidor, novoStatus);
+            historico.Justificativa = justificativa;
+
+            using (TransactionBlock tran = new TransactionBlock())
+            {
+                historico.Save();
+
+                this.Status = historico.StatusPosterior;
+
+                base.Save();
+
+                this._historico.Add(historico);
+                tran.IsValid = true;
+            }
+	    }
+	}
+}

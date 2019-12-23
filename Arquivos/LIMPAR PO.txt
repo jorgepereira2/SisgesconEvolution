@@ -1,0 +1,13 @@
+USE [SisGesconEvolution]
+GO
+
+DELETE FROM TB_PedidoObtencaoDocumento
+DELETE FROM TB_PedidoObtencaoEmpenho
+DELETE FROM TB_PedidoObtencaoItem
+DELETE FROM TB_PedidoObtencaoItemCancelado
+DELETE FROM TB_PedidoObtencaoItemPEPRodizio
+DELETE FROM TB_PedidoObtencaoPagamento
+DELETE FROM TB_HistoricoPedidoObtencao
+DELETE FROM TB_PedidoObtencao
+
+GO

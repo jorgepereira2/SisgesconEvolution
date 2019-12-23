@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.RegraAcessoServidor,Marinha.Business" table="TB_RegraAcessoServidor" lazy="true">
+
+		<id name="ID" column="ID_Servidor" type="Int32" unsaved-value="0">      
+			<generator class="assigned"/>
+		</id>
+		<property column="FlagControlaHorario" type="Boolean" name="FlagControlaHorario" not-null="true" />
+		<property column="FlagControlaLocalAcesso" type="Boolean" name="FlagControlaLocalAcesso" not-null="true" />
+		<property column="HorarioInicial" type="DateTime" name="HorarioInicial" />
+		<property column="HorarioFinal" type="DateTime" name="HorarioFinal" />
+		<property column="FlagDomingo" type="Boolean" name="FlagDomingo" not-null="true" />
+		<property column="FlagSegunda" type="Boolean" name="FlagSegunda" not-null="true" />
+		<property column="FlagTerca" type="Boolean" name="FlagTerca" not-null="true" />
+		<property column="FlagQuarta" type="Boolean" name="FlagQuarta" not-null="true" />
+		<property column="FlagQuinta" type="Boolean" name="FlagQuinta" not-null="true" />
+		<property column="FlagSexta" type="Boolean" name="FlagSexta" not-null="true" />
+		<property column="FlagSabado" type="Boolean" name="FlagSabado" not-null="true" />
+
+    <bag name="Locais" table="TB_RegraAcessoServidorLocalAcesso" lazy="true" collection-type="Marinha.Business.CustomList`1[Marinha.Business.LocalAcesso],Marinha.Business" >
+      <key>
+        <column name="ID_RegraAcessoServidor" not-null="true"/>
+      </key>
+      <many-to-many class="Marinha.Business.LocalAcesso,Marinha.Business">
+        <column name="ID_LocalAcesso" not-null="true"/>
+      </many-to-many>
+    </bag>
+	</class>
+</hibernate-mapping>

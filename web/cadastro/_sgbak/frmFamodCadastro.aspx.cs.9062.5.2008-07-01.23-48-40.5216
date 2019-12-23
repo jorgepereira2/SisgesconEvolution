@@ -1,0 +1,225 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Shared.NHibernateDAL;
+using Marinha.Business;
+using Shared.SessionState;
+using Shared.Common;
+
+public partial class frmFamodCadastro : MarinhaPageBase
+{
+
+    #region Private Member
+    [TransientPageState]
+    protected Famod _famod;
+
+    #endregion 
+
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        this.btnSalvar.Click += new EventHandler(btnSalvar_Click);
+        this.btnNovo.Click += new EventHandler(btnNovo_Click);
+
+        ddlAtividade.SelectedIndexChanged += delegate { AtividadeChanged(); };
+        ddlOficina.SelectedIndexChanged += delegate { OficinaChanged(); };
+        ddlServidor.SelectedIndexChanged += new EventHandler(MostrarHorasLancadas);
+        txtData.TextChanged +=new EventHandler(MostrarHorasLancadas);
+        ucPedidoServico.SelectedValueChanged += new BuscaPedidoServico.SelectedValueChangedHandler(ucPedidoServico_SelectedValueChanged);
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            FillPage();
+            if (Request["ID_Famod"] != null)
+            {
+                _famod = Famod.Get(Convert.ToInt32(Request["ID_Famod"]));
+                PopulateFields();
+                RegisterDelete();
+            }
+            else
+            {
+                _famod = new Famod();
+            }
+
+            Anthem.AnthemClientMethods.Redirect("frmFamodPesquisa.aspx", btnVoltar);
+            RegisterDeleteScript();
+        }
+    }
+
+    private void FillPage()
+	{
+	    Servidor servidor = Servidor.Get(ID_Servidor);
+		Util.FillDropDownList(ddlAtividade, Atividade.List(), ESCOLHA_OPCAO);
+		Util.FillDropDownList(ddlOficina, Celula.ListCelulasSubordinadas(this.ID_Servidor, true),  ESCOLHA_OPCAO);
+        Util.InsertDefaultItem(ddlServidor, ESCOLHA_OPCAO);
+	}
+
+    private void PopulateFields()
+    {
+        ddlAtividade.SelectedValue = ObjectReader.ReadID(_famod.Atividade);
+        txtData.Text = ObjectReader.ReadDate(_famod.Data);
+        txtHorasApropriadas.Text = ObjectReader.ReadInt(_famod.HorasApropriadas);
+        ddlOficina.SelectedValue = ObjectReader.ReadID(_famod.Oficina);
+        OficinaChanged();
+        ddlServidor.SelectedValue = ObjectReader.ReadID(_famod.Servidor);
+        BindGrid();
+        txtDescricao.Text = _famod.DescricaoDetalhada;
+
+        Anthem.AnthemClientMethods.ShowHide(trPedidoServico, _famod.Atividade.FlagAtividadeDireta);
+
+        if (_famod.PedidoServico != null)
+        {
+            ucPedidoServico.SelectedValue = ObjectReader.ReadID(_famod.PedidoServico);
+            ucPedidoServico.Text = _famod.PedidoServico.CodigoComAno;
+        }
+
+        MostrarHorasLancadas(null, null);
+
+    }
+
+    private void ClearFields()
+    {
+        ddlAtividade.SelectedIndex = -1;
+        ucPedidoServico.Reset();
+        txtHorasApropriadas.Text = "";
+        txtDescricao.Text = "";
+        lblAtividadeDireta.Text = "";
+
+        ddlAtividade.UpdateAfterCallBack = true;
+        txtHorasApropriadas.UpdateAfterCallBack = true;
+        txtDescricao.UpdateAfterCallBack = true;
+        lblAtividadeDireta.UpdateAfterCallBack = true;
+    }
+
+    private void FillObject()
+    {
+        _famod.Atividade = Atividade.Get(Convert.ToInt32(ddlAtividade.SelectedValue));
+        _famod.PedidoServico = PedidoServico.Get(Convert.ToInt32(ucPedidoServico.SelectedValue));
+        _famod.Data = PageReader.ReadDate(txtData);
+        _famod.HorasApropriadas = PageReader.ReadInt(txtHorasApropriadas);
+        _famod.Oficina = Celula.Get(Convert.ToInt32(ddlOficina.SelectedValue));
+        _famod.Servidor = Servidor.Get(Convert.ToInt32(ddlServidor.SelectedValue));
+        _famod.DescricaoDetalhada = PageReader.ReadString(txtDescricao);
+        _famod.ServidorCadastro = Servidor.Get(ID_Servidor);
+    }
+    
+    private void AtividadeChanged()
+    {
+        Atividade atividade = Atividade.Get(Convert.ToInt32(ddlAtividade.SelectedValue));
+        Anthem.AnthemClientMethods.ShowHide(trPedidoServico, atividade.FlagAtividadeDireta);
+        lblAtividadeDireta.Text = atividade.FlagAtividadeDireta ? "Sim" : "Não";
+        lblAtividadeDireta.UpdateAfterCallBack = true;
+    }
+    #endregion
+
+    #region Events 
+    void btnSalvar_Click(object sender, EventArgs e)
+    {
+        if(_famod.SituacaoFAMOD == SituacaoFAMOD.Aprovado)
+        {
+            ShowMessage("Este item já foi aprovado e não pode ser alterado.");
+            return;
+        }
+        FillObject();
+        _famod.Save();
+        BindGrid();
+        btnNovo_Click(null, null);
+        RegisterDelete();
+    }
+	
+    void btnNovo_Click(object sender, EventArgs e)
+    {
+        ClearFields();
+        _famod = new Famod();
+    }
+
+    [Anthem.Method]
+    public void Excluir()
+    {
+        if(_famod.SituacaoFAMOD == SituacaoFAMOD.Aprovado)
+        {
+            ShowMessage("Famods que foram aprovadas não podem ser excluídas.");
+            return;
+        }
+        try
+        {
+            _famod.Delete();
+            ShowSuccessMessage();
+            BindGrid();
+        }
+        catch (Exception ex)
+        {
+            ShowMessage(ex.Message);
+        }
+    }
+
+    private void RegisterDelete()
+    {
+        Anthem.Manager.AddScriptAttribute(btnExcluir, "onclick", string.Format("javascript:Excluir({0});", _famod.ID));
+        btnExcluir.UpdateAfterCallBack = true;
+    }
+    #endregion
+
+    void MostrarHorasLancadas(object sender, EventArgs e)
+    {
+        if (txtData.Text != "" && ddlServidor.SelectedValue != "0")
+        {
+            lblHorasLancadas.Text =
+                Famod.GetHorasDia(Convert.ToDateTime(txtData.Text), Convert.ToInt32(ddlServidor.SelectedValue), 0).ToString();
+            lblHorasLancadas.UpdateAfterCallBack = true;
+        }
+        else
+        {
+            lblHorasLancadas.Text = "0";
+            lblHorasLancadas.UpdateAfterCallBack = true;
+        }
+        BindGrid();
+    }
+
+    private void OficinaChanged()
+    {
+        Util.FillDropDownList(ddlServidor, Servidor.ListPorCelula(Convert.ToInt32(ddlOficina.SelectedValue), true), ESCOLHA_OPCAO);
+        ddlServidor.UpdateAfterCallBack = true;
+    }
+    
+    private void BindGrid()
+    {
+        if(ddlServidor.SelectedValue != "0" && ddlOficina.SelectedValue != "0" && txtData.Text != "")
+        {
+            gvFamod.DataSource =
+                Famod.Select(Convert.ToInt32(ddlOficina.SelectedValue), Convert.ToInt32(ddlServidor.SelectedValue),
+                             Convert.ToDateTime(txtData.Text));
+            gvFamod.DataKeyNames = new string[] {"ID"};
+            gvFamod.DataBind();
+            gvFamod.UpdateAfterCallBack = true;
+        }
+        else
+        {
+            gvFamod.DataSource = null;
+            gvFamod.DataBind();
+            gvFamod.UpdateAfterCallBack = true;
+        }
+        Anthem.AnthemClientMethods.ResizeIFrame();
+    }
+
+    void ucPedidoServico_SelectedValueChanged(object source, BuscaPedidoServicoEventArgs e)
+    {
+        lblEquipamento.Text = e.PedidoServico.Equipamento.Descricao;
+        lblNumeroRegistro.Text = e.PedidoServico.NumeroRegistro;
+        lblEquipamento.UpdateAfterCallBack = true;
+        lblNumeroRegistro.UpdateAfterCallBack = true;
+    }
+   
+}

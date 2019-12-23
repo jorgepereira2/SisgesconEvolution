@@ -1,0 +1,270 @@
+using System;
+using System.Data;
+using System.Collections.Generic;
+using System.Collections;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+using Marinha.Business;
+using Shared.Common;
+using Shared.SessionState;
+using Shared.NHibernateDAL;
+using ComponentArt.Web.UI;
+
+public partial class Acesso_frmProcessoServidorCadastro : MarinhaPageBase
+{
+
+    #region Private Member
+
+    [TransientPageState]
+    protected Servidor _servidor;
+
+    [TransientPageState]
+    protected RegraAcessoServidor _regras;
+
+	#endregion 
+
+    #region Initialization
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        this.btnSalvar.Click += new EventHandler(btnSalvar_Click);
+		this.btnEnviarSenha.Click += new EventHandler(btnEnviarSenha_Click);
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            FillPage();	
+            _servidor = Servidor.Get(Convert.ToInt32(Request["ID_Servidor"]));
+            lblServidor.Text = _servidor.NomeCompleto;
+            ProcessoCollection processos = Processo.Select();
+
+            foreach (Processo p in processos)
+            {
+                TreeViewNode node = GetNode(p);
+                tvProcesso.Nodes.Add(node);
+                AddChildren(p, node.Nodes);
+            }
+
+            PopulateTreeView();
+            PopulateRegrasAcesso();
+
+            Parametro parametro = Parametro.Get();
+            trFlagPodeVerPAOutraCelula.Visible = parametro.FlagUsaPA;
+        }
+        Anthem.AnthemClientMethods.Redirect("frmProcessoServidorPesquisa.aspx", btnVoltar);
+    }
+
+    private void FillPage()
+    {
+        cblLocalAcesso.DataSource = LocalAcesso.List();
+        cblLocalAcesso.DataTextField = "Value";
+        cblLocalAcesso.DataValueField = "Key";
+        cblLocalAcesso.DataBind();
+
+        cblPerfil.DataSource = PerfilAcesso.List();
+        cblPerfil.DataTextField = "Value";
+        cblPerfil.DataValueField = "Key";
+        cblPerfil.DataBind();
+
+        cblSJBLiberados.DataSource = SJB.ListSJBComAcessoRestrito();
+        cblSJBLiberados.DataTextField = "Value";
+        cblSJBLiberados.DataValueField = "Key";
+        cblSJBLiberados.DataBind();
+    }
+
+    private void AddChildren(Processo processo, TreeViewNodeCollection nodes)
+    {
+        foreach (Processo p in processo.Processos)
+        {
+            TreeViewNode node = GetNode(p);
+            nodes.Add(node);
+            AddChildren(p, node.Nodes);
+        }
+    }
+
+    private TreeViewNode GetNode(Processo p)
+    {
+        TreeViewNode node = new TreeViewNode();
+        node.ID = p.ID.ToString();        
+        node.Text = p.Nome;
+        node.ShowCheckBox = true;
+        return node;
+    }
+
+    #endregion
+
+	#region Popula TreeView
+	private void PopulateTreeView()
+    {
+        foreach (Processo p in _servidor.Processos)
+        {
+            TreeViewNode node = tvProcesso.FindNodeById(p.ID.ToString());
+            if (node != null)
+                node.Checked = true;
+        }
+    }
+
+    private void CheckNode(Processo processo)
+    {
+        TreeViewNode node = tvProcesso.FindNodeById(processo.ID.ToString());
+        if (node != null)
+            node.Checked = true;
+        foreach (Processo p in processo.Processos)
+        {
+            CheckNode(p);
+        }
+    }
+    #endregion
+
+    #region Events Processo
+    void btnSalvar_Click(object sender, EventArgs e)
+    {
+		if(TabStrip1.SelectedTab.ID == tabProcessos.ID)
+		{
+		    List<string> list = new List<string>();
+		    CriaLista(list, tvProcesso.Nodes);
+		    _servidor.Processos = Processo.SelectByList(list);
+		    _servidor.Save();
+		}
+		else
+		{
+		    SalvarRegrasAcesso();
+		}
+    }
+
+    private void CriaLista(List<string> list, TreeViewNodeCollection nodes)
+    {
+        foreach (TreeViewNode node in nodes)
+        {
+            if (node.Checked)
+            {
+                list.Add(node.ID);
+                if (node.Nodes.Count > 0)
+                    CriaLista(list, node.Nodes);
+            }
+        }
+    }
+    #endregion
+
+    #region Regras Acesso
+    private void SalvarRegrasAcesso()
+    {
+        if (!ValidaRegrasAcesso())
+            return;
+
+        _regras.FlagControlaHorario = chkControlarHorario.Checked;
+        _regras.FlagControlaLocalAcesso = chkControlarLocal.Checked;
+        _regras.FlagDomingo = chkDomingo.Checked;
+        _regras.FlagQuarta = chkQuarta.Checked;
+        _regras.FlagQuinta = chkQuinta.Checked;
+        _regras.FlagSabado = chkSabado.Checked;
+        _regras.FlagSegunda = chkSegunda.Checked;
+        _regras.FlagSexta = chkSexta.Checked;
+        _regras.FlagTerca = chkTerca.Checked;
+        _regras.HorarioFinal = PageReader.ReadNullableDate(txtHorarioFim);
+        _regras.HorarioInicial = PageReader.ReadNullableDate(txtHorarioInicio);
+
+        _servidor.FlagAcessaTodosMateriais = !chkRestringirAcessoMaterial.Checked;
+
+        _regras.Locais.Clear();
+        foreach (ListItem item in cblLocalAcesso.Items)
+            if (item.Selected)
+                _regras.Locais.Add(LocalAcesso.Get(Convert.ToInt32(item.Value)));
+        
+        _regras.ID = _servidor.ID;
+        _regras.Save();
+        
+        _servidor.Perfis.Clear();
+        foreach (ListItem item in cblPerfil.Items)
+        {
+            if(item.Selected)
+                _servidor.Perfis.Add(PerfilAcesso.Get(Convert.ToInt32(item.Value)));
+        }
+
+        _servidor.SJBLiberados.Clear();
+        foreach (ListItem item in cblSJBLiberados.Items)
+        {
+            if (item.Selected)
+                _servidor.SJBLiberados.Add(SJB.Get(Convert.ToInt32(item.Value)));
+        }
+
+        _servidor.FlagPodeVerPAOutraCelula = chkFlagPodeVerPAOutraCelula.Checked;
+        _servidor.FlagPodeFazerPOOutraCelula = chkFlagPodeFazerPOOutraCelula.Checked;
+        _servidor.Save();
+        
+        ShowSuccessMessage();
+
+    }
+
+    private void PopulateRegrasAcesso()
+    {
+        _regras = RegraAcessoServidor.Get(_servidor.ID);
+        if (_regras == null)
+            _regras = new RegraAcessoServidor();
+        else
+        {
+            chkControlarHorario.Checked = _regras.FlagControlaHorario;
+            chkControlarLocal.Checked = _regras.FlagControlaLocalAcesso;
+            txtHorarioInicio.Text = ObjectReader.ReadTime(_regras.HorarioInicial);
+            txtHorarioFim.Text = ObjectReader.ReadTime(_regras.HorarioFinal);
+            chkDomingo.Checked = _regras.FlagDomingo;
+            chkQuarta.Checked = _regras.FlagQuarta;
+            chkQuinta.Checked = _regras.FlagQuinta;
+            chkSabado.Checked = _regras.FlagSabado;
+            chkSegunda.Checked = _regras.FlagSegunda;
+            chkSexta.Checked = _regras.FlagSexta;
+            chkTerca.Checked = _regras.FlagTerca;
+
+            foreach (ListItem item in cblLocalAcesso.Items)
+                item.Selected = _regras.Locais.Contains(Convert.ToInt32(item.Value));
+
+            chkFlagPodeVerPAOutraCelula.Checked = _servidor.FlagPodeVerPAOutraCelula;
+            chkFlagPodeFazerPOOutraCelula.Checked = _servidor.FlagPodeFazerPOOutraCelula;
+            chkRestringirAcessoMaterial.Checked = !_servidor.FlagAcessaTodosMateriais;
+            
+        }
+
+        foreach (ListItem item in cblPerfil.Items)
+            item.Selected = _servidor.Perfis.Contains(Convert.ToInt32(item.Value));
+
+        foreach (ListItem item in cblSJBLiberados.Items)
+            item.Selected = _servidor.SJBLiberados.Contains(Convert.ToInt32(item.Value));
+    }
+
+
+
+    private bool ValidaRegrasAcesso()
+    {
+        if (chkControlarHorario.Checked)
+        {
+            string msg = "";
+            if (txtHorarioInicio.Text == "")
+                msg = "- Campo Horário Inicial obrigatório";
+
+            if (txtHorarioFim.Text == "")
+                msg += "<br>- Campo Horário Final obrigatório";
+
+            if (msg != "")
+            {
+                ShowMessage(msg);
+                return false;
+            }
+        }
+
+        return true;
+    }
+    #endregion
+		
+	void btnEnviarSenha_Click(object sender, EventArgs e)
+	{
+		_servidor.EnviarSenhaEmail();
+		ShowSuccessMessage();
+	}
+
+}

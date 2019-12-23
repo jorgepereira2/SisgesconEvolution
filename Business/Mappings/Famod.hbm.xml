@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Famod,Marinha.Business" table="TB_Famod" lazy="true">
+
+		<id name="ID" column="ID_Famod" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Atividade" column="ID_Atividade" class="Marinha.Business.Atividade,Marinha.Business" />
+		<many-to-one name="PedidoServico" column="ID_PedidoServico" class="Marinha.Business.PedidoServico,Marinha.Business" />
+        <many-to-one name="PedidoServicoMergulho" column="ID_PedidoServicoMergulho" class="Marinha.Business.PedidoServicoMergulho,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+		<property column="HorasApropriadas" type="Int32" name="HorasApropriadas" not-null="true" />
+		<many-to-one name="Oficina" column="ID_Oficina" class="Marinha.Business.Celula,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<property column="DescricaoDetalhada" type="String" name="DescricaoDetalhada" length="500" />
+		<many-to-one name="ServidorCadastro" column="ID_ServidorCadastro" class="Marinha.Business.Servidor,Marinha.Business" />
+        <property column="ID_SituacaoFAMOD" type="Int32" name="SituacaoFAMOD" />
+    <property column="ValorCustoHH" type="Decimal" name="ValorCustoHH" />
+		
+	</class>
+</hibernate-mapping>

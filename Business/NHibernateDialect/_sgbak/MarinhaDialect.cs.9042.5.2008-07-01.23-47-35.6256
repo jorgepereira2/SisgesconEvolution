@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using NHibernate.Dialect;
+using NHibernate.Dialect.Function;
+
+namespace Marinha.Business
+{
+	public class MsSql2000Dialect : NHibernate.Dialect.MsSql2000Dialect
+	{
+		public MsSql2000Dialect()
+		{
+			StandardSQLFunction functionBoolean = new StandardSQLFunction("dbo.booleansareequal",  NHibernate.NHibernateUtil.Boolean);
+			RegisterFunction("dbo.booleansareequal", functionBoolean);
+
+			StandardSQLFunction functionString = new StandardSQLFunction("dbo.stringsarelike", NHibernate.NHibernateUtil.Boolean);
+			RegisterFunction("dbo.stringsarelike", functionString);
+
+			StandardSQLFunction functionDate = new StandardSQLFunction("dbo.dateisinbetween", NHibernate.NHibernateUtil.Boolean);
+			RegisterFunction("dbo.dateisinbetween", functionDate);
+
+            StandardSQLFunction functionBuscaCodigoPS = new StandardSQLFunction("dbo.buscacodigops", NHibernate.NHibernateUtil.Boolean);
+            RegisterFunction("dbo.buscacodigops", functionBuscaCodigoPS);
+
+            StandardSQLFunction functionGetYear = new StandardSQLFunction("dbo.getyear", NHibernate.NHibernateUtil.Int32);
+            RegisterFunction("dbo.getyear", functionGetYear);
+
+            StandardSQLFunction functionCelulaPertenceADepartamento = new StandardSQLFunction("dbo.celulapertenceadepartamento", NHibernate.NHibernateUtil.Boolean);
+            RegisterFunction("dbo.celulapertenceadepartamento", functionCelulaPertenceADepartamento);
+
+            StandardSQLFunction functionCelulaPertenceACelula = new StandardSQLFunction("dbo.celulapertenceacelula", NHibernate.NHibernateUtil.Boolean);
+            RegisterFunction("dbo.celulapertenceacelula", functionCelulaPertenceACelula);
+		}
+	}
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.MovimentoConta,Marinha.Business" table="TB_MovimentoConta" lazy="true">
+
+		<id name="ID" column="ID_MovimentoConta" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="Conta" column="ID_Conta" class="Marinha.Business.Conta,Marinha.Business" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+		<many-to-one name="PedidoAquisicao" column="ID_PedidoAquisicao" class="Marinha.Business.PedidoAquisicao,Marinha.Business" />
+		<property column="Valor" type="Decimal" name="Valor" />
+		<property column="NumeroDocumento" type="String" name="NumeroDocumento" />
+		<property column="Data" type="DateTime" name="Data" />
+		<property column="ID_TipoMovimentoFinanceiro" type="Int32" name="TipoMovimentoFinanceiro" />
+		<property column="ID_TipoOperacaoFinanceira" type="Int32" name="TipoOperacaoFinanceira" />
+        <property column="Observacao" type="String" name="Observacao" />
+		
+	</class>
+</hibernate-mapping>

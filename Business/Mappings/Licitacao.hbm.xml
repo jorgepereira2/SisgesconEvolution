@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Licitacao,Marinha.Business" table="TB_Licitacao" lazy="true">
+
+		<id name="ID" column="ID_Licitacao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<property column="Objetivo" type="String" name="Objetivo" length="500" />
+		<property column="Observacao" type="String" name="Observacao" length="1000" />
+		<property column="NumeroPregao" type="String" name="NumeroPregao" length="20" />
+		<property column="DataPregao" type="DateTime" name="DataPregao" />
+		<property column="ID_StatusLicitacao" type="Int32" name="Status" not-null="true" />
+    <property column="FlagDesativado" type="Boolean" name="FlagDesativado" />
+    <many-to-one name="ServidorCancelamento" column="ID_ServidorCancelamento" class="Marinha.Business.Servidor,Marinha.Business" />
+    <many-to-one name="MotivoCancelamento" column="ID_MotivoCancelamento" class="Marinha.Business.MotivoCancelamento,Marinha.Business" />
+        <many-to-one name="ServidorFiscalContrato" column="ID_ServidorFiscalContrato" class="Marinha.Business.Servidor,Marinha.Business" />
+        <many-to-one name="TipoLicitacao" column="ID_TipoLicitacao" class="Marinha.Business.TipoLicitacao,Marinha.Business" />
+        <many-to-one name="ModalidadePregao" column="ID_ModalidadePregao" class="Marinha.Business.ModalidadePregao,Marinha.Business" />               
+        <property column="ID_SistemaLicitatorio" type="Int32" name="SistemaLicitatorio" />
+        <property column="NumeroCI" type="String" name="NumeroCI"  />
+        <property column="NUP" type="String" name="NUP"  />
+        <property column="ID_ProcessoLicitatorio" type="Int32" name="ProcessoLicitatorio" />
+
+        <bag name="Itens" table="TB_LicitacaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.LicitacaoItem],Marinha.Business" inverse="true" >
+            <key column="ID_Licitacao" />
+            <one-to-many class="Marinha.Business.LicitacaoItem,Marinha.Business" />
+        </bag>
+
+    <bag name="Contratos" table="TB_LicitacaoContrato" collection-type="Marinha.Business.CustomList`1[Marinha.Business.LicitacaoContrato],Marinha.Business" inverse="true" >
+      <key column="ID_Licitacao" />
+      <one-to-many class="Marinha.Business.LicitacaoContrato,Marinha.Business" />
+    </bag>
+
+        <bag name="Historico" table="TB_HistoricoLicitacao" collection-type="Marinha.Business.CustomList`1[Marinha.Business.HistoricoLicitacao],Marinha.Business" inverse="true" >
+            <key column="ID_Licitacao" />
+            <one-to-many class="Marinha.Business.HistoricoLicitacao,Marinha.Business" />
+        </bag>
+
+        <bag name="Documentos" table="TB_LicitacaoDocumento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.LicitacaoDocumento],Marinha.Business" inverse="true" >
+            <key column="ID_Licitacao" />
+            <one-to-many class="Marinha.Business.LicitacaoDocumento,Marinha.Business" />
+        </bag>
+       
+	</class>
+</hibernate-mapping>

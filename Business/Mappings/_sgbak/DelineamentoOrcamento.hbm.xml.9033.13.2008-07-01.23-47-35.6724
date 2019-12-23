@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.DelineamentoOrcamento,Marinha.Business" table="TB_DelineamentoOrcamento" lazy="true">
+
+		<id name="ID" column="ID_DelineamentoOrcamento" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<many-to-one name="PedidoServico" column="ID_PedidoServico" class="Marinha.Business.PedidoServico,Marinha.Business" />
+		<property column="Data" type="DateTime" name="Data" not-null="true" />
+        <property column="FlagRecusado" type="Boolean" name="FlagRecusado" not-null="true" />
+        <property column="Numero" type="Int32" name="Numero" not-null="true" />
+		<many-to-one name="Servidor" column="ID_Servidor" class="Marinha.Business.Servidor,Marinha.Business" />
+        <many-to-one name="Status" column="ID_StatusPedidoServico" class="Marinha.Business.StatusPedidoServico,Marinha.Business" />
+        <many-to-one name="CategoriaServico" column="ID_CategoriaServico" class="Marinha.Business.CategoriaServico,Marinha.Business" />
+        <property column="MensagemEnvioCliente" type="String" name="MensagemEnvioCliente" length="50" />
+        <property column="MensagemAprovacaoCliente" type="String" name="MensagemAprovacaoCliente" length="50" />
+        <property column="ComprometimentoCliente" type="String" name="ComprometimentoCliente" length="50" />
+        <property column="MensagemChamadaMeio" type="String" name="MensagemChamadaMeio" length="50" />
+        <property column="Comentario" type="String" name="Comentario" length="50" />
+        
+        <property column="TaxaContribuicaoOperacionalMaterial" type="Decimal" name="TaxaContribuicaoOperacionalMaterial" not-null="true" />
+        <property column="TaxaContribuicaoOperacionalMaoObra" type="Decimal" name="TaxaContribuicaoOperacionalMaoObra" not-null="true" />
+        <property column="TaxaOperacionalMaterialServico" type="Decimal" name="TaxaOperacionalMaterialServico" not-null="true" />
+        <property column="PercentualServicoTerceiroIndireto" type="Decimal" name="PercentualServicoTerceiroIndireto" not-null="true" />
+        <property column="PercentualMaterialIndireto" type="Decimal" name="PercentualMaterialIndireto" not-null="true" />
+        <property column="TaxaOperacionalMaoObra" type="Decimal" name="TaxaOperacionalMaoObra" not-null="true" />
+        <property column="PercentualMaoObraIndireta" type="Decimal" name="PercentualMaoObraIndireta" not-null="true" />
+        <property column="ValorMaoObraHora" type="Decimal" name="ValorMaoObraHora" not-null="true" />
+        <property column="PercentualDescontoSubTotalMaterialServicoTerceiro" type="Decimal" name="PercentualDescontoSubTotalMaterialServicoTerceiro" not-null="true" />
+        <property column="PercentualDescontoSubTotalMaoObra" type="Decimal" name="PercentualDescontoSubTotalMaoObra" not-null="true" />
+
+        <property column="ID_StatusEntregaMaterialSingra" type="Int32" name="StatusEntregaMaterialSingra" not-null="true" />
+        <property column="ID_StatusEntregaMaterialPEP" type="Int32" name="StatusEntregaMaterialPEP" not-null="true" />
+        <property column="ID_StatusEntregaMaterialRodizio" type="Int32" name="StatusEntregaMaterialRodizio" not-null="true" />
+
+        <many-to-one name="PedidoObtencao" column="ID_PedidoObtencao" class="Marinha.Business.PedidoObtencao,Marinha.Business" />
+
+        <property column="DataValidade" name="DataValidade" />
+        <property column="DataDevolucao" name="DataDevolucao" />
+        <property column="ComentarioDevolucao" name="ComentarioDevolucao" />
+        <property column="MensagemProntificacao" name="MensagemProntificacao" />
+        <property column="NumeroNL" name="NumeroNL" />
+        
+        <bag name="ItensOrcamento" table="TB_PedidoServicoItemOrcamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoServicoItemOrcamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_DelineamentoOrcamento" />
+            <one-to-many class="Marinha.Business.PedidoServicoItemOrcamento,Marinha.Business" />
+        </bag>
+
+        <bag name="ItensDelineamento" table="TB_PedidoServicoDelineamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.PedidoServicoDelineamento],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_DelineamentoOrcamento" />
+            <one-to-many class="Marinha.Business.PedidoServicoDelineamento,Marinha.Business" />
+        </bag>
+        
+        <bag name="Entradas" table="TB_EntradaMaterial" collection-type="Marinha.Business.CustomList`1[Marinha.Business.EntradaMaterial],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_DelineamentoOrcamento" />
+            <one-to-many class="Marinha.Business.EntradaMaterial,Marinha.Business" />
+        </bag>
+
+        <bag name="Ocorrencias" table="TB_DelineamentoOrcamentoOcorrencia" collection-type="Marinha.Business.CustomList`1[Marinha.Business.DelineamentoOrcamentoOcorrencia],Marinha.Business" inverse="true" lazy="true" >
+            <key column="ID_DelineamentoOrcamento" />
+            <one-to-many class="Marinha.Business.DelineamentoOrcamentoOcorrencia,Marinha.Business" />
+        </bag>
+
+        <bag name="Faturamentos" table="TB_DelineamentoOrcamentoFaturamento" collection-type="Marinha.Business.CustomList`1[Marinha.Business.DelineamentoOrcamentoFaturamento],Marinha.Business" inverse="true" lazy="true" >
+          <key column="ID_DelineamentoOrcamento" />
+          <one-to-many class="Marinha.Business.DelineamentoOrcamentoFaturamento,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>

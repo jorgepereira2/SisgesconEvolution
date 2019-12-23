@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using NHibernate;
+using Shared.NHibernateDAL;
+
+namespace Marinha.Business
+{
+	[Serializable]
+	public partial class AutorizacaoCompraPagamento : BusinessObject<AutorizacaoCompraPagamento>	
+	{
+		#region Private Members
+		private AutorizacaoCompra _autorizacaocompra; 
+		private string _numeronotafiscal; 
+		private decimal _valor; 
+		private DateTime _data; 
+		private Servidor _servidor;
+	    private string _ordemBancaria;
+	    
+		#endregion
+		
+		#region Default ( Empty ) Class Constuctor
+		/// <summary>
+		/// default constructor
+		/// </summary>
+		public AutorizacaoCompraPagamento()
+		{
+		    _ordemBancaria = null;
+			_autorizacaocompra =  null; 
+			_numeronotafiscal = null; 
+			_valor = 0; 
+			_data = DateTime.MinValue; 
+			_servidor =  null; 
+		}
+		#endregion // End of Default ( Empty ) Class Constuctor
+
+		#region Public Properties
+
+        public virtual string OrdemBancaria
+        {
+            get { return _ordemBancaria; }
+            set { _ordemBancaria = value; }
+        }
+        
+		public virtual AutorizacaoCompra AutorizacaoCompra
+		{
+			get { return _autorizacaocompra; }
+			set { _autorizacaocompra = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual string NumeroNotaFiscal
+		{
+			get { return _numeronotafiscal; }
+			set	
+			{
+				if ( value != null )
+					if( value.Length > 20)
+						throw new ArgumentOutOfRangeException("Invalid value for NumeroNotaFiscal", value, value.ToString());
+				
+				_numeronotafiscal = value;
+			}
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual decimal Valor
+		{
+			get { return _valor; }
+			set { _valor = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual DateTime Data
+		{
+			get { return _data; }
+			set { _data = value; }
+		}
+			
+		/// <summary>
+		/// 
+		/// </summary>		
+		public virtual Servidor Servidor
+		{
+			get { return _servidor; }
+			set { _servidor = value; }
+		}
+			#endregion 
+	}
+}

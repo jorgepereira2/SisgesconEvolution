@@ -1,0 +1,6 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DadosOM.ascx.cs" Inherits="UserControls_DadosOM" %>
+<b style="font-size:14px"><%# _parametro.Forca %></b><br />
+<b style="font-size:12px"><%# _parametro.OrganizacaoMilitar %></b><br />
+CNPJ: <%# _parametro.CNPJ %> <br />
+<%# _parametro.Endereco %><br />
+Tel.:<%# _parametro.Telefone %>

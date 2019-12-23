@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.StatusPedidoObtencao,Marinha.Business" table="TB_StatusPedidoObtencao" lazy="true">
+
+		  <id name="ID" column="ID_StatusPedidoObtencao" type="Int32" unsaved-value="0">
+			  <generator class="assigned"/>
+		  </id>
+		  <property column="Descricao" type="String" name="Descricao" not-null="true" length="100" />
+		  <property column="FlagVinculoPorDivisao" type="Boolean" name="FlagVinculoPorDivisao" not-null="true"  />
+      <property column="FlagAtivo" type="Boolean" name="FlagAtivo" not-null="true"  />
+
+      <bag name="Responsaveis" table="TB_StatusPedidoObtencaoServidor" lazy="true"  collection-type="Marinha.Business.CustomList`1[Marinha.Business.Servidor],Marinha.Business" >
+          <key>
+              <column name="ID_StatusPedidoObtencao" not-null="true"/>
+          </key>
+          <many-to-many class="Marinha.Business.Servidor,Marinha.Business">
+              <column name="ID_Servidor" not-null="true"/>
+          </many-to-many>
+      </bag>
+
+      <bag name="ResponsaveisDivisao" table="TB_StatusPedidoObtencaoDivisao" collection-type="Marinha.Business.CustomList`1[Marinha.Business.StatusPedidoObtencaoDivisao],Marinha.Business" inverse="true" >
+          <key column="ID_StatusPedidoObtencao" />
+          <one-to-many class="Marinha.Business.StatusPedidoObtencaoDivisao,Marinha.Business" />
+      </bag>
+
+  </class>
+</hibernate-mapping>
+

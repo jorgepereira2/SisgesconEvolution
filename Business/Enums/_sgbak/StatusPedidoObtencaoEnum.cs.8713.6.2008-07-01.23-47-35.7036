@@ -1,0 +1,34 @@
+using System;
+using System.ComponentModel;
+
+namespace Marinha.Business
+{
+	public enum StatusPedidoObtencaoEnum
+	{
+		[Description("Não Enviado")]
+		NaoEnviado = 10,
+        [Description("Aguardando Verificação Paiol")]
+        AguardandoVerificacaoPaiol = 20,
+        [Description("Aguardando Ap. Enc. Dep. Material")]
+        AguardandoAprovacaoEncarregadoDepartamentoMaterial = 30,
+        [Description("Aguardando Aprovação Chefe Dep.")]
+        AguardandoAprovacaoChefeDepartamento_Servidor = 40,
+        [Description("Aguardando Aprovação Chefe Div.")]
+        AguardandoAprovacaoChefeDepartamento_Divisao = 50,
+        [Description("Aguardando Aprovação Chefe Dep.")]
+        AguardandoAprovacaoChefeDepartamento_Departamento = 55,
+        [Description("Aguardando Aprovação Agente Fiscal")]
+        AguardandoAprovacaoAgenteFiscal = 60,
+        [Description("Aguardando Designação Comprador")]
+        AguardandoDesignacaoComprador = 70,
+        [Description("Aguardando Cotações")]
+        AguardandoCotacoes = 80,
+        [Description("Finalizado")]
+        Finalizado = 90,
+        [Description("Reprovado")]
+        Reprovado = 100,
+
+        [Description("Cancelado")]
+        Cancelado = 250
+	}
+}

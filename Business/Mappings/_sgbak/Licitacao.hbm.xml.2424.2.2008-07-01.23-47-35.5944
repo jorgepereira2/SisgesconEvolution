@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="Marinha.Business.Licitacao,Marinha.Business" table="TB_Licitacao" lazy="true">
+
+		<id name="ID" column="ID_Licitacao" type="Int32" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property column="DataEmissao" type="DateTime" name="DataEmissao" not-null="true" />
+		<property column="Objetivo" type="String" name="Objetivo" not-null="true" length="500" />
+		<property column="Observacao" type="String" name="Observacao" length="1000" />
+		<property column="NumeroPregao" type="String" name="NumeroPregao" length="20" />
+		<property column="DataPregao" type="DateTime" name="DataPregao" />
+		<property column="ID_StatusLicitacao" type="Int32" name="Status" not-null="true" />
+
+        <bag name="Itens" table="TB_LicitacaoItem" collection-type="Marinha.Business.CustomList`1[Marinha.Business.LicitacaoItem],Marinha.Business" inverse="true" >
+            <key column="ID_Licitacao" />
+            <one-to-many class="Marinha.Business.LicitacaoItem,Marinha.Business" />
+        </bag>
+	</class>
+</hibernate-mapping>
